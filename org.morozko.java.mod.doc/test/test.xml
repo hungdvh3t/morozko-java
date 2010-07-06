@@ -1,0 +1,360 @@
+	
+<!DOCTYPE doc SYSTEM "http://www.morozko.org/data/java/mod/doc/dtd/doc-1-0.dtd">
+
+	
+	
+
+<doc> 
+
+	<meta>
+	
+		<info name="page-orient">horizontal</info>
+        <info name="excel-table-id">excel-table=Abilitazioni</info>
+        <info name="excel-width-multiplier">400</info>
+          	
+	</meta>
+
+  <body>
+    	<table columns="3" colwidths="40;30;30"  width="100" id="excel-table">
+    		<row>
+    			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para style="bold">Utente</para></cell>
+    			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para style="bold">Abilitazione</para></cell>
+    			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para style="bold">Società</para></cell>
+    		</row>
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="5" valign="middle"><para>A A (HHHHHHHHHHHHHHHH)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="5"><para>Equitalia</para></cell>
+	    						    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia Basilicata</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia ETR</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia Emilia Nord</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia Foggia</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="2"><para>A A (GGGGGGGGGGGGGGGG)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia Cerit</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="2"><para>Equitalia</para></cell>
+	    						    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia Emilia Nord</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="1"><para>A A (FFFFFFFFFFFFFFFF)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="1"><para>Equitalia</para></cell>
+	    						    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="3"><para>A A (EEEEEEEEEEEEEEEE)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="3"><para>Equitalia</para></cell>
+	    						    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia Emilia Nord</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia Esatri</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="1"><para>A A (CCCCCCCCCCCCCCCC)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="1"><para>Equitalia</para></cell>
+	    						    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="1"><para>A A (AAAAAAAAAAAAAAAA)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="1"><para>Equitalia</para></cell>
+	    						    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="1"><para>A A (BBBBBBBBBBBBBBBB)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="1"><para>Equitalia</para></cell>
+	    						    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="1"><para>M M (VVVVVVVVVVVVVVVV)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="1"><para>Equitalia</para></cell>
+	    						    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="1"><para>M M (MMMMMMMMMMMMMMMM)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="1"><para>Equitalia</para></cell>
+	    						    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="1"><para>M M (NNNNNNNNNNNNNNNN)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="1"><para>Equitalia</para></cell>
+	    						    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="3"><para>ELISA SACCHI (SCCLSE82R48L388N)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia ETR</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="3"><para>Equitalia</para></cell>
+	    						    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia Esatri</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia Gerit</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="4"><para>AA BB (AAAABBBBCCCCDDDD)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia Basilicata</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="4"><para>Equitalia Basilicata</para></cell>
+	    						    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia Cerit</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia ETR</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia Foggia</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+					    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="2"><para>MATTEO FRANCI (FRNMTT79A03H501T)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia Cerit</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="2"><para>Equitalia Emilia Nord</para></cell>
+	    						    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia Emilia Nord</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+					    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="1"><para>  (ZZZZBBBBCCCCDDDD)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia Frosinone</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="1"><para>Equitalia Frosinone</para></cell>
+	    						    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="1"><para>  (DDDDBBBBCCCCDDDD)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia Perugia</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="1"><para>Equitalia Perugia</para></cell>
+	    						    			
+		    		</row>    			
+	    			    			
+    		
+    			
+    			
+				
+		       		<row>
+		       			
+	    				<cell border-width="2" rowspan="3"><para>VITTORIO TULLIO (TLLVTR79E29D810H)</para></cell>
+	    				
+		    			<cell border-width="2"><para>Equitalia Basilicata</para></cell>	    			
+		       			
+	    				<cell border-width="2" rowspan="3"><para>Equitalia Terni</para></cell>
+	    						    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia Emilia Nord</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    		
+		       		<row>
+		       			
+		    			<cell border-width="2"><para>Equitalia Foggia</para></cell>	    			
+		       					    			
+		    		</row>    			
+	    			    	
+		       		<row>
+		       			
+		    			<cell colspan="3" border-width-top="2" 
+		    				border-width-bottom="0"
+		    				border-width-left="0"
+		    				border-width-right="0"><para> </para></cell>	    			
+		       					    			
+		    		</row>  	    			    			
+    		
+    	</table>
+  </body>
+  
+</doc>
+
+
