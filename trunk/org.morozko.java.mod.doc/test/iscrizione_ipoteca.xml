@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "http://www.morozko.org/data/java/mod/doc/dtd/doc-1-0.dtd">
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+http://localhost:8080/mortemplate24/doc/notifica_poste.pdf
+
+ -->
+
+
+<doc>
+  <metadata>
+  
+		<info name="default-font-name">helvetica</info>  
+		<info name="default-font-size">10</info>  
+		<header-ext>
+			<para>Equitalia Terni SPA</para>	
+			<para>Via XXXX - 45344 Terni</para>
+			<para>--------- qui va il logo ----------</para>
+			<para>Agente della riscossione per la provincia di Terni</para>
+			<para>Altre info</para>
+		</header-ext> 
+</metadata>	
+
+  <body>
+  
+  
+  	<!-- tabella principale -->  
+    <table columns="3" colwidths="15;15;80"  width="100">
+    	<!-- riga bianca -->
+    	<row>
+    		<cell border-width="0" colspan="3" align="center"><para size="8"> </para></cell>
+    	</row>    
+    	<!-- riga progessivo -->
+    	<row>
+    		<cell border-width="0"><para>Progessivo:</para></cell>
+    		<cell border-width="0"><para>8587</para></cell>
+    		<cell border-width="0"><para></para></cell>
+    	</row>
+    	<!-- riga bianca -->
+    	<row>
+    		<cell border-width="0" colspan="3" align="center"><para size="8"> </para></cell>
+    	</row>    
+    	<row>
+    		<cell border-width="0" colspan="3" align="center"><para>Agenzia del Territorio ufficio provinciale - Servizio di Pubblicità Immobiliare di Terni</para></cell>
+    	</row>    	
+    	<row>
+    		<cell border-width="0" colspan="3" align="center">
+    			<para size="16" style="underline">ISCRIZIONE DI IPOTECA LEGALE</para>
+    		</cell>
+    	</row>
+    	<row>
+    		<cell border-width="0" colspan="3" align="center">
+    			<para size="8">(Arg. 77 DPR 29/09/1973 n. 602)</para>
+    		</cell>
+    	</row>
+     	<row>
+    		<cell border-width="0" colspan="3">
+    			<para>Equitalia Terni SPA Agente della riscossione per la provincia di Terni, Società soggetta alla direzione  
+ordinamento di Equitalia SpA socio unico, con sede legale e direzione generale...</para>
+    		</cell>
+    	</row>    	
+    	<row>
+    		<cell border-width="0" colspan="3" align="center"><para size="8"> </para></cell>
+    	</row>    
+    	<row>
+    		<cell border-width="0" colspan="3" align="center"><para>IPOTECA LEGALE</para></cell>
+    	</row>
+		<row>
+    		<cell border-width="0" colspan="3">
+    			<para>........</para>
+    			<para>FIAMMETTA nato a TERNI (TR) ...</para>    			
+    		</cell>
+    	</row>
+    	
+    </table>
+    
+    <!-- tabella tributi -->
+	 <table columns="2" colwidths="80;20"  width="100">
+	 	<row>
+	 		<cell colspan="2" border-width="0"><para>estratti a ruolo</para></cell>
+	 	</row>
+	 	<row>
+	 		<cell colspan="2" border-width="0" ><para>RIEPILOGO</para></cell>
+	 	</row>				 	
+	 	<row>
+	 		<cell border-width="0"><para>Totale tributi</para></cell>
+	 		<cell border-width="0" align="right"><para>€ 25.400,10</para></cell>
+	 	</row>
+	 	<row>
+	 		<cell border-width="0"><para>Totale mora</para></cell>
+	 		<cell border-width="0" align="right"><para>€ 340,10</para></cell>
+	 	</row>				 	
+		<row>
+	 		<cell border-width="0"><para>TOTALE GENERALE</para></cell>
+	 		<cell border-width="0" align="right"><para>€ 25.740,20</para></cell>
+	 	</row>	
+	 	<row>
+	 		<cell colspan="2" border-width="1">
+	 			<para size="8">Informazioni ecc...</para>
+	 		</cell>
+	 	</row>	 	
+	 </table>		    
+
+  </body>
+  
+</doc>
+
