@@ -1,0 +1,166 @@
+	<definition name="tiles.casc.home" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/home.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.ordini" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/ordini.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.ordini_ins" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/ordini_ins.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.ordini_mod" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/ordini_mod.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.ordini_del" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/ordini_del.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.ordini_sta" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/ordini_sta.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.ordini_sto" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/ordini_sto.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.merci" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/merci.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.merci_ins" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/merci_ins.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.merci_mod" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/merci_mod.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.merci_del" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/merci_del.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.magazzino" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/magazzino.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.eco" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/eco.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.eco_ddt" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/eco_ddt.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.eco_fat" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/eco_fat.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.eco_cas" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/eco_cas.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.stat" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/stat.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.stat_day" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/stat_day.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.stat_wee" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/stat_wee.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.stat_mon" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/stat_mon.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.cassa" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/cassa.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.materie" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/materie.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.materie_ins" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/materie_ins.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.materie_mod" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/materie_mod.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.materie_del" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/materie_del.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.materie_sta" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/materie_sta.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.anag" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/anag.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.anag_ins" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/anag_ins.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.anag_mod" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/anag_mod.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.anag_del" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/anag_del.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.user" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/user.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.user_ins" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/user_ins.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.user_mod" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/user_mod.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.user_del" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/user_del.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.user_pro" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/user_pro.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.cal" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/cal.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.cal_ins" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/cal_ins.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.cal_mod" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/cal_mod.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.cal_del" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/cal_del.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.menu" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/menu.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.menu_ins" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/menu_ins.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.menu_mod" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/menu_mod.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.menu_del" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/menu_del.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.prev" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/prev.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.prev_ins" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/prev_ins.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.prev_mod" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/prev_mod.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.prev_del" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/prev_del.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.calpren" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/calpren.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.calpren_ins" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/calpren_ins.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.calpren_mod" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/calpren_mod.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.calpren_del" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/calpren_del.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.pren" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/pren.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.pren_ins" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/pren_ins.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.pren_mod" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/pren_mod.jsp"/>  		
+	</definition>	
+		<definition name="tiles.casc.pren_del" extends="tiles.casc.template">							 			
+		<put name="content" value="/struts/casc/content/pren_del.jsp"/>  		
+	</definition>	
+	
