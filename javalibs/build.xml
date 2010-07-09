@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+
+<!--+
+    |
+    |  /*
+    |   * @(#)build.xml
+    |   *
+    |   * @module      : javalibs
+    |   * @version     : 0.1.1
+    |   * @author      : Morozko
+    |   * @date        : 2007.08.13
+    |   */
+    |
+    +-->
+
+<project name="javalibs" default="dist">
+ 	
+    <target name="module" description="Creo il jar generico per la distribuzione">
+		<echo message="******************************************************"/>
+		<echo message="start processing of module : ${module.name}"/>
+		<echo message="building jar distribution file"/>
+    	<property name="dir.classes" value="${module.dir}/bin"/>
+    	<property name="dir.src" value="${module.dir}/src"/>	
+    	<property name="dir.dist" value="${module.dir}/dist"/>	
+		<property name="jar.name" value="${module.name}.jar"/>
+		<property name="jar.src.name" value="${module.name}-src.jar"/>
+    	<delete file="${dir.dist}/${jar.name}"/>
+		<delete file="${dir.dist}/${jar.src.name}"/>
+        <mkdir dir="${dir.dist}"/>
+        <jar jarfile="${dir.dist}/${jar.name}" basedir="${dir.classes}"/>
+		<jar jarfile="${dir.dist}/${jar.src.name}" basedir="${dir.src}"/>
+		<echo message="copying jar to release dir"/>
+		<copy tofile="morozko/${jar.name}" file="${module.dir}/dist/${jar.name}"/>
+		<echo message="******************************************************"/>
+    </target>	
+	
+	<target name="dist">
+		<antcall target="module">
+			<param name="module.name" value="mj-core"/>
+    		<param name="module.dir" value="../org.morozko.java.core"/>
+		</antcall>
+		<antcall target="module">
+			<param name="module.name" value="mj-mod-cmd"/>
+			<param name="module.dir" value="../org.morozko.java.mod.cmd"/>
+		</antcall>
+		<antcall target="module">
+			<param name="module.name" value="mj-mod-db"/>
+			<param name="module.dir" value="../org.morozko.java.mod.db"/>
+		</antcall>
+		<antcall target="module">
+			<param name="module.name" value="mj-mod-navmap"/>
+			<param name="module.dir" value="../org.morozko.java.mod.navmap"/>
+		</antcall>
+		<antcall target="module">
+			<param name="module.name" value="mj-mod-daogen"/>
+			<param name="module.dir" value="../org.morozko.java.mod.daogen"/>
+		</antcall>
+		<antcall target="module">
+			<param name="module.name" value="mj-mod-doc"/>
+			<param name="module.dir" value="../org.morozko.java.mod.doc"/>
+		</antcall>
+		<antcall target="module">
+			<param name="module.name" value="mj-mod-daogen-helpers"/>
+			<param name="module.dir" value="../org.morozko.java.mod.daogen.helpers"/>
+		</antcall>
+		<antcall target="module">
+			<param name="module.name" value="mj-mod-tools"/>
+			<param name="module.dir" value="../org.morozko.java.mod.tools"/>
+		</antcall>
+		<antcall target="module">
+			<param name="module.name" value="mj-mod-tools-db"/>
+			<param name="module.dir" value="../org.morozko.java.mod.tools.db"/>
+		</antcall>
+		<antcall target="module">
+			<param name="module.name" value="mj-mod-web"/>
+			<param name="module.dir" value="../org.morozko.java.mod.web"/>
+		</antcall>
+		<antcall target="module">
+			<param name="module.name" value="mj-mod-text"/>
+			<param name="module.dir" value="../org.morozko.java.mod.text"/>
+		</antcall>
+		<antcall target="module">
+			<param name="module.name" value="mj-mod-sync"/>
+			<param name="module.dir" value="../org.morozko.java.mod.sync"/>
+		</antcall>		
+	</target>
+    	
+</project>

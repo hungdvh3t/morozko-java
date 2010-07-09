@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Implementation-Version: 1.3.2
+Specification-Title: com.sun.mail.smtp
+Specification-Version: 1.3.2
+Implementation-Title: com.sun.mail.smtp
+Extension-Name: com.sun.mail.smtp
+Created-By: 1.3.1 (Sun Microsystems Inc.)
+Implementation-Vendor-Id: com.sun
+Implementation-Vendor: Sun Microsystems, Inc.
+Specification-Vendor: Sun Microsystems, Inc.
+SCCS-ID: @(#)smtp.mf	1.2 00/09/26
+
+Name: com/sun/mail/smtp/SMTPSSLTransport.class
+SHA1-Digest: xCAfJp3vGsnzvPV3Uszt3ifhA/g=
+
+Name: com/sun/mail/smtp/SMTPOutputStream.class
+SHA1-Digest: B3x0//NSC0q9yO1h+1//o30T5NQ=
+
+Name: com/sun/mail/smtp/SMTPAddressSucceededException.class
+SHA1-Digest: 7PnFNx4rjBFZq5zoEtxIP+9Qzdg=
+
+Name: com/sun/mail/smtp/SMTPAddressFailedException.class
+SHA1-Digest: uiSOOzBDndX8Ow7L3cl+CLjzzA0=
+
+Name: com/sun/mail/smtp/SMTPMessage.class
+SHA1-Digest: 5lwXcHvoNq5EeGHOSBTq1EkoWcs=
+
+Name: com/sun/mail/smtp/DigestMD5.class
+SHA1-Digest: 8CdePxmLZUwQUSN6YGvMX9U/ml0=
+
+Name: com/sun/mail/smtp/SMTPTransport.class
+SHA1-Digest: 2cvd62G9iQ440VKlSqG77SMnau0=
+
+Name: com/sun/mail/smtp/SMTPSendFailedException.class
+SHA1-Digest: JtdKQydVzBHCK6RZaIcy6eI+OKQ=
+
