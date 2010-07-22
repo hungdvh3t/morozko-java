@@ -39,6 +39,8 @@ public class LoadOperation extends BasicDbsrcOperation {
 			}
 		}
 		ri.end();
+		System.out.println( "RH >>>>>>>>> : "+rh );
+		System.out.println( "RH >>>>>>>>> : "+rh.getClass().getName() );
 		int recordHandled = rh.release();
 		this.getLog().info( "processed records : "+recordHandled );
 		if ( errorCount != 0 ) {
