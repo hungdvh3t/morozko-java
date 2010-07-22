@@ -340,7 +340,6 @@ public class BasicDAO extends BasicLogObject {
 	}
 	
 	protected PagedResult alternatePagedResult( String query, FieldList fl, RSExtractor re, PageInfoDB info ) throws DAOException {
-		this.getLog().info( "alternatePagedResult <<<<<<<<<<<" );
 		List list = this.newList();
 		OpDAO op = OpDAO.newQueryOp( query, fl , re );
 		this.loadAll(list, op);
@@ -490,11 +489,11 @@ public class BasicDAO extends BasicLogObject {
 
 
 	protected String queryFormat( String sql, String method ) {
-		this.getLog().info( "input  query : "+sql );
+		this.getLog().debug( "input  query : "+sql );
 		this.getLog().debug( "params :       "+this.getDaoFactory().getSqlArgs() );
 		MessageFormat f = new MessageFormat( sql );
 		sql = f.format( this.getDaoFactory().getSqlArgs() );
-		this.getLog().info( "output query : "+sql );
+		this.getLog().debug( "output query : "+sql );
 		return sql;
 	}
 
