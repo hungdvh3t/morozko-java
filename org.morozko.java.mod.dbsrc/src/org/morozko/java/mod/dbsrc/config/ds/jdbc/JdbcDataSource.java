@@ -9,6 +9,7 @@ import java.sql.Types;
 import java.util.Properties;
 
 import org.morozko.java.core.cfg.ConfigException;
+import org.morozko.java.core.log.LogFacade;
 import org.morozko.java.mod.db.connect.ConnectionFactory;
 import org.morozko.java.mod.db.connect.ConnectionFactoryImpl;
 import org.morozko.java.mod.db.dao.BasicDAOFactory;
@@ -148,7 +149,7 @@ public class JdbcDataSource extends BaseDataSource {
 			conn = cf.getConnection();
 			sql = " SELECT v.* FROM ( "+sql+" ) v WHERE 1=0 ";
 			sql = sql.replaceAll( "''", "'" );
-			//LogFacade.getLog().info( "sql : "+sql );
+			LogFacade.getLog().debug( "sql : "+sql );
 			//ParamFinder pf = ParamFinder.newFinder();
 			//sql = pf.substitute( sql , "ciao", "ciao" );
 			Statement stm = conn.createStatement();

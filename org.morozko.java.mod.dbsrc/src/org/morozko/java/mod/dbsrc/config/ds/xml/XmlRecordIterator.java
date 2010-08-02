@@ -63,6 +63,9 @@ public class XmlRecordIterator extends BasicRecordIterator {
 				CSVColumn currentCol = this.xmlFile.getDescriptor()[k];
 				Element currentTag =  search.findTag( currentRow , currentCol.getName() );
 				String content = search.findText( currentTag );
+				if ( content == null ) {
+					content = "";
+				}
 				fl[k] = currentCol.getField( content );
 			}
 		} catch (Exception e) {
