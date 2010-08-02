@@ -29,6 +29,7 @@ public class LoadOperation extends BasicDbsrcOperation {
 				try {
 					rh.setRecord( record );
 				} catch (Exception ed) {
+					ed.printStackTrace( System.out ); 
 					errorCount++;
 					this.getDbsrc().getErrorLogger().log( "operation : "+this.getName()+" : Error on destination : "+ed.getMessage() );	
 				}

@@ -142,7 +142,7 @@ public class AnalyzeRecordHandler extends BasicRecordHandler {
 	private void handleCME( ColMappingEntry cme, Record record, FieldList fl, GenericDAO genericDAO ) throws DAOException {
 		if ( cme.getMappingType() == ColMappingEntry.MAPPING_SOURCE_INDEX ) {
 			Object data = record.getField( cme.getMapTo() ).getData();
-			LogFacade.getLog().debug( "AnalyzeRecordHandler : data : "+data+" : "+data.getClass().getName() );
+			LogFacade.getLog().debug( "AnalyzeRecordHandler : data : "+data );
 			fl.addField( data );
 		} else if ( cme.getMappingType() == ColMappingEntry.MAPPING_FIXED_VALUE ) {
 			fl.addField( cme.getFixedValue() );
