@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="/javalibs/morozko/mj-mod-cmd.jar"/>
 	<classpathentry kind="lib" path="/javalibs/morozko/mj-mod-tools.jar"/>
 	<classpathentry kind="lib" path="/javalibs/morozko/mj-mod-db.jar"/>
+	<classpathentry kind="lib" path="/javalibs/misc/jexcelapi/2_6_5/jxl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
