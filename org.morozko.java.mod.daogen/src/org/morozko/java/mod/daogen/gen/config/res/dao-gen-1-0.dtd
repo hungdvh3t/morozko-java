@@ -32,8 +32,12 @@
 	|	smallint - java.sql.Types.SMALLINT
 	|	tinyint - java.sql.Types.TINYINT	
 	|	boolean - java.sql.Types.BIT		
+	|   bigdecimal - java.sql.Types.DOUBLE ( ma si mappa su java.math.BigDecimal )
+	|   bidinteger - java.sql.Types.BIGINT ( ma si mappa su java.math.BigInteger )
 	+-->
-<!ENTITY % FieldType "( id | idnz | idauto | numeric | integer | bigint | varchar | char | double | float | date | time | timestamp | smallint | tinyint | blob | clob | boolean )">
+<!ENTITY % FieldType "( id | idnz | idauto | numeric | integer | 
+	bigint | varchar | char | double | float | date | time | timestamp | 
+	smallint | tinyint | blob | clob | boolean | bigdecimal | biginteger )">
 
 <!--+
 	| Tipi di relazione supportate : 

@@ -39,6 +39,8 @@ public class SQLType {
 	public static final SQLType DAOID = new SQLType( "id", Integer.MIN_VALUE );
 	public static final SQLType DAOIDNULLZERO = new SQLType( "idnz", Integer.MIN_VALUE+1 );
 	public static final SQLType DAOIDAUTO = new SQLType( "idauto", Integer.MIN_VALUE+2 );
+	public static final SQLType BIGINTEGER = new SQLType( "biginteger", Integer.MIN_VALUE+3 );
+	public static final SQLType BIGDECIMAL = new SQLType( "bigdecimal", Integer.MIN_VALUE+4 );
 	public static final SQLType NUMERIC = new SQLType( "numeric", Types.NUMERIC );
 	public static final SQLType BIGINT = new SQLType( "bigint", Types.BIGINT );
 	public static final SQLType INTEGER = new SQLType( "integer", Types.INTEGER );
@@ -70,6 +72,8 @@ public class SQLType {
 		add( DAOID, KNOWN_TYPES_NAME, KNOWN_TYPES_SQL );
 		add( DAOIDAUTO, KNOWN_TYPES_NAME, KNOWN_TYPES_SQL );
 		add( DAOIDNULLZERO, KNOWN_TYPES_NAME, KNOWN_TYPES_SQL );
+		add( BIGDECIMAL, KNOWN_TYPES_NAME, KNOWN_TYPES_SQL );
+		add( BIGINTEGER, KNOWN_TYPES_NAME, KNOWN_TYPES_SQL );
 		add( INTEGER, KNOWN_TYPES_NAME, KNOWN_TYPES_SQL );
 		add( BIGINT, KNOWN_TYPES_NAME, KNOWN_TYPES_SQL );
 		add( SMALLINT, KNOWN_TYPES_NAME, KNOWN_TYPES_SQL );
