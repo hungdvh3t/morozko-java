@@ -71,6 +71,7 @@ public class JdbcRecordHandler extends BasicRecordHandler {
 			}
 			OpDAO opDAO = new OpDAO();
 			opDAO.setSql( this.update.toString() );
+			LogFacade.getLog().info( "update sql : "+this.update );
 			opDAO.setFieldList( fl );
 			if ( this.commitOn > 1 ) {
 				this.bufferOp.add( opDAO );

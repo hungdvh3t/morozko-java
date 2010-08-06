@@ -120,9 +120,18 @@ public class JdbcDataSource extends BaseDataSource {
 		if ( "direct-insert".equalsIgnoreCase( mode ) ) {
 			try {
 				String table = props.getProperty( "table" );
-				JdbcColumn[] columns = describe( " SELECT * FROM "+table, this.basicDAOFactory.getConnectionFactory() );
+				String sqlTable = props.getProperty( "sql" );
+				if ( sqlTable == null ) {
+					sqlTable = " SELECT * FROM "+table;
+				}
+				this.getLog().info( "sql : "+sqlTable );
+				JdbcColumn[] columns = describe( sqlTable, this.basicDAOFactory.getConnectionFactory() );
 				StringBuffer sql = new StringBuffer();
-				sql.append( " INSERT INTO "+table+" VALUES ( ? " );
+				sql.append( " INSERT INTO "+table+" ( "+columns[0].getName() );
+				for ( int k=1; k<columns.length; k++ ) {
+					sql.append( ", "+columns[k].getName() );
+				}
+				sql.append( " ) VALUES ( ? " );
 				for ( int k=1; k<columns.length; k++ ) {
 					sql.append( ", ? " );
 				}
