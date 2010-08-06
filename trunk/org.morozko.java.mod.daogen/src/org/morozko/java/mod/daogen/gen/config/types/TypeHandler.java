@@ -37,6 +37,8 @@ import java.util.Map;
 public class TypeHandler {
 
 	public static final TypeHandler TH_DAOID = new TypeHandler( "org.morozko.java.mod.db.dao.DAOID", "org.morozko.java.mod.db.dao.DAOID.valueOf( rs.getLong(\"{0}\") )", "formatObject({0})", "toDAOID({0})" );
+	public static final TypeHandler TH_BIGDECIMAL = new TypeHandler( "java.math.BigDecimal", "rs.getBigDecimal(\"{0}\")", "formatObject({0})", "toBigDecimal({0})" );
+	public static final TypeHandler TH_BIGINTEGER = new TypeHandler( "java.math.BigInteger", "rs.getBigInteger(\"{0}\")", "formatObject({0})", "toBigInteger({0})" );
 	public static final TypeHandler TH_DAOIDNULLZERO = new TypeHandler( "org.morozko.java.mod.db.dao.DAOID", "org.morozko.java.mod.db.dao.DAOID.valueOfNullZero( rs.getLong(\"{0}\") )", "formatObject({0})", "toDAOID({0})" );
 	public static final TypeHandler TH_DAOIDAUTO = new TypeHandler( "org.morozko.java.mod.db.dao.DAOID", "org.morozko.java.mod.db.dao.DAOID.valueOf( rs.getLong(\"{0}\") )", "formatObject({0})", "toDAOID({0})" );
 	public static final TypeHandler TH_NUMERIC = new TypeHandler( "Double", "new Double( rs.getDouble(\"{0}\") )", "formatObject({0})", "toDouble({0})" );
@@ -61,6 +63,8 @@ public class TypeHandler {
 		HANDLERS.put( SQLType.DAOID, TH_DAOID );
 		HANDLERS.put( SQLType.DAOIDNULLZERO, TH_DAOIDNULLZERO );
 		HANDLERS.put( SQLType.DAOIDAUTO, TH_DAOIDAUTO );
+		HANDLERS.put( SQLType.BIGDECIMAL, TH_BIGDECIMAL );
+		HANDLERS.put( SQLType.BIGINTEGER, TH_BIGINTEGER );
 		HANDLERS.put( SQLType.NUMERIC, TH_NUMERIC );
 		HANDLERS.put( SQLType.BIGINT, TH_BIGINT );
 		HANDLERS.put( SQLType.INTEGER, TH_INTEGER );

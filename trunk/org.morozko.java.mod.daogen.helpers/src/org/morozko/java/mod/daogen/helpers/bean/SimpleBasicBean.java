@@ -25,6 +25,8 @@
 package org.morozko.java.mod.daogen.helpers.bean;
 
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Clob;
 import java.sql.Date;
 import java.sql.Time;
@@ -84,6 +86,23 @@ public class SimpleBasicBean {
     public String toString( String v ) {
         return String.valueOf( v );
     }      
+    
+
+    public BigInteger toBigInteger( String v ) {
+    	BigInteger d = null;
+		if (v!=null && !v.equals("")) {
+			d = BigInteger.valueOf( Long.valueOf( prepareNumber( v ) ).longValue() );
+		}    	
+        return d;
+    } 
+    
+    public BigDecimal toBigDecimal( String v ) {
+    	BigDecimal d = null;
+		if (v!=null && !v.equals("")) {
+			d = new BigDecimal( Double.valueOf( prepareNumber( v ) ).doubleValue() );
+		}    	
+        return d;
+    } 
     
     public Double toDouble( String v ) {
 		Double d = null;
