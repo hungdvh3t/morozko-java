@@ -118,6 +118,7 @@ public class JdbcDataSource extends BaseDataSource {
 		Properties props = config.getProps();
 		String mode = props.getProperty( "mode" );
 		if ( "direct-insert".equalsIgnoreCase( mode ) ) {
+			StringBuffer sql = new StringBuffer();
 			try {
 				String table = props.getProperty( "table" );
 				String sqlTable = props.getProperty( "sql" );
@@ -126,7 +127,6 @@ public class JdbcDataSource extends BaseDataSource {
 				}
 				this.getLog().info( "sql : "+sqlTable );
 				JdbcColumn[] columns = describe( sqlTable, this.basicDAOFactory.getConnectionFactory() );
-				StringBuffer sql = new StringBuffer();
 				sql.append( " INSERT INTO "+table+" ( "+columns[0].getName() );
 				for ( int k=1; k<columns.length; k++ ) {
 					sql.append( ", "+columns[k].getName() );
@@ -138,7 +138,7 @@ public class JdbcDataSource extends BaseDataSource {
 				sql.append( " ) " );		
 				handler = new JdbcRecordHandler( config, columns, sql.toString(), this.basicDAOFactory );
 			} catch (Exception e) {
-				throw new DbsrcException( e );
+				throw new DbsrcException( "update value : "+sql.toString(), e );
 			}
 		} else if ( "analyze".equalsIgnoreCase( mode ) ) {
 			try {
