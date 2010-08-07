@@ -201,9 +201,9 @@ public class DAOCoder extends Coder {
         stream.println();
         String[] keyList = tableConfig.getUpdateKey();
         if (keyList != null && keyList.length > 0) {
-        	
             stream.print( "    protected "+modelName+" loadByPkWorker( Object "+tableConfig.getFieldConfig( keyList[0] ).getJavaFieldName()+" " );
             for (int k=1; k<keyList.length; k++) {
+            	//System.out.println( "FieldName : "+keyList[k]+" : "+tableConfig.getFieldConfig( keyList[k] )+" "+tableConfig.getTableName() );
                 stream.print( " , Object "+tableConfig.getFieldConfig( keyList[k] ).getJavaFieldName() );    
             }
             stream.println( " ) throws DAOException { " );
