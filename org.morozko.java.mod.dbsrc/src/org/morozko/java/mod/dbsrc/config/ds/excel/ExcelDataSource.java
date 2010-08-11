@@ -1,23 +1,24 @@
 package org.morozko.java.mod.dbsrc.config.ds.excel;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
+import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+
 import org.morozko.java.core.cfg.ConfigException;
 import org.morozko.java.mod.dbsrc.config.ConfigTag;
 import org.morozko.java.mod.dbsrc.config.ds.BaseDataSource;
 import org.morozko.java.mod.dbsrc.config.ds.csv.CSVColumn;
-import org.morozko.java.mod.dbsrc.config.ds.csv.CSVRecordHandler;
 import org.morozko.java.mod.dbsrc.config.generic.DbsrcException;
 import org.morozko.java.mod.dbsrc.data.Field;
 import org.morozko.java.mod.dbsrc.data.RecordHandler;
 import org.morozko.java.mod.dbsrc.data.RecordIterator;
-
-import com.csvreader.CsvWriter;
 
 public class ExcelDataSource extends BaseDataSource {
 
@@ -79,27 +80,45 @@ public class ExcelDataSource extends BaseDataSource {
 	}
 
 	public RecordHandler setRecords(ConfigTag config) throws DbsrcException {
-		CSVRecordHandler handler = null;
+		ExcelRecordHandler handler = null;
 		try {
-			String csvName = config.getProps().getProperty( "csv-name" );
+			String csvName = config.getProps().getProperty( "excel-name" );
+			System.out.println( "table name : "+csvName );
 			ExcelFile csvFile = this.fileMap.get( csvName );
-			char csvDelimiter = config.getProps().getProperty( "csv-delimiter", "," ).charAt( 0 );
-			System.out.println( "TEST : "+csvFile );
+			
 			File file = new File( this.baseDir, csvFile.getFileName() );
-			boolean csvAppend = Boolean.valueOf( config.getProps().getProperty( "csv-append", "false" ) );
-			this.getLog().info( "csvAppend : "+csvAppend );
-			FileWriter fw = new FileWriter( file, csvAppend );
-			CsvWriter writer = new CsvWriter( fw, csvDelimiter );
-			boolean csvHeader = Boolean.valueOf( config.getProps().getProperty( "csv-header", "true" ) );
-			this.getLog().info( "csvHeader : "+csvHeader );
-			if ( csvHeader ) {
-				String[] header = new String[ csvFile.getColumnCount() ];
-				for ( int k=0; k<header.length; k++ ) {
-					header[k] = csvFile.getColumnAt( k ).getName();
-				}
-				writer.writeRecord( header );
+			WritableWorkbook ww = Workbook.createWorkbook( file );
+			WritableSheet sheet = ww.createSheet( "Sheet" , 0 );
+			
+			handler = new ExcelRecordHandler( ww , sheet, config, 1 );
+
+			boolean excelHeader = true;
+			if ( excelHeader ) {
+				System.out.println( "ENTRA 1 "+csvFile.getDescriptor().length );
+				for ( int k=0; k<csvFile.getDescriptor().length; k++ ) {
+					System.out.println( "ENTRA 2 "+k );
+					sheet.addCell( new Label( k, 0, csvFile.getDescriptor()[k].getName() ) );
 			}
-			handler = new CSVRecordHandler( writer, fw, config );
+			
+		}
+			
+//			char csvDelimiter = config.getProps().getProperty( "csv-delimiter", "," ).charAt( 0 );
+//			System.out.println( "TEST : "+csvFile );
+//			
+//			boolean csvAppend = Boolean.valueOf( config.getProps().getProperty( "csv-append", "false" ) );
+//			this.getLog().info( "csvAppend : "+csvAppend );
+//			FileWriter fw = new FileWriter( file, csvAppend );
+//			CsvWriter writer = new CsvWriter( fw, csvDelimiter );
+//			boolean csvHeader = Boolean.valueOf( config.getProps().getProperty( "csv-header", "true" ) );
+//			this.getLog().info( "csvHeader : "+csvHeader );
+//			if ( csvHeader ) {
+//				String[] header = new String[ csvFile.getColumnCount() ];
+//				for ( int k=0; k<header.length; k++ ) {
+//					header[k] = csvFile.getColumnAt( k ).getName();
+//				}
+//				writer.writeRecord( header );
+//			}
+//			handler = new CSVRecordHandler( writer, fw, config );
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw ( new DbsrcException( e ) );
