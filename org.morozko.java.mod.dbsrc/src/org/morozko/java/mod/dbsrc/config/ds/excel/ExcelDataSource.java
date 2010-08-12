@@ -6,8 +6,13 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
+import jxl.CellView;
 import jxl.Workbook;
+import jxl.format.Alignment;
+import jxl.format.BoldStyle;
 import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
@@ -92,12 +97,21 @@ public class ExcelDataSource extends BaseDataSource {
 			
 			handler = new ExcelRecordHandler( ww , sheet, config, 1 );
 
+			
+			
 			boolean excelHeader = true;
 			if ( excelHeader ) {
-				System.out.println( "ENTRA 1 "+csvFile.getDescriptor().length );
+				WritableCellFormat wcf = new WritableCellFormat();
+				wcf.setAlignment( Alignment.CENTRE );
+				WritableFont wf = new WritableFont( wcf.getFont() );
+				wf.setBoldStyle( WritableFont.BOLD ); 
+				wcf.setFont( wf );
 				for ( int k=0; k<csvFile.getDescriptor().length; k++ ) {
-					System.out.println( "ENTRA 2 "+k );
-					sheet.addCell( new Label( k, 0, csvFile.getDescriptor()[k].getName() ) );
+					CellView cw = new CellView( sheet.getColumnView( k ) );
+					cw.setSize( 256 * 20 );
+					sheet.setColumnView( k, cw );
+					sheet.addCell( new Label( k, 0, csvFile.getDescriptor()[k].getName(), wcf ) );
+					
 			}
 			
 		}
