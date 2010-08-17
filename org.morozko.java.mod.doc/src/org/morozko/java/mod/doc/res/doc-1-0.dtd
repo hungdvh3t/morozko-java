@@ -26,6 +26,7 @@
 
 <!ENTITY % FormatType "( string | int | double | date )">
 
+<!ENTITY % ContentType "( string | number )">
 
 <!--+
 	| Elemento radice del file di configurazione della libreria DAO-GEN2
@@ -68,6 +69,7 @@
 <!ATTLIST para align %AlignType; #IMPLIED>
 <!ATTLIST para size CDATA #IMPLIED>
 <!ATTLIST para style %StyleType; #IMPLIED>
+<!ATTLIST para type CDATA #IMPLIED>
 <!ATTLIST para fore-color CDATA #IMPLIED>
 <!ATTLIST para font-name CDATA #IMPLIED>
 <!ATTLIST para leading CDATA #IMPLIED>

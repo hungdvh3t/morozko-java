@@ -289,7 +289,8 @@ public class DocContentHandler implements ContentHandler {
 			docPara.setFontName( fontName );
 			String leading = props.getProperty( "leading" );
 			docPara.setBackColor( props.getProperty( "back-color" ) );
-			docPara.setForeColor( props.getProperty( "fore-color" ) );			
+			docPara.setForeColor( props.getProperty( "fore-color" ) );
+			docPara.setType( props.getProperty( "type" ) );
 			if ( leading != null ) {
 				docPara.setLeading( Float.valueOf( leading ) );
 			}
