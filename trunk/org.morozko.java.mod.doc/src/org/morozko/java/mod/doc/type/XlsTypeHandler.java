@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +22,7 @@ import jxl.format.RGB;
 import jxl.format.UnderlineStyle;
 import jxl.format.VerticalAlignment;
 import jxl.write.Label;
+import jxl.write.Number;
 import jxl.write.WritableCell;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
@@ -28,6 +30,7 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
 import org.morozko.java.core.cfg.ConfigException;
+import org.morozko.java.mod.daogen.helpers.bean.BasicBean;
 import org.morozko.java.mod.doc.DocBase;
 import org.morozko.java.mod.doc.DocBorders;
 import org.morozko.java.mod.doc.DocCell;
@@ -108,6 +111,7 @@ public class XlsTypeHandler extends BasicTypeHandler {
 		
 		for ( int rn=0; rn<matrix.getRowCount(); rn++ ) {
 			for ( int cn=0; cn<matrix.getColumnCount(); cn++ ) {
+				String type = null;
 				DocCell cell = matrix.getCell( rn, cn );
 				DocCell parent = matrix.getParent( rn, cn );
 				String text = "";
@@ -118,6 +122,7 @@ public class XlsTypeHandler extends BasicTypeHandler {
 					if ( current instanceof DocPara ) {
 						currentePara = ((DocPara)current);
 						text = currentePara.getText();
+						type = currentePara.getType();
 					} else {
 						text = String.valueOf( current );
 						currentePara = null;
@@ -179,13 +184,41 @@ public class XlsTypeHandler extends BasicTypeHandler {
 						} 
 					}
 				}
-				WritableCell current = new Label( cn, rn, text, cf );
+				WritableCell current = null;
+				if ( "number".equalsIgnoreCase( type ) ) {
+					current = new Number( cn, rn, Double.parseDouble( prepareNumber( text )  ), cf );
+				} else {
+					current = new Label( cn, rn, text, cf );
+				}
 				dati.addCell( current );	
 			}
 		}
 		return matrix;
 	}
 
+	public static String convertComma( String s ) {
+		int index = s.indexOf( ',' );
+		if ( index!=-1 ) {
+			s = s.substring( 0, index )+"."+s.substring( index+1 );
+		}
+		return s; 	
+	}	
+	
+	public static String removeDots( String s ) {
+		StringBuffer r = new StringBuffer();
+		StringTokenizer st = new StringTokenizer( s, "." );
+		while (st.hasMoreTokens()) {
+			r.append( st.nextToken() );
+		}
+		return r.toString(); 	
+	}
+	
+	public static String prepareNumber( String s ) {
+		s = removeDots( s );
+		s = convertComma( s );
+		return s;
+	}
+	
 	private static void handleMerge( DocTable table, boolean ignoreFormat, WritableSheet dati ) throws Exception {
 		TableMatrix matrix = handleMatrix(table, ignoreFormat, dati);
 		for ( int rn=0; rn<matrix.getRowCount(); rn++ ) {

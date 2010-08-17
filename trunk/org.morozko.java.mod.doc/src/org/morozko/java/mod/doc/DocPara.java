@@ -117,8 +117,18 @@ public class DocPara extends DocElement implements DocStyle {
 	
 	private String foreColor;
 	
-	private String backColor;		
+	private String backColor;	
 	
+	private String type;
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	/**
 	 * @return the backColor
 	 */
