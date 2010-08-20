@@ -112,7 +112,7 @@
 					<cell><para>giuseppe Abate</para></cell>
 					<cell align="center"><para>02/08/2010 10:25:47</para></cell>
 					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>51,5</para></cell>
+					<cell align="center" type="number"><para>51,5</para></cell>
 					<cell align="center"><para>2</para></cell>
 					<cell align="center"><para>0</para></cell>
 					<cell align="center"><para>0,515</para></cell>
@@ -128,7 +128,7 @@
 					<cell><para>gabriele de luca</para></cell>
 					<cell align="center"><para>02/08/2010 18:33:40</para></cell>
 					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>35,897</para></cell>
+					<cell align="center" type="number"><para>35,897</para></cell>
 					<cell align="center"><para>2</para></cell>
 					<cell align="center"><para>0</para></cell>
 					<cell align="center"><para>0,359</para></cell>
@@ -144,7 +144,7 @@
 					<cell><para>domenico Bottone</para></cell>
 					<cell align="center"><para>03/08/2010 14:14:50</para></cell>
 					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>0</para></cell>
+					<cell align="center" type="number"><para>0</para></cell>
 					<cell align="center"><para>2</para></cell>
 					<cell align="center"><para>0</para></cell>
 					<cell align="center"><para>0</para></cell>
@@ -160,145 +160,13 @@
 					<cell><para>amanda fusari</para></cell>
 					<cell align="center"><para>03/08/2010 21:24:10</para></cell>
 					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>0,018</para></cell>
+					<cell align="center" type="number"><para>0,018</para></cell>
 					<cell align="center"><para>2</para></cell>
 					<cell align="center"><para>0</para></cell>
 					<cell align="center"><para>0</para></cell>
 				</row>
 				
 				
-										
-			
-				<row>
-					<cell align="center"><para>1</para></cell>			
-					<cell align="center"><para>2</para></cell>
-					<cell align="center"><para>1223669</para></cell>
-					<cell><para>fabio manicastri</para></cell>
-					<cell align="center"><para>04/08/2010 11:29:17</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>6</para></cell>
-					<cell align="center"><para>2</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>0,06</para></cell>
-				</row>
-				
-				
-										
-			
-				<row>
-					<cell align="center"><para>1</para></cell>			
-					<cell align="center"><para>2</para></cell>
-					<cell align="center"><para>8020799</para></cell>
-					<cell><para>alessandro tafuro</para></cell>
-					<cell align="center"><para>04/08/2010 15:17:48</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>2</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>0</para></cell>
-				</row>
-				
-				
-										
-			
-				<row>
-					<cell align="center"><para>0</para></cell>			
-					<cell align="center"><para>2</para></cell>
-					<cell align="center"><para>1593054</para></cell>
-					<cell><para>andrea coveccia</para></cell>
-					<cell align="center"><para>05/08/2010 10:41:58</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>2</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>0</para></cell>
-				</row>
-				
-				
-										
-			
-				<row>
-					<cell align="center"><para>18</para></cell>			
-					<cell align="center"><para>2</para></cell>
-					<cell align="center"><para>1064104</para></cell>
-					<cell><para>Gaetano Cinturino</para></cell>
-					<cell align="center"><para>05/08/2010 14:41:03</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>131,958</para></cell>
-					<cell align="center"><para>2</para></cell>
-					<cell align="center"><para>2,639</para></cell>
-					<cell align="center"><para>1,32</para></cell>
-				</row>
-				
-				
-										
-			
-				<row>
-					<cell align="center"><para>0</para></cell>			
-					<cell align="center"><para>2</para></cell>
-					<cell align="center"><para>1411608</para></cell>
-					<cell><para>gaetano cinturino</para></cell>
-					<cell align="center"><para>11/08/2010 11:56:57</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>2</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>0</para></cell>
-				</row>
-				
-				
-										
-			
-				<row>
-					<cell align="center"><para>2</para></cell>			
-					<cell align="center"><para>2</para></cell>
-					<cell align="center"><para>1460722</para></cell>
-					<cell><para>roberto maggi</para></cell>
-					<cell align="center"><para>14/08/2010 20:00:44</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>2</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>0</para></cell>
-				</row>
-				
-				
-										
-			
-				
-										
-			
-				<row>
-					<cell align="center"><para>984</para></cell>			
-					<cell align="center"><para>1</para></cell>
-					<cell align="center"><para>-1</para></cell>
-					<cell><para>hedgehog newgioco</para></cell>
-					<cell align="center"><para>16/08/2010 15:19:01</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>4.837,704</para></cell>
-					<cell align="center"><para>1</para></cell>
-					<cell align="center"><para>112,997</para></cell>
-					<cell align="center"><para>177,265</para></cell>
-				</row>
-				
-				
-										
-			
-				<row>
-					<cell align="center"><para>13</para></cell>			
-					<cell align="center"><para>1</para></cell>
-					<cell align="center"><para>1148444</para></cell>
-					<cell><para>Cristina Mastropaoli</para></cell>
-					<cell align="center"><para>11/08/2010 10:55:39</para></cell>
-					<cell align="center"><para>0</para></cell>
-					<cell align="center"><para>1.478,233</para></cell>
-					<cell align="center"><para>1</para></cell>
-					<cell align="center"><para>23,251</para></cell>
-					<cell align="center"><para>65,443</para></cell>
-				</row>
-				
-				
-										
 			
      
     </table>

@@ -30,7 +30,6 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
 import org.morozko.java.core.cfg.ConfigException;
-import org.morozko.java.mod.daogen.helpers.bean.BasicBean;
 import org.morozko.java.mod.doc.DocBase;
 import org.morozko.java.mod.doc.DocBorders;
 import org.morozko.java.mod.doc.DocCell;
