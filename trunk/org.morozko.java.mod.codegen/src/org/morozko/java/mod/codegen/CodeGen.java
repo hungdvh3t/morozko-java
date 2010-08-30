@@ -16,6 +16,7 @@ import org.morozko.java.mod.codegen.handler.DaogenHandler;
 import org.morozko.java.mod.codegen.handler.NavMapConfig;
 import org.morozko.java.mod.codegen.handler.StrutsConfig;
 import org.morozko.java.mod.daogen.gen.coder.Coder;
+import org.morozko.java.mod.daogen.gen.config.DGConfig;
 import org.morozko.java.mod.daogen.gen.config.TableConfig;
 import org.morozko.java.mod.tools.util.args.ArgList;
 import org.morozko.java.mod.tools.util.args.ArgUtils;
@@ -83,9 +84,10 @@ public class CodeGen extends Coder {
 					formParamName = "form"+form.getName();
 					dtoName = "DTO"+form.getName();
 					if ( form.getDaogen() != null ) {
-						TableConfig tc = navMap.getDaogen().getTable( form.getDaogen() );
-						extendForm = navMap.getDaogen().getGeneralProps().getProperty( "package.bean" )+"."+form.getDaogen()+"Bean";
-						String modelType = navMap.getDaogen().getGeneralProps().getProperty( "package.model" )+"."+form.getDaogen()+"Model";
+						DGConfig daogen = navMap.getDaogen( form.getDaogen() );
+						TableConfig tc = daogen.getTable( form.getDaogen() );
+						extendForm = daogen.getGeneralProps().getProperty( "package.bean" )+"."+form.getDaogen()+"Bean";
+						String modelType = daogen.getGeneralProps().getProperty( "package.model" )+"."+form.getDaogen()+"Model";
 						dtoBuffer.append( "private "+modelType+" model;\n" );
 						dtoBuffer.append( makeGetter( "model" , modelType ) );
 						dtoBuffer.append( makeSetter( "model" , modelType ) );

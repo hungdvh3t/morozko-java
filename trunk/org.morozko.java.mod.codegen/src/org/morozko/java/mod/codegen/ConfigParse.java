@@ -60,15 +60,19 @@ public class ConfigParse {
 			// general props
 			Element generalProps = searchDOM.findTag( root , "general-props" );
 			navMap.setGeneralProps( PropertyXML.parse( generalProps ) );
-			
-			DGConfig dgConfig = null;
-			
+		
 			// plugin doagen
 			String daogenPlugin = navMap.getGeneralProps().get( "daogen-plugin" );
 			if ( daogenPlugin != null ) {
 				ConfigParser cp = new ConfigParser();
-				dgConfig = cp.parseConfig( daogenPlugin );
-				navMap.setDaogen( dgConfig );	
+				DGConfig dgConfig = cp.parseConfig( daogenPlugin );
+				navMap.getDaogenList().add( dgConfig );
+			}
+			String daogenPlugin1 = navMap.getGeneralProps().get( "daogen-plugin-1" );
+			if ( daogenPlugin != null ) {
+				ConfigParser cp = new ConfigParser();
+				DGConfig dgConfig = cp.parseConfig( daogenPlugin1 );
+				navMap.getDaogenList().add( dgConfig );
 			}
 			
 			
@@ -85,7 +89,7 @@ public class ConfigParse {
 					String daogen = navFormTag.getAttribute( "daogen" );
 					if ( daogen != null ) {
 						navForm.setDaogen( daogen );
-						TableConfig formTable = dgConfig.getTable( daogen );
+						TableConfig formTable = navMap.getDaogenTable( daogen );
 						Iterator<FieldConfig> fields = formTable.getFields().iterator();
 						while ( fields.hasNext() ) {
 							FieldConfig fieldConfig = fields.next();
