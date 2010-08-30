@@ -39,7 +39,7 @@ public class DaogenHandler extends Coder {
 		// load one
 		if ( operation.indexOf( "daogen-delete-one" ) == 0 ) {
 			String table = operation.split( ":" )[1];
-			DGConfig daogen = navMap.getDaogen();
+			DGConfig daogen = navMap.getDaogen( table );
 			// facade body
 			String daoPack = daogen.getGeneralProps().getProperty( "package.dao" );
 			String daoFactoryType = daoPack+"."+daogen.getGeneralProps().getProperty( "factory.dao.module" );
@@ -53,7 +53,7 @@ public class DaogenHandler extends Coder {
 		// load one
 		if ( operation.indexOf( "daogen-load-one" ) == 0 ) {
 			String table = operation.split( ":" )[1];
-			DGConfig daogen = navMap.getDaogen();
+			DGConfig daogen = navMap.getDaogen( table );
 			TableConfig tc = daogen.getTable( table );
 			LoadConfig lc = tc.getLoad( operation.split( ":" )[2] );
 			// facade body
@@ -78,7 +78,7 @@ public class DaogenHandler extends Coder {
 		// update one
 		if ( operation.indexOf( "daogen-update-one" ) == 0 ) {
 			String table = operation.split( ":" )[1];
-			DGConfig daogen = navMap.getDaogen();
+			DGConfig daogen = navMap.getDaogen( table );
 			// facade body
 			String daoPack = daogen.getGeneralProps().getProperty( "package.dao" );
 			String daoFactoryType = daoPack+"."+daogen.getGeneralProps().getProperty( "factory.dao.module" );
@@ -117,7 +117,7 @@ public class DaogenHandler extends Coder {
 		// insert one
 		if ( operation.indexOf( "daogen-insert-one" ) == 0 ) {
 			String table = operation.split( ":" )[1];
-			DGConfig daogen = navMap.getDaogen();
+			DGConfig daogen = navMap.getDaogen( table );
 			// facade body
 			String daoPack = daogen.getGeneralProps().getProperty( "package.dao" );
 			String daoFactoryType = daoPack+"."+daogen.getGeneralProps().getProperty( "factory.dao.module" );
@@ -153,7 +153,7 @@ public class DaogenHandler extends Coder {
 		// load all
 		if ( operation.indexOf( "daogen-load-all" ) == 0 ) {
 			String table = operation.split( ":" )[1];
-			DGConfig daogen = navMap.getDaogen();
+			DGConfig daogen = navMap.getDaogen( table );
 			// facade body
 			String daoPack = daogen.getGeneralProps().getProperty( "package.dao" );
 			String daoFactoryType = daoPack+"."+daogen.getGeneralProps().getProperty( "factory.dao.module" );
