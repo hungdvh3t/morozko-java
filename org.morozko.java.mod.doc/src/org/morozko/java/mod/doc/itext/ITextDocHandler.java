@@ -57,6 +57,7 @@ import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
 import com.lowagie.text.Header;
 import com.lowagie.text.HeaderFooter;
 import com.lowagie.text.Image;
@@ -66,7 +67,11 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.Table;
 import com.lowagie.text.html.HtmlTags;
 import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfArray;
+import com.lowagie.text.pdf.PdfDictionary;
+import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfPageEventHelper;
+import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.rtf.RtfWriter2;
 import com.lowagie.text.rtf.headerfooter.RtfHeaderFooter;
@@ -414,6 +419,25 @@ public class ITextDocHandler implements DocHandler {
 					this.document.setPageSize( size );
 				}
 			}
+			
+			if ( DOC_OUTPUT_PDF.equalsIgnoreCase( this.docType ) ) {
+				String pdfFormat = info.getProperty( DocInfo.INFO_NAME_PDF_FORMAT );
+				if ( "pdf-a".equalsIgnoreCase( pdfFormat ) ) {
+					this.pdfWriter.setPDFXConformance(PdfWriter.PDFA1B);
+					PdfDictionary outi = new PdfDictionary( PdfName.OUTPUTINTENT );
+					outi.put( PdfName.OUTPUTCONDITIONIDENTIFIER, new PdfString("sRGB IEC61966-2.1") );
+					outi.put( PdfName.INFO, new PdfString("sRGB IEC61966-2.1") );
+					outi.put( PdfName.S, PdfName.GTS_PDFA1 );
+//					FontFactory.
+//					BaseFont bf =  BaseFont.createFont( Font.HELVETICA, BaseFont.WINANSI, true );
+					this.pdfWriter.getExtraCatalog().put( PdfName.OUTPUTINTENTS, new PdfArray( outi ) );
+					System.out.println( "PDF-A 2 <<<<<<<<<<<<<<<<<<<<<" );
+				}
+			}
+			
+			
+
+			
 		}		
 		
 		// header / footer section

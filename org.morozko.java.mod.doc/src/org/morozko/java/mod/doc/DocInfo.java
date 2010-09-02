@@ -39,6 +39,8 @@ public class DocInfo extends DocElement {
 	
 	public static final String INFO_NAME_PAGE_ORIENT = "page-orient";
 	
+	public static final String INFO_NAME_PDF_FORMAT = "pdf-format";
+	
 	private String name;
 	
 	private StringBuffer content = new StringBuffer();
