@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.morozko.java.core.cfg.ConfigException;
+import org.morozko.java.core.log.LogFacade;
 import org.morozko.java.core.xml.config.PropertyXML;
 import org.morozko.java.core.xml.dom.DOMUtils;
 import org.morozko.java.core.xml.dom.SearchDOM;
@@ -69,7 +70,7 @@ public class ConfigParse {
 				navMap.getDaogenList().add( dgConfig );
 			}
 			String daogenPlugin1 = navMap.getGeneralProps().get( "daogen-plugin-1" );
-			if ( daogenPlugin != null ) {
+			if ( daogenPlugin1 != null ) {
 				ConfigParser cp = new ConfigParser();
 				DGConfig dgConfig = cp.parseConfig( daogenPlugin1 );
 				navMap.getDaogenList().add( dgConfig );
@@ -87,7 +88,8 @@ public class ConfigParse {
 					NavForm navForm = NavForm.newNavForm( name );
 					navMap.getFormMap().put( name , navForm );
 					String daogen = navFormTag.getAttribute( "daogen" );
-					if ( daogen != null ) {
+					LogFacade.getLog().info( "name : "+name+" daogen : '"+daogen+"'" );
+					if ( daogen != null && daogen.trim().length() > 0 ) {
 						navForm.setDaogen( daogen );
 						TableConfig formTable = navMap.getDaogenTable( daogen );
 						Iterator<FieldConfig> fields = formTable.getFields().iterator();
