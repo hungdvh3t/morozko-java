@@ -32,6 +32,7 @@ public class VersionConfig extends BasicConfig {
 	}	
 	
 	public void renderVersion( HttpServletRequest request, HttpServletResponse response ) throws IOException {
+		response.setContentType( "text/html" );
 		PrintWriter pw = response.getWriter();
 		pw.println( "<html>" );
 		pw.println( "<head>" );
