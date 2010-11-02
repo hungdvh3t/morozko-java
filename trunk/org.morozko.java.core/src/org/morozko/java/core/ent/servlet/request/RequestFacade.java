@@ -37,6 +37,23 @@ import org.morozko.java.core.log.LogFacade;
  */
 public class RequestFacade {
 
+	public static String getRelativeUrl( HttpServletRequest request, String relUrl)  {
+		return getBaseUrl( request )+relUrl;
+	}
+	
+	public static String getRelativeUrl( HttpServletRequest request, String relUrl, ParamMap params )  {
+		return getBaseUrl( request )+relUrl+params.getQueryString();
+	}
+	
+	public static String getBaseUrl( HttpServletRequest request ) {
+		StringBuffer url = new StringBuffer();
+		url.append( request.getScheme()+"://" );
+		url.append( request.getServerName()+":" );
+		url.append( request.getServerPort() );
+		url.append( request.getContextPath() );
+		return url.toString();
+	}
+	
 	public static String findParameter( HttpServletRequest request, String name ) {
 		String param = request.getParameter( name );
 		if ( param == null ) {

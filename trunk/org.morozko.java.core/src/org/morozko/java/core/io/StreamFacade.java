@@ -24,11 +24,13 @@
  */
 package org.morozko.java.core.io;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.net.URL;
 
 /**
  * <p>.</p>
@@ -37,6 +39,13 @@ import java.io.Writer;
  */
 public class StreamFacade {
 
+	public static byte[] readUrl( String url ) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		URL u = new URL( url );
+		StreamIO.pipeStream( u.openStream() , baos, StreamIO.MODE_CLOSE_IN_ONLY );
+		return baos.toByteArray();
+	}
+	
     public static void pipeChar( Reader r, Writer w, int bufferSize, boolean closeIn, boolean closeOut ) throws IOException {
     	int mode = StreamIO.MODE_CLOSE_NONE;
     	if ( closeIn && closeOut ) {
