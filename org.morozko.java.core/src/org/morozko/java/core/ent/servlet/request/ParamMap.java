@@ -68,6 +68,9 @@ public class ParamMap implements Serializable {
 			list = new String[1];
 			list[0] = value;
 		} else {
+			if ( list == null ) {
+				list = new String[0];
+			}
 			String[] tmp = new String[ list.length+1 ];
 			for ( int k=0; k<list.length; k++ ) {
 				tmp[k] = list[k];
