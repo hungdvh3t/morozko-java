@@ -11,18 +11,64 @@ import java.util.regex.Pattern;
 
 public class ParamFinder {
 
-	private static final String PRE = "\\$\\{";
-	private static final String POST = "\\}";
-	
-	public static ParamFinder newFinder() {
-		Pattern p = Pattern.compile( PRE+"(.*?)"+POST );
-		return new ParamFinder( p );
+	public static void main( String[] args ) {
+		try {
+			
+			String test = "Prova {idRisorsa} aa";
+			
+			ParamFinder pf = ParamFinder.newFinderAlt1();
+			
+			Properties params = new Properties();
+			params.setProperty( "idRisorsa" , "1" );
+			
+			System.out.println( "TEST >>> "+pf.substitute( test , params ) );
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+	
+	public static final String DEFAULT_PRE = "\\$\\{";
+	public static final String DEFAULT_POST = "\\}";
+	
+	public static final String ALT1_PRE = "\\{";
+	public static final String ALT1_POST = "\\}";
+
+	/**
+	 * Creates a ParamFinder with default substitution ${param}
+	 * 
+	 * @return
+	 */
+	public static ParamFinder newFinder() {
+		return new ParamFinder( DEFAULT_PRE, DEFAULT_POST, 2, 1 );
+	}
+	
+	/**
+	 * Creates a ParamFinder with alternative substitution {param}
+	 * 
+	 * @return
+	 */
+	public static ParamFinder newFinderAlt1() {
+		return new ParamFinder( ALT1_PRE, ALT1_POST, 1, 1 );
+	}	
 	
 	private Pattern p;
 	
-	private ParamFinder( Pattern p ) {
-		this.p = p;
+	private String pre;
+	
+	private String post;
+	
+	private int preL;
+	
+	private int postL;
+	
+	private ParamFinder( String pre, String post, int preL, int postL ) {
+		String pattern = pre+"(.*?)"+post;
+		this.p = Pattern.compile( pattern );
+		this.pre = pre;
+		this.post = post;
+		this.preL = preL;
+		this.postL = postL;
 	}
 	
 	public Set getParamSet( CharSequence text ) {
@@ -36,9 +82,11 @@ public class ParamFinder {
 		Matcher m = p.matcher( text );
 		while ( m.find() ) {
 			String found = m.group();
-			String paramName = found.substring( 2, found.length()-1 );
+			System.out.println( "FOUND : "+found+" : "+this.pre.length()+" : "+this.post.length() );
+			String paramName = found.substring( this.preL, found.length()-this.postL );
 			paramList.add( paramName );
 		}
+		System.out.println( "PARAM_LIST "+paramList );
 		return paramList;
 	}
 
@@ -53,17 +101,18 @@ public class ParamFinder {
 	
 	public String substitute( CharSequence text, String param, String value ) {
 		String result = text.toString(); 
-		return result.replaceAll( PRE+param+POST , value );
+		return result.replaceAll( this.pre+param+this.post , value );
 	}
 	
 	public String substitute( CharSequence text, Properties params ) {
 		String result = text.toString();
-		Iterator it = this.getParamList( result ).iterator();
+		List list = this.getParamList( result );
+		Iterator it = list.iterator();
 		while ( it.hasNext() ) {
 			String current = it.next().toString();
 			String sub = params.getProperty( current );
 			if ( sub != null ) {
-				result = result.replaceAll( PRE+current+POST , sub );	
+				result = result.replaceAll( this.pre+current+this.post , sub );	
 			}
 		}
 		return result;
