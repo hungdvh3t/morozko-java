@@ -2,6 +2,9 @@ package org.morozko.java.mod.dbsrc.config.ds.csv;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -107,4 +110,16 @@ public class CSVDataSource extends BaseDataSource {
 		return handler;
 	}
 
+	public static void main( String[] args ) {
+		try {
+			StringWriter sw = new StringWriter();
+			CsvWriter w = new CsvWriter( new OutputStreamWriter( System.out ), ',' );
+			String line[] = { "ciao", "prova\ngiuliano", "test\"ciao" };
+			w.writeRecord( line );
+			w.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
