@@ -1,6 +1,9 @@
 package org.morozko.java.core.ent.servlet.request;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -107,5 +110,35 @@ public class ParamMap implements Serializable {
 	public String[] getParams( String name ) {
 		return (String[])this.map.get( name ); 
 	}
+	
+	public String getSortedQueryString() {
+		StringBuffer qs = new StringBuffer();
+		ArrayList l = new ArrayList(  this.map.keySet() );
+		Collections.sort( l );
+		qs.append( "?ParamMapGenerate=2" );
+		Iterator ki = l.iterator();
+		while ( ki.hasNext() ) {
+			String name = (String) ki.next();
+			if ( !PARAM_MAP_GENERATE.equals( name ) ) {
+				String[] values = this.getParams( name );
+				Arrays.sort( values );
+				for ( int k=0; k<values.length; k++ ) {
+					qs.append( "&"+name+"="+values[k] );
+				}				
+			}
+		}
+		return qs.toString();
+	}
+	
+	public int hashCode() {
+		return this.getSortedQueryString().hashCode();
+	}
+
+	public boolean equals(Object obj) {
+		boolean ok = false;
+		if ( obj instanceof ParamMap ) {
+			ok = this.getSortedQueryString().equals( ((ParamMap)obj).getSortedQueryString() );
+		}
+		return ok;
 	
 }
