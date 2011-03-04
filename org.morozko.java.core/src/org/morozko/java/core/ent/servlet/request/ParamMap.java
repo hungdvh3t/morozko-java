@@ -140,5 +140,6 @@ public class ParamMap implements Serializable {
 			ok = this.getSortedQueryString().equals( ((ParamMap)obj).getSortedQueryString() );
 		}
 		return ok;
+	}
 	
 }
