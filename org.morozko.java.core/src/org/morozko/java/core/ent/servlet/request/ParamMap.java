@@ -22,7 +22,6 @@ public class ParamMap implements Serializable {
 	
 	private HashMap map;
 	
-	
 	private ParamMap() {
 		this.map = new HashMap();
 	}
@@ -30,7 +29,7 @@ public class ParamMap implements Serializable {
 	public String getQueryString() {
 		StringBuffer qs = new StringBuffer();
 		Iterator ki = this.getParamNames();
-		qs.append( "?ParamMapGenerate=1" );
+		qs.append( "?"+PARAM_MAP_GENERATE+"=1" );
 		while ( ki.hasNext() ) {
 			String name = (String) ki.next();
 			if ( !PARAM_MAP_GENERATE.equals( name ) ) {
@@ -115,7 +114,7 @@ public class ParamMap implements Serializable {
 		StringBuffer qs = new StringBuffer();
 		ArrayList l = new ArrayList(  this.map.keySet() );
 		Collections.sort( l );
-		qs.append( "?ParamMapGenerate=2" );
+		qs.append( "?"+PARAM_MAP_GENERATE+"=2" );
 		Iterator ki = l.iterator();
 		while ( ki.hasNext() ) {
 			String name = (String) ki.next();
@@ -140,6 +139,27 @@ public class ParamMap implements Serializable {
 			ok = this.getSortedQueryString().equals( ((ParamMap)obj).getSortedQueryString() );
 		}
 		return ok;
+	}
+
+	public String toString() {
+		StringBuffer qs = new StringBuffer();
+		qs.append( this.getClass().getName() );
+		qs.append( "[" );
+		ArrayList l = new ArrayList(  this.map.keySet() );
+		Collections.sort( l );
+		Iterator ki = l.iterator();
+		while ( ki.hasNext() ) {
+			String name = (String) ki.next();
+			if ( !PARAM_MAP_GENERATE.equals( name ) ) {
+				String[] values = this.getParams( name );
+				Arrays.sort( values );
+				for ( int k=0; k<values.length; k++ ) {
+					qs.append( name+"="+values[k]+"; " );
+				}				
+			}
+		}
+		qs.append( "]" );
+		return qs.toString();
 	}
 	
 }
