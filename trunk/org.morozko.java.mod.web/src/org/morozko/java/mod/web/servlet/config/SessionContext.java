@@ -1,7 +1,6 @@
 package org.morozko.java.mod.web.servlet.config;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +8,41 @@ import javax.servlet.http.HttpSession;
 
 public abstract class SessionContext {
 
+	public String toString() {
+		StringBuffer b = new StringBuffer();
+		b.append( this.getClass().getName() );
+		b.append( "[" );
+		Iterator attNames = this.attributeNames();
+		while ( attNames.hasNext() ) {
+			String name = (String)attNames.next();
+			Object value = this.getAttribute( name );
+			String val = "null";
+			if ( value != null ) {
+				val = value.getClass().getName();
+			}
+			b.append( name+"="+val+";" );
+		}
+		b.append( "]" );
+		return b.toString();
+	}
+	
+	public String toStringLines() {
+		StringBuffer b = new StringBuffer();
+		b.append( this.getClass().getName() );
+		b.append( "[" );
+		Iterator attNames = this.attributeNames();
+		while ( attNames.hasNext() ) {
+			String name = (String)attNames.next();
+			Object value = this.getAttribute( name );
+			String val = "null";
+			if ( value != null ) {
+				val = value.getClass().getName();
+			}
+			b.append( "\n"+name+"="+val );
+		}
+		b.append( "]" );
+		return b.toString();
+	}
 	
 	public static SessionContext getHttpSessionContext( HttpServletRequest request ) {
 		HttpSession session = request.getSession();
@@ -41,53 +75,6 @@ public abstract class SessionContext {
 	public abstract void setAttribute( String name, Object value );
 	
 	public abstract Iterator attributeNames();
-	
-	
-//	public static SessionContext getHttpSessionContext( HttpServletRequest request ) {
-//		return SessionContext.getHttpSessionContext( request.getSession() );
-//	}
-//	
-//	private static SessionContext getHttpSessionContext( HttpSession session ) {
-//		SessionContext context = (SessionContext)session.getAttribute( HttpSessionContext.ATT_NAME );
-//		if ( context == null ) {
-//			context = new HttpSessionContext( session );
-//			session.setAttribute( HttpSessionContext.ATT_NAME , context );
-//		}
-//		return context;
-//	}
-//	
-//	public SessionContext() {
-//		this.map = new HashMap();
-//	}
-//	
-//	private HashMap map;
-//	
-//	public abstract String getId();
-//	
-//	public void removeAttribute( String name ) {
-//		this.map.remove( name );
-//	}
-//	
-//	public Object getAttribute( String name ) {
-//		return this.map.get( name );
-//	}
-//	
-//	public Object getAttribute( String name, Object value ) {
-//		Object result = this.map.get( name );
-//		if ( result == null ) {
-//			result = value;
-//			this.setAttribute( name , value );
-//		}
-//		return result;
-//	}
-//	
-//	public void setAttribute( String name, Object value ) {
-//		this.map.put( name , value );
-//	}
-//	
-//	public Iterator attributeNames() {
-//		return this.map.keySet().iterator();
-//	}
 	
 }
 
