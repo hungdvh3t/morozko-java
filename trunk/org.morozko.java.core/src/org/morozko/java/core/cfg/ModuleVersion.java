@@ -12,4 +12,6 @@ public interface ModuleVersion {
 	
 	public Properties getDependancies();
 	
+	public String getLoadTime();
+	
 }

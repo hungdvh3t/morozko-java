@@ -8,14 +8,21 @@ import org.morozko.java.core.log.LogFacade;
 
 public class VersionUtils {
 
-	public static Properties getModuleList() {
-		Properties props = new Properties();
+	public static Properties MODULES = new Properties();
+	static {
 		try {
-			props.load( VersionUtils.class.getResourceAsStream( "/org/morozko/java/core/cfg/module.properties" ) );
+			MODULES.load( VersionUtils.class.getResourceAsStream( "/org/morozko/java/core/cfg/module.properties" ) );
 		} catch (Throwable e) {
 			LogFacade.getLog().error( e );
 		}
-		return props;
+	}
+	
+	public synchronized static void registerModule( String name, String className ) {
+		MODULES.setProperty( name , className );
+	}
+	
+	public synchronized static Properties getModuleList() {
+		return MODULES;
 	}
 	
 	public static String getVersionString( String moduleName ) {
