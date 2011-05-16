@@ -102,6 +102,7 @@ public class BackupConfig extends XMLConfigurableObject {
 				this.tableBackup.setProperty( TableBackup.PROP_INSERT_MODE, insetMode );
 			}
 			
+			this.tableBackup.setProperty( TableBackup.PROP_STATEMENT_MODE , props.getProperty( TableBackup.PROP_STATEMENT_MODE, TableBackup.PROP_STATEMENT_MODE_BATCH ) );
 			this.tableBackup.setProperty( TableBackup.PROP_ADAPTOR_FROM , props.getProperty( TableBackup.PROP_ADAPTOR_FROM, TableBackup.PROP_ADAPTOR_VALUE_DEFAULT ) );
 			this.tableBackup.setProperty( TableBackup.PROP_ADAPTOR_TO , props.getProperty( TableBackup.PROP_ADAPTOR_TO, TableBackup.PROP_ADAPTOR_VALUE_DEFAULT ) );
 			this.tableBackup.setProperty( TableBackup.PROP_COLUMN_CHECK_MODE , props.getProperty( TableBackup.PROP_COLUMN_CHECK_MODE, TableBackup.PROP_COLUMN_CHECK_MODE_VALUE_COMPLETE ) );
