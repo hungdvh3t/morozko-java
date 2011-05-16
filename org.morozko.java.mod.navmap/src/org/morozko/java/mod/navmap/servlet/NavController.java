@@ -136,7 +136,7 @@ public class NavController extends BasicLogObject {
 				chain.doFilter( request, response );
 			} catch (Throwable e) {
 				code = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-				this.getLog().error( "Error in filter chain : "+e );
+				this.getLog().error( "Error in filter chain : "+e, e );
 			}
 		} else {
 			request.getSession().setAttribute( ATT_NAME_NAVNODE, this.navMap.getDefaultNavNode() );
