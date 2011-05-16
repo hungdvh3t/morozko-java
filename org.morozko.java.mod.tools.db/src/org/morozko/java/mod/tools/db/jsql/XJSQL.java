@@ -88,7 +88,7 @@ public class XJSQL {
         	
         	//UIManager.setLookAndFeel( lef );
         	
-            ArgList list = ArgUtils.parseArgs(arg);
+            ArgList list = ArgUtils.parseArgsProps(arg);
             
             String url = list.findArg("c").getValue();
             String usr = list.findArg("u").getValue();

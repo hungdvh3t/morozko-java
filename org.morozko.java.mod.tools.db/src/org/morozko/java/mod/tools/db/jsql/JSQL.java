@@ -55,10 +55,10 @@ import org.morozko.java.core.io.line.LineWriter;
  */
 public class JSQL {
     
-    public static final String VERSION = "0.1.3 (2009-11-25)";
+    public static final String VERSION = "0.1.4 (2011-05-09)";
     
     private static void printInfo() {
-        ToolUtils.printInfo("JSQL v. "+VERSION, "Matteo Franci a.k.a TUX2");
+        ToolUtils.printInfo("JSQL v. "+VERSION, "Matteo Franci a.k.a Morozko");
     }
     
     private static void format( CMDOutputFormat format, CMDOutput output, String type ) throws CMDException {
@@ -75,7 +75,7 @@ public class JSQL {
     public static void main(String[] arg) {
         try {
             
-            ArgList list = ArgUtils.parseArgs(arg);
+            ArgList list = ArgUtils.parseArgsProps(arg);
             
             ConnectionFactory cp = ConnArgs.createConnectionFactory( list );
             
@@ -123,8 +123,11 @@ public class JSQL {
                  prompt.start("\\q");
                  printInfo();
             } else if ( execute != null ) {
+            	printInfo();
+            	System.out.println( "EXECUTE : '"+execute+"'" );
             	format( format, cmd.handleCommand( execute ), b );
             } else if ( file != null ) {
+            	printInfo();
             	format( format, cmd.handleCommand( FileIO.readString( new File( file ) ) ), b );
             }
             
