@@ -187,7 +187,7 @@ public class BasicDAO extends BasicLogObject {
         		} else {
         			this.queryWrapper = null;
         		}
-        		this.getLog().info( "product name : "+productName+" query wrapper init : "+this.queryWrapper );
+        		this.getLog().debug( "product name : "+productName+" query wrapper init : "+this.queryWrapper );
         	} catch (Exception e1) {
         		e1.printStackTrace();
         	} finally {

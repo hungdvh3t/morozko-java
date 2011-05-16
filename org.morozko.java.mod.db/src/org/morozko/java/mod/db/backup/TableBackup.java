@@ -58,6 +58,11 @@ public interface TableBackup {
 	
 	public static final String PROP_ADAPTOR_VALUE_DEFAULT = "org.morozko.java.mod.db.backup.DefaultBackupAdaptor";
 	
+	
+	public static final String PROP_STATEMENT_MODE = "statement-mode";
+	public static final String PROP_STATEMENT_MODE_BATCH = "batch";
+	public static final String PROP_STATEMENT_MODE_EXECUTE = "execute";
+	
 	/**
 	 * Proprietà che governa la modalità di inserimento tra la tabella destinazione e quella di origine.
 	 */

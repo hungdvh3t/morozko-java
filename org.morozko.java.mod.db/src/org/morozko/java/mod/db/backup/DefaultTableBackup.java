@@ -62,6 +62,8 @@ public class DefaultTableBackup extends BasicLogObject implements TableBackup {
 	
 	private String columnCheckMode;
 	
+	private String statementMode;
+	
     /* (non-Javadoc)
 	 * @see org.morozko.java.mod.db.backup.TableBackup#setProperty(java.lang.String, java.lang.String)
 	 */
@@ -71,6 +73,8 @@ public class DefaultTableBackup extends BasicLogObject implements TableBackup {
 		if ( PROP_COMMIT_ON.equalsIgnoreCase( name ) ) {
 			this.commitOn = Integer.parseInt( value );
 			result = true;
+		} else if ( PROP_STATEMENT_MODE.equalsIgnoreCase( name ) ) {
+			this.statementMode = value;
 		} else if ( PROP_INSERT_MODE.equalsIgnoreCase( name ) ) {
 			this.insertMode = value;
 		} else if ( PROP_ADAPTOR_FROM.equalsIgnoreCase( name ) ) {
@@ -143,6 +147,7 @@ public class DefaultTableBackup extends BasicLogObject implements TableBackup {
 
         to.setAutoCommit( false );
         
+        this.getLog().debug("Statement mode           : "+this.statementMode);
         this.getLog().debug("Starting backup of table : "+table);
         this.getLog().debug("Select statement : "+select);
         // costruisco la insert
@@ -177,7 +182,8 @@ public class DefaultTableBackup extends BasicLogObject implements TableBackup {
         while (fromRS.next()) {
             rowCount++;
             String comment = null;
-            
+            StringBuffer fullComment = new StringBuffer();
+            long res = 0;
             try {
             	
             	BackupAdaptor backupAdaptorFrom = (BackupAdaptor)ClassHelper.newInstance( this.adaptorFrom );
@@ -187,14 +193,23 @@ public class DefaultTableBackup extends BasicLogObject implements TableBackup {
                 	String colName = toTableColumns[k];
                 	int colIndex = (k+1);
                     comment = "setting column "+colName+" : "+colIndex;
-                    
                     Object obj = backupAdaptorFrom.get( fromRS , rsmd, colIndex );
+                    fullComment.append( " "+comment+" '"+obj+"'" );
                     backupAdaptorTo.set( toPS , rsmd, obj, colIndex );
-
                 }
                 
                 comment = "executing insert ";
-                toPS.addBatch();
+                try {
+                	if ( PROP_STATEMENT_MODE_EXECUTE.equalsIgnoreCase( this.statementMode ) ) {
+                    	res+= toPS.executeUpdate();	
+                    } else {
+                    	toPS.addBatch();
+                    }	
+                } catch (SQLException e) {
+                	this.getLog().error("Error backing up table "+table+" on row "+rowCount+", "+fullComment, e);
+                	throw e;
+                }
+                
                 
                 copyCount++;
                 count++;
@@ -202,10 +217,14 @@ public class DefaultTableBackup extends BasicLogObject implements TableBackup {
                 // System.out.println( "----" );
                 
                 if ( count>= commitOn ) {
-                	this.getLog().debug( "commit : "+count+" time : "+(System.currentTimeMillis()-starTime) );
-                	toPS.executeBatch();
-                	to.commit();
-                	toPS.clearBatch();
+                	this.getLog().debug( "commit count : "+count+" time : "+(System.currentTimeMillis()-starTime) );
+                	if ( PROP_STATEMENT_MODE_EXECUTE.equalsIgnoreCase( this.statementMode ) ) {
+                		to.commit();	
+                	} else {
+                		toPS.executeBatch();
+                		to.commit();
+                		toPS.clearBatch();
+                	}
                 	count = 0;
                 }
                 
@@ -217,9 +236,13 @@ public class DefaultTableBackup extends BasicLogObject implements TableBackup {
         }
         
         // execute all remaining
-        toPS.executeBatch();
-        to.commit();
-        toPS.clearBatch();
+    	if ( PROP_STATEMENT_MODE_EXECUTE.equalsIgnoreCase( this.statementMode ) ) {
+    		to.commit();	
+    	} else {
+    		toPS.executeBatch();
+    		to.commit();
+    		toPS.clearBatch();
+    	}
         
         to.setAutoCommit( true );
         fromRS.close();
