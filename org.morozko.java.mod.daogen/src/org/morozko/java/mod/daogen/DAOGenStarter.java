@@ -44,7 +44,7 @@ public class DAOGenStarter {
 
 	public static final boolean REGENERATE = false;
 	
-	public static final String VERSION = "DAOGEN2 v.1.9.29 [2010-05-07]";
+	public static final String VERSION = "DAOGEN2 v.1.9.30 [2011-05-16]";
 	
 	private static void log( Object message ) {
 		System.out.println( message );
