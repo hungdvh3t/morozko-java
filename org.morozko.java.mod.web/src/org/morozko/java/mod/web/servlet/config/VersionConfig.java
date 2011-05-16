@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.morozko.java.core.cfg.ConfigException;
 import org.morozko.java.core.cfg.VersionUtils;
 import org.morozko.java.mod.daogen.helpers.model.BasicModel;
+import org.morozko.java.mod.web.servlet.ConfigServlet;
 
 public class VersionConfig extends BasicConfig {
 
@@ -39,7 +40,7 @@ public class VersionConfig extends BasicConfig {
 		pw.println( "<title>Version page: "+this.versionBean.getAppName()+"</title>" );
 		pw.println( "</head>" );
 		pw.println( "<body>" );
-		pw.println( "<h3>Version page</h3>" );
+		pw.println( "<h3>Version page (ConfigServlet load time : "+ConfigServlet.LOAD_TIME+")</h3>" );
 		pw.println( "<p>Application : "+this.versionBean.getAppName()+"</p>" );
 		pw.println( "<p>Version : "+this.versionBean.getAppVersion()+"</p>" );
 		pw.println( "<p>Date : "+this.versionBean.getAppDate()+"</p>" );

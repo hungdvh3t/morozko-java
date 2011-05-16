@@ -1,17 +1,23 @@
 package org.morozko.java.mod.web.servlet.config;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public abstract class SessionContext {
+public abstract class SessionContext implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4543097476221921635L;
 
 	public String toString() {
 		StringBuffer b = new StringBuffer();
 		b.append( this.getClass().getName() );
-		b.append( "[" );
+		b.append( "[ID:"+this.getId()+"," );
 		Iterator attNames = this.attributeNames();
 		while ( attNames.hasNext() ) {
 			String name = (String)attNames.next();
@@ -81,9 +87,12 @@ public abstract class SessionContext {
 
 class HttpSessionContext extends SessionContext {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6927502334822765826L;
+
 	private HttpSession session;
-	
-	private String id;
 	
 	public Iterator attributeNames() {
 		return Collections.list( this.session.getAttributeNames() ).iterator();

@@ -29,6 +29,8 @@ import org.w3c.dom.Element;
 
 public class ConfigServlet extends LogObjectServlet {
 	
+	public static final String LOAD_TIME = String.valueOf( new java.sql.Timestamp( System.currentTimeMillis() ) );
+	
 	private VersionConfig versionConfig = null;
 	
 	private CommandConfig commandConfig = null;
