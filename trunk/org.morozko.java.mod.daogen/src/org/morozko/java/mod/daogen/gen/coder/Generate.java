@@ -154,20 +154,20 @@ public class Generate {
             if ( moduleDAOFactory != null ) {
             	log( "factory.dao.module=GENERATING" );
             	File daoFactoryModuleFileTrue = new File( baseDirTrue, createPath( generalProps.getProperty( "package.dao" ), moduleDAOFactory+".java" ) );
-                TrueCoder.createTrueFile( dgConfig, daoFactoryModuleFileTrue, moduleDAOFactory, generalProps.getProperty( "package.dao" ), false );
+                TrueCoder.createTrueFile( dgConfig, daoFactoryModuleFileTrue, moduleDAOFactory, generalProps.getProperty( "package.dao" ), TrueCoder.TYPE_DAO_FACTORY );
             }            
             
             if ("true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.dao" ) )) {
             	File daoFileTrue = new File( baseDirTrue, createPath( generalProps.getProperty( "package.dao" ), name+"DAO.java" ) );
-                TrueCoder.createTrueFile( dgConfig, daoFileTrue, name+"DAO", generalProps.getProperty( "package.dao" ), true );
+                TrueCoder.createTrueFile( dgConfig, daoFileTrue, name+"DAO", generalProps.getProperty( "package.dao" ), TrueCoder.TYPE_DAO );
             }
             if ("true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.bean" ) )) {
                 File beanFileTrue = new File( baseDirTrue, createPath( generalProps.getProperty( "package.bean" ), name+"Bean.java" ) );
-                TrueCoder.createTrueFile( dgConfig, beanFileTrue, name+"Bean", generalProps.getProperty( "package.bean" ), false );
+                TrueCoder.createTrueFile( dgConfig, beanFileTrue, name+"Bean", generalProps.getProperty( "package.bean" ), TrueCoder.TYPE_BEAN );
             }
             if ("true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.model" ) )) {
                 File modelFileTrue = new File( baseDirTrue, createPath( generalProps.getProperty( "package.model" ), name+"Model.java" ) );
-                TrueCoder.createTrueFile( dgConfig, modelFileTrue, name+"Model", generalProps.getProperty( "package.model" ), false );
+                TrueCoder.createTrueFile( dgConfig, modelFileTrue, name+"Model", generalProps.getProperty( "package.model" ), TrueCoder.TYPE_MODEL );
             }
 
     	} else {

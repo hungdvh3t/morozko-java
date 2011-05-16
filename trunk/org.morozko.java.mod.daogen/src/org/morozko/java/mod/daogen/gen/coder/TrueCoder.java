@@ -35,7 +35,12 @@ import org.morozko.java.mod.daogen.gen.config.DGConfig;
 
 public class TrueCoder extends Coder {
 
-    public static void createTrueFile( DGConfig dgConfig, File file, String cName, String pName, boolean dao ) throws IOException {
+	public static final int TYPE_DAO = 1;
+	public static final int TYPE_BEAN = 2;
+	public static final int TYPE_MODEL= 3;
+	public static final int TYPE_DAO_FACTORY = 4;
+	
+    public static void createTrueFile( DGConfig dgConfig, File file, String cName, String pName, int type ) throws IOException {
     	Properties generalProps = dgConfig.getGeneralProps();
     	file.getParentFile().mkdirs();
     	if ( !file.exists() || DAOGenStarter.REGENERATE ) {
@@ -51,10 +56,26 @@ public class TrueCoder extends Coder {
             stream.println();
             stream.println("	private final static long serialVersionUID = "+System.currentTimeMillis()+""+(int)(Math.random()*100)+"L;" );
             stream.println();
-        	if (dao) {
+        	if ( type == TYPE_DAO ) {
                 stream.println( "    public "+cName+"("+generalProps.getProperty( "factory.dao" )+" daoFactory ) {" );
                 stream.println( "        super(daoFactory);" );
                 stream.println( "        this.init(daoFactory);" );
+                stream.println( "    }" );
+                stream.println( );    		
+        	}
+        	if ( type == TYPE_DAO_FACTORY ) {
+        		stream.println( "    private static "+cName+" instance;" );
+        		stream.println( "    public static "+cName+" getInstance() {" );
+                stream.println( "        return instance;" );
+                stream.println( "    }" );
+                stream.println( "    public static void init( org.morozko.java.mod.db.dao.BasicDAOFactory bdf ) {" );
+                stream.println( "        instance = new "+cName+"( bdf );" );
+                stream.println( "    }" );            
+                stream.println( "    public static void init( org.morozko.java.mod.db.connect.ConnectionFactory cf ) {" );
+                stream.println( "        instance = new "+cName+"( new org.morozko.java.mod.db.dao.BasicDAOFactory( cf ) );" );
+                stream.println( "    }" );                  
+                stream.println( "    public "+cName+"("+generalProps.getProperty( "factory.dao" )+" daoFactory ) {" );
+                stream.println( "        super(daoFactory);" );
                 stream.println( "    }" );
                 stream.println( );    		
         	}
