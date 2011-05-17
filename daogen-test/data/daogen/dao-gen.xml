@@ -1,0 +1,27 @@
+<?xml	 version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE dao-gen SYSTEM "http://www.morozko.org/data/java/mod/dao-gen/dtd/dao-gen-1-0.dtd">
+
+<dao-gen>
+
+  <table-list>
+
+    <table name="TestTable" update="test_table" key="test_id">
+      <view>
+         SELECT v.* FROM test_table v 
+      </view>
+      <fields>
+        <field extra="" name="test_id" type="id"/>
+        <field extra="" name="test_date" type="date"/>
+        <field extra="" name="test_int" type="integer"/>
+        <field extra="" name="test_decimal" type="bigdecimal"/>
+        <field extra="" name="test_string" type="varchar"/>
+      </fields>
+      <loads>
+        <load relations="true" name="Primary" type="one" field="test_id"/>
+      </loads>
+    </table>  
+        
+  </table-list>
+  
+</dao-gen>
