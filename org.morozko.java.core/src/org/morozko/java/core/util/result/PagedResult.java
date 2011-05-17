@@ -141,6 +141,15 @@ public class PagedResult extends ResultInfo {
 	public Iterator getPageElements() {
 		return this.pageElements.iterator();
 	}
+
+	/**
+	 * <p>Elements in the current page</p>
+	 * 
+	 * @return	elements in the current page
+	 */
+	public List getPageElementsList() {
+		return this.pageElements;
+	}
 	
 	/**
 	 * <p>Iterator over page numbers ( 1 - n )</p>
