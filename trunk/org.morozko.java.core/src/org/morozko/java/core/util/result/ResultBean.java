@@ -1,9 +1,15 @@
 package org.morozko.java.core.util.result;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class ResultBean {
+public class ResultBean implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1824211773585920573L;
 
 	public String toString() {
 		return this.getClass().getName()+"["+this.type+":"+this.result+"]";
@@ -50,5 +56,17 @@ public class ResultBean {
 	public static final int RESULT_TYPE_MAP = 3;
 	
 	public static final int RESULT_TYPE_PAGED = 4;
+	
+	public static final String DEFAULT_OK = "0";
+	
+	private String resultCode = DEFAULT_OK;
+
+	public String getResultCode() {
+		return resultCode;
+	}
+
+	public void setResultCode(String resultCode) {
+		this.resultCode = resultCode;
+	}
 	
 }
