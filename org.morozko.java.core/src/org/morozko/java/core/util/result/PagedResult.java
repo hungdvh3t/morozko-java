@@ -1,10 +1,11 @@
 package org.morozko.java.core.util.result;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class PagedResult extends ResultInfo {
+public class PagedResult extends ResultInfo implements Serializable {
 
 	/**
 	 * <p>Page the elements in a List</p>

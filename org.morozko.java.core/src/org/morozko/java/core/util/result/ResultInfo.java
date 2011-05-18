@@ -1,6 +1,13 @@
 package org.morozko.java.core.util.result;
 
-public class ResultInfo {
+import java.io.Serializable;
+
+public class ResultInfo implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7535056453333738172L;
 
 	private String resultCode;
 	

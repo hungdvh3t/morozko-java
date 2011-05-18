@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,9 +54,27 @@ public class VersionConfig extends BasicConfig {
 			String value = VersionUtils.getVersionString( key );
 			pw.println( "<li>"+value+"</li>" );
 		}
-		pw.println( "<ul>" );
+		pw.println( "</ul>" );
+		if ( this.getInitLog() != null ) {
+			pw.println( "<ul>init log:" );
+			Iterator it = this.getInitLog().iterator();
+			while ( it.hasNext() ) {
+				pw.println( "<li>"+it.next()+"</li>" );
+			}	
+		}
+		pw.println( "</ul>" );
 		pw.println( "</body>" );
 		pw.println( "</html>" );
+	}
+	
+	private List initLog;
+
+	public List getInitLog() {
+		return initLog;
+	}
+
+	public void setInitLog(List initLog) {
+		this.initLog = initLog;
 	}
 	
 }
