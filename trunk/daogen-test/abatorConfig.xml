@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE abatorConfiguration PUBLIC "-//Apache Software Foundation//DTD Abator for iBATIS Configuration 1.0//EN" "http://ibatis.apache.org/dtd/abator-config_1_0.dtd" >
+<abatorConfiguration >
+  <abatorContext >
+    <jdbcConnection 
+    	driverClass="com.mysql.jdbc.Driver" 
+    	connectionURL="jdbc:mysql://localhost:3306/fugerit" 
+    	userId="fugerit" password="fugerit" >
+      <classPathEntry location="C:\omnia\eclipse\eclipse-helios\workspace-main\javalibs\jdbc\mysql\mysql-connector-java-5.0.7-bin.jar" />
+    </jdbcConnection>
+    <javaModelGenerator targetPackage="test.daogen.myibatis.model" targetProject="daogen-test" />
+    <sqlMapGenerator targetPackage="test.daogen.myibatis.xml" targetProject="daogen-test" />
+    <daoGenerator targetPackage="test.daogen.myibatis.dao" targetProject="daogen-test" type="GENERIC-CI"/>
+	<table tableName="test_table"/>
+    <!--
+    <table schema="EQUITALIA" tableName="EQ_FRN_DATA_AREA"/>
+    <table schema="EQUITALIA" tableName="EQ_FRN_DATA_TYPE"/>
+    <table schema="EQUITALIA" tableName="EQ_FRN_DATA_INFO"/>
+    <table schema="EQUITALIA" tableName="EQ_FRN_DATA_BLOB"/>    
+	<table schema="EQUITALIA" tableName="pippo" ></table>
+	<table schema="EQUITALIA" tableName="EQ_FRN_APPL" ></table>
+	<table schema="EQUITALIA" tableName="EQ_FRN_AREA" ></table>
+	<table schema="EQUITALIA" tableName="EQ_FRN_JNDI" ></table>
+	<table schema="EQUITALIA" tableName="EQ_FRN_RICHIESTE" ></table>
+	<table schema="EQUITALIA" tableName="EQ_FRN_RICHIESTE_INPUT" ></table>
+	<table schema="EQUITALIA" tableName="EQ_FRN_RICHIESTE_OUTPUT" ></table>
+	<table schema="EQUITALIA" tableName="EQ_FRN_SCHEDULATORE" ></table>
+	<table schema="EQUITALIA" tableName="EQ_FRN_SQL" ></table>
+	-->
+  </abatorContext>
+</abatorConfiguration>
