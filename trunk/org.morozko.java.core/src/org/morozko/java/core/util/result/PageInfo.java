@@ -1,6 +1,13 @@
 package org.morozko.java.core.util.result;
 
-public class PageInfo {
+import java.io.Serializable;
+
+public class PageInfo implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2423423423421L;
 
 	private int number;
 	

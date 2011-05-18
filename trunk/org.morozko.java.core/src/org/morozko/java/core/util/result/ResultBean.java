@@ -57,16 +57,14 @@ public class ResultBean implements Serializable {
 	
 	public static final int RESULT_TYPE_PAGED = 4;
 	
-	public static final String DEFAULT_OK = "0";
-	
-	private String resultCode = DEFAULT_OK;
+	private ResultInfo info;
 
-	public String getResultCode() {
-		return resultCode;
+	public ResultInfo getInfo() {
+		return info;
 	}
 
-	public void setResultCode(String resultCode) {
-		this.resultCode = resultCode;
+	public void setInfo(ResultInfo info) {
+		this.info = info;
 	}
 	
 }

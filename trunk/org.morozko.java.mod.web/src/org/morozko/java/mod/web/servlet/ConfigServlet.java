@@ -4,6 +4,7 @@ import java.io.File;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -28,6 +29,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class ConfigServlet extends LogObjectServlet {
+	
+	public static final String OPERATION_INITLOG = "initlog";
 	
 	public static final String LOAD_TIME = String.valueOf( new java.sql.Timestamp( System.currentTimeMillis() ) );
 	
@@ -79,7 +82,7 @@ public class ConfigServlet extends LogObjectServlet {
 		super.init( config );
 		String configFilePath = config.getInitParameter( "config-file-path" );
 		this.configContext = new ConfigContext( config.getServletContext() );
-		this.log( "ConfigServlet v 0.1.1 2009-11-04" );
+		this.log( "ConfigServlet v 0.1.2 2011-05-18" );
 		logProp( "reading configuration", configFilePath ); 
 		try {
 			File configFile = resolvePath( configFilePath , config.getServletContext() );
@@ -90,12 +93,16 @@ public class ConfigServlet extends LogObjectServlet {
 			Element moduleConfigListTag = searchDOM.findTag( root , "module-config-list" );
 			List moduleConfigList = searchDOM.findAllTags( moduleConfigListTag , "module-config" );
 			Iterator moduleConfigIt = moduleConfigList.iterator();
+			List initLog = new ArrayList();
 			while ( moduleConfigIt.hasNext() ) {
+				String name = null;
+				String type = null;
+				String logMessage = null;
 				try {
 					Element moduleTag = (Element)moduleConfigIt.next();
 					Properties moduleAtts = DOMUtils.attributesToProperties( moduleTag );
-					String name = moduleAtts.getProperty( "name" );
-					String type = moduleAtts.getProperty( "type" );
+					name = moduleAtts.getProperty( "name" );
+					type = moduleAtts.getProperty( "type" );
 					logProp( "configuring module", name );
 					logProp( "module class", type );
 					ConfigurableObject co = (ConfigurableObject)ClassHelper.newInstance( type );
@@ -103,15 +110,19 @@ public class ConfigServlet extends LogObjectServlet {
 						((BasicConfig)co).setConfigContext( configContext );
 						if ( co instanceof VersionConfig ) {
 							this.versionConfig = (VersionConfig) co;
+							this.versionConfig.setInitLog( initLog );
 						} else if ( co instanceof CommandConfig ) {
 							this.commandConfig = (CommandConfig) co;
 						}
 					}
 					co.configure( moduleTag );
-					logProp( "module configured [OK]", name );					
+					logProp( "module configured [OK]", name );
+					logMessage = "[OK] configured";
 				} catch ( Throwable t ) {
 					log( "module configuration failed [KO] "+t );
+					logMessage = "[KO] "+t;
 				}
+				initLog.add( "module:"+name+" type:"+type+" "+logMessage );
 			}
 		} catch (Exception e) {
 			throw ( new ServletException( e ) );
