@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="/javalibs/morozko/mj-core.jar"/>
 	<classpathentry kind="lib" path="/javalibs/morozko/mj-mod-daogen-helpers.jar"/>
 	<classpathentry kind="lib" path="/javalibs/morozko/mj-mod-db.jar"/>
+	<classpathentry kind="lib" path="/javalibs/misc/myibatis/mybatis-3.0.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
