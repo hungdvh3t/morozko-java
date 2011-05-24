@@ -15,7 +15,7 @@ public class MybatisTest {
 
 	public static void main( String[] args ) {
 		try {
-			String resource = "test/daogen/myibatis/xml/config.xml";
+			String resource = "test/daogen/myibatis-config.xml";
 			Reader reader = Resources.getResourceAsReader( resource );
 			SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build( reader );
 			SqlSession sqlSession = sqlSessionFactory.openSession();
