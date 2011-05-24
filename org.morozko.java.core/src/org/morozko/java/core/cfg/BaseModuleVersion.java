@@ -17,10 +17,10 @@ public class BaseModuleVersion implements ModuleVersion {
 		} catch (Exception e) {}
 	}
 	
-	private static HashMap<String, String> LOAD_TIME = new HashMap<String, String>();
+	private static HashMap LOAD_TIME = new HashMap();
 	
 	public String getLoadTime() {
-		return LOAD_TIME.get( this.getClass().getName() );
+		return (String)LOAD_TIME.get( this.getClass().getName() );
 	}
 	
 	private Properties dependancies;
