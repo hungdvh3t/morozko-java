@@ -115,6 +115,7 @@ public class DefaultTableBackup extends BasicLogObject implements TableBackup {
 				result[k] = (String)list.get( k );
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw ( new SQLException( e.toString() ) );
 		}
         return result;
