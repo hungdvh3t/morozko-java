@@ -3,6 +3,8 @@ package org.morozko.java.mod.web.servlet.config;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -17,6 +19,9 @@ import org.morozko.java.mod.web.servlet.ConfigServlet;
 
 public class VersionConfig extends BasicConfig {
 
+
+	private static List appList = Collections.synchronizedList( new ArrayList() );
+	
 	public static final String ATT_NAME = "VERSION_BEAN";
 	
 	private VersionBean versionBean;
@@ -29,6 +34,7 @@ public class VersionConfig extends BasicConfig {
 									props.getProperty( "app-version" ), 
 									props.getProperty( "app-date" ), 
 									BasicModel.TIMESTAMP_FORMAT.format( new Timestamp( System.currentTimeMillis() ) ) );
+		appList.add( this.versionBean );
 		this.getConfigContext().getContext().setAttribute( ATT_NAME , this.versionBean );
 		this.getLog().info( "end" );
 	}	
@@ -63,6 +69,15 @@ public class VersionConfig extends BasicConfig {
 			}	
 		}
 		pw.println( "</ul>" );
+		if ( "1".equalsIgnoreCase( request.getParameter( "applist" ) ) ) {
+			pw.println( "<ul>application list:" );
+			Iterator itApp = appList.iterator();
+			while ( itApp.hasNext() ) {
+				VersionBean currentApp = (VersionBean)itApp.next();
+				pw.println( "<li>"+currentApp.getAppName()+" - "+currentApp.getAppDate()+" - "+currentApp.getAppVersion()+"</li>" );
+			}
+			pw.println( "</ul>" );
+		}
 		pw.println( "</body>" );
 		pw.println( "</html>" );
 	}

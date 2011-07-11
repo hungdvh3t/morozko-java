@@ -38,7 +38,8 @@ public class VersionUtils {
 					versionString = "[03] Impossible to find module version";
 				}
 			} catch (Exception t1) {
-				versionString = "[02] Class module isn't loaded";
+				versionString = "[02] Class module isn't loaded : ("+type+") - "+t1;
+				t1.printStackTrace();
 			}	
 		} else {
 			versionString = "[01] Module does not exist";
