@@ -17,7 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.morozko.java.core.web.filter.HttpFilter;
+import org.morozko.java.core.ent.servlet.filter.HttpFilter;
 import org.morozko.java.core.xml.dom.DOMIO;
 import org.morozko.java.mod.doc.config.DocConfig;
 import org.morozko.java.mod.web.servlet.config.ConfigContext;

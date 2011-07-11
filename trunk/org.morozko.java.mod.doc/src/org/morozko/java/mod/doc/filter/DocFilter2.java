@@ -46,9 +46,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.morozko.java.core.ent.servlet.filter.HttpFilter;
 import org.morozko.java.core.io.StreamIO;
 import org.morozko.java.core.lang.helpers.ClassHelper;
-import org.morozko.java.core.web.filter.HttpFilter;
 import org.morozko.java.core.xml.dom.DOMIO;
 import org.morozko.java.core.xml.dom.DOMUtils;
 import org.morozko.java.core.xml.dom.SearchDOM;
