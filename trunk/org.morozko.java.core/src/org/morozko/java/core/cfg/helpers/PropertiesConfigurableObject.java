@@ -38,6 +38,11 @@ import org.w3c.dom.Element;
  */
 public abstract class PropertiesConfigurableObject  extends AbstractConfigurableObject {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2001953242749817211L;
+
 	/* (non-Javadoc)
 	 * @see org.morozko.java.core.cfg.ConfigurableObject#configure(org.w3c.dom.Element)
 	 */

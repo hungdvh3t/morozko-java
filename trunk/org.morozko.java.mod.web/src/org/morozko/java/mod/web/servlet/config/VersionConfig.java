@@ -20,6 +20,11 @@ import org.morozko.java.mod.web.servlet.ConfigServlet;
 public class VersionConfig extends BasicConfig {
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8415080002663193371L;
+
 	private static List appList = Collections.synchronizedList( new ArrayList() );
 	
 	public static final String ATT_NAME = "VERSION_BEAN";
@@ -34,6 +39,7 @@ public class VersionConfig extends BasicConfig {
 									props.getProperty( "app-version" ), 
 									props.getProperty( "app-date" ), 
 									BasicModel.TIMESTAMP_FORMAT.format( new Timestamp( System.currentTimeMillis() ) ) );
+		appList.remove( this.versionBean );
 		appList.add( this.versionBean );
 		this.getConfigContext().getContext().setAttribute( ATT_NAME , this.versionBean );
 		this.getLog().info( "end" );

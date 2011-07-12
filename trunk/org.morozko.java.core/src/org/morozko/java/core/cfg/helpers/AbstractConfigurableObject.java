@@ -26,6 +26,7 @@
 package org.morozko.java.core.cfg.helpers;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Properties;
 
 import org.morozko.java.core.cfg.ConfigException;
@@ -42,7 +43,12 @@ import org.w3c.dom.Element;
  * @author Morozko
  *
  */
-public abstract class AbstractConfigurableObject extends BasicLogObject implements ConfigurableObject {
+public abstract class AbstractConfigurableObject extends BasicLogObject implements ConfigurableObject, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5893401779153563982L;
 
 	/* (non-Javadoc)
 	 * @see org.morozko.java.core.cfg.ConfigurableObject#configure(java.util.Properties)

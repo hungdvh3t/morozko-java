@@ -2,6 +2,14 @@ package org.morozko.java.mod.web.servlet.config;
 
 public class VersionBean {
 
+	public int hashCode() {
+		return this.getAppName().hashCode();
+	}
+
+	public boolean equals(Object obj) {
+		return this.getAppName().equals( ((VersionBean)obj).getAppName() );
+	}
+
 	private String appName;
 	
 	private String appVersion;
