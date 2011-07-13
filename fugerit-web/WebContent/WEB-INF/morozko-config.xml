@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+
+	<module-config-list>
+	
+		<module-config name="version-config" 
+			app-name="Fugerit Test App"
+			app-date="2011-07-11"
+			app-version="0.1.1"
+			type="org.morozko.java.mod.web.servlet.config.VersionConfig"/>				
+			
+		<module-config name="doc-config" 
+			config="WEB-INF/doc-filter-config.xml"
+			type="org.morozko.java.mod.doc.config.DocServletConfig"/>	
+
+	</module-config-list>
+
+</config>
