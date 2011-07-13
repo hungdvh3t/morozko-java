@@ -34,6 +34,16 @@ import org.w3c.dom.Element;
  */
 public class DefaultDocHandler extends BasicLogObject implements DocHandler {
 
+	private String forward;
+	
+	public String getForward() {
+		return forward;
+	}
+
+	public void setForward(String forward) {
+		this.forward = forward;
+	}
+
 	private String encoding;
 	
 	/* (non-Javadoc)
@@ -55,6 +65,7 @@ public class DefaultDocHandler extends BasicLogObject implements DocHandler {
 		Properties props = DOMUtils.attributesToProperties( config );
 		this.encoding = props.getProperty( "encoding", "ISO-8859-15" );
 		this.getLog().info( "init() encofing : "+this.encoding );
+		this.setForward( props.getProperty( "forward" ) );
 	}
 	
 }

@@ -35,6 +35,7 @@ import org.w3c.dom.Element;
  * </p>
  *
  * @author mfranci
+ * @deprecated this api will be deprecated soon, as Filter infrastructure doesn't fit all the needs, use DocServlet intestad.
  *
  */
 public class DocFilter extends HttpFilter {
