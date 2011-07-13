@@ -38,5 +38,7 @@ public interface DocHandler {
 	public void init( Element config ) throws ConfigException;
 	
 	public String getEncoding();
+
+	public String getForward();
 	
 }
