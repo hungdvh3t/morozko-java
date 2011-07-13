@@ -1,0 +1,21 @@
+<doc-filter>
+
+	<general-config jsp-path="/WEB-INF/print" debug="true" skip-filter="false" 
+		out-mode="pushbody"
+		processing-page="doc-handler.jsp"
+		error-manager="document"
+		helper-type="org.morozko.java.mod.app.test.DocHelperEuro"/>
+
+	<doc-handler-list>
+		<doc-handler name="testdoc1" type="org.morozko.java.mod.doc.filter.DefaultDocHandler"/>
+		<doc-handler name="testdoc2" type="org.morozko.java.mod.doc.filter.DefaultDocHandler"/>
+		<doc-handler name="testdoc4" forward="/test.pdf"/>			
+	</doc-handler-list>
+	
+	<mime-map pdf="application/pdf"
+				rtf="application/rtf"
+				xls="application/excel"
+				html="text/html"
+				xml="text/xml"/>
+
+</doc-filter>
