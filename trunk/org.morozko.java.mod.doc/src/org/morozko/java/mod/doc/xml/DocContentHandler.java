@@ -90,6 +90,7 @@ public class DocContentHandler implements ContentHandler {
 		if ( text.trim().length() > 0 && this.currentElement instanceof DocPhrase ) {	
 			DocPhrase docPhrase = (DocPhrase)this.currentElement;
 			docPhrase.setText( docPhrase.getText()+text );
+			System.out.println( "phrase "+docPhrase.getText() );
 		} else if ( text.trim().length() > 0 && this.currentElement instanceof DocPara ) {
 			DocPara docPara = (DocPara)this.currentElement;
 			docPara.setText( docPara.getText()+text );
@@ -307,6 +308,11 @@ public class DocContentHandler implements ContentHandler {
 			this.currentElement = docPara;
 		} else if ( "phrase".equalsIgnoreCase( qName ) ) {
 			DocPhrase docPhrase = new DocPhrase();
+			// setting phrase size
+			docPhrase.setSize( Integer.parseInt( props.getProperty( "size", "-1" ) ) );
+			// setting phrase style
+			String style = props.getProperty( "style" );
+			docPhrase.setStyle( DocPara.parseStyle( style ) );
 			this.currentElement = docPhrase;			
 		} else if ( "table".equalsIgnoreCase( qName ) ) {
 			DocTable docTable = new DocTable();

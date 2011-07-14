@@ -33,6 +33,105 @@ package org.morozko.java.mod.doc;
  */
 public class DocPara extends DocElement implements DocStyle {
 
+
+	public static final int STYLE_NORMAL = 1;
+	public static final int STYLE_BOLD = 2;
+	public static final int STYLE_UNDERLINE = 3;
+	public static final int STYLE_ITALIC = 4;
+	public static final int STYLE_BOLDITALIC = 5;
+	
+	public static final int ALIGN_UNSET = 0;
+	// h align
+	public static final int ALIGN_LEFT = 1;
+	public static final int ALIGN_CENTER = 2;
+	public static final int ALIGN_RIGHT = 3;
+	public static final int ALIGN_JUSTIFY = 9;
+	// v align
+	public static final int ALIGN_TOP = 4;
+	public static final int ALIGN_MIDDLE = 5;
+	public static final int ALIGN_BOTTOM = 6;	
+	
+	private int style;
+	
+	private int size;
+	
+	private String text;
+
+	
+	
+	private String foreColor;
+	
+	private String backColor;	
+	
+	
+	private String fontName;
+	
+	public String getFontName() {
+		return fontName;
+	}
+
+	public void setFontName(String fontName) {
+		this.fontName = fontName;
+	}
+
+	
+	public String getForeColor() {
+		return foreColor;
+	}
+
+
+
+	public void setForeColor(String foreColor) {
+		this.foreColor = foreColor;
+	}
+
+
+
+	public String getBackColor() {
+		return backColor;
+	}
+
+
+
+	public void setBackColor(String backColor) {
+		this.backColor = backColor;
+	}
+
+
+
+	public int getStyle() {
+		return style;
+	}
+
+
+
+	public void setStyle(int style) {
+		this.style = style;
+	}
+
+
+
+	public int getSize() {
+		return size;
+	}
+
+
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+
+
+	public String getText() {
+		return text;
+	}
+
+
+
+	public void setText(String text) {
+		this.text = text;
+	}
 	
 	private Float spaceBefore;
 	
@@ -65,7 +164,7 @@ public class DocPara extends DocElement implements DocStyle {
 	}
 
 	public DocPara() {
-		this.text = "";
+		this.setText( "" );
 	}
 	
 	public static int parseStyle( String style ) {
@@ -82,42 +181,8 @@ public class DocPara extends DocElement implements DocStyle {
 		return result;
 	}
 	
-	public static final int STYLE_NORMAL = 1;
-	public static final int STYLE_BOLD = 2;
-	public static final int STYLE_UNDERLINE = 3;
-	public static final int STYLE_ITALIC = 4;
-	public static final int STYLE_BOLDITALIC = 5;
-	
-	public static final int ALIGN_UNSET = 0;
-	// h align
-	public static final int ALIGN_LEFT = 1;
-	public static final int ALIGN_CENTER = 2;
-	public static final int ALIGN_RIGHT = 3;
-	public static final int ALIGN_JUSTIFY = 9;
-	// v align
-	public static final int ALIGN_TOP = 4;
-	public static final int ALIGN_MIDDLE = 5;
-	public static final int ALIGN_BOTTOM = 6;	
-	
-	private String fontName;
-	
-	public String getFontName() {
-		return fontName;
-	}
-
-	public void setFontName(String fontName) {
-		this.fontName = fontName;
-	}
-
-	private int style;
-	
-	private int size;
-	
 	private int align;
-	
-	private String foreColor;
-	
-	private String backColor;	
+
 	
 	private String type;
 	
@@ -127,34 +192,6 @@ public class DocPara extends DocElement implements DocStyle {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	/**
-	 * @return the backColor
-	 */
-	public String getBackColor() {
-		return backColor;
-	}
-
-	/**
-	 * @param backColor the backColor to set
-	 */
-	public void setBackColor(String backColor) {
-		this.backColor = backColor;
-	}
-
-	/**
-	 * @return the foreColor
-	 */
-	public String getForeColor() {
-		return foreColor;
-	}
-
-	/**
-	 * @param foreColor the foreColor to set
-	 */
-	public void setForeColor(String foreColor) {
-		this.foreColor = foreColor;
 	}
 
 	/**
@@ -171,52 +208,11 @@ public class DocPara extends DocElement implements DocStyle {
 		this.align = align;
 	}
 
-	/**
-	 * @return the size
-	 */
-	public int getSize() {
-		return size;
-	}
-
-	/**
-	 * @param size the size to set
-	 */
-	public void setSize(int size) {
-		this.size = size;
-	}
 
 	public String toString() {
 		return super.toString()+"[text:"+this.getText()+"]";
 	}
 	
-	private String text;
 
-	/**
-	 * @return the text
-	 */
-	public String getText() {
-		return text;
-	}
-
-	/**
-	 * @param text the text to set
-	 */
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	/**
-	 * @return the style
-	 */
-	public int getStyle() {
-		return style;
-	}
-
-	/**
-	 * @param style the style to set
-	 */
-	public void setStyle(int style) {
-		this.style = style;
-	}
 	
 }
