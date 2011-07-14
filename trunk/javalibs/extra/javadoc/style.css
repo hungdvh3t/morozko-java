@@ -1,0 +1,25 @@
+body {
+	font-family: Courier;
+	background-color: #000000; 
+	color: #ffffff;
+	font-size: 10px;
+}
+
+table td {
+	background-color: #000000; 
+	color: #ffffff;	
+}
+
+table th {
+	background-color: #000000; 
+	color: #ffffff;	
+}
+
+a {
+	color: #33ff66;
+	text-decoration: none;
+}
+a:link    { color: #33ff66; }
+a:visited { color: #33ff66; }
+a:hover   { color: #33ff66; }
+a:active  { color: #33ff66; }
