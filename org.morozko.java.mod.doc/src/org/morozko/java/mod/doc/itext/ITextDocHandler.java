@@ -57,7 +57,6 @@ import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
 import com.lowagie.text.Header;
 import com.lowagie.text.HeaderFooter;
 import com.lowagie.text.Image;
@@ -183,9 +182,12 @@ public class ITextDocHandler implements DocHandler {
 		return image;
 	}	
 	
-	protected static Phrase createPhrase( DocPhrase docPhrase ) {
+	protected static Phrase createPhrase( DocPhrase docPhrase, ITextHelper docHelper ) throws Exception {
 		String text = docPhrase.getText();
-		Phrase p = new Phrase( text, new Font( Font.HELVETICA, 10, 0 ) );
+		int style = docPhrase.getStyle();
+		String fontName = docPhrase.getFontName();
+		Font f = createFont(fontName, docPhrase.getSize(), style, docHelper );
+		Phrase p = new Phrase( text, f );
 		return p;
 	}	
 	
@@ -308,7 +310,7 @@ public class ITextDocHandler implements DocHandler {
 						DocPhrase docPhrase = (DocPhrase)docElement;
 						//setStyle( docCell , docPara );
 						LogFacade.getLog().info( "phrase" );
-						cellParent.add( createPhrase( docPhrase ) );						
+						cellParent.add( createPhrase( docPhrase, docHelper ) );						
 					} else if ( docElement instanceof DocTable ) {
 						LogFacade.getLog().debug( "nested table" );
 						table.insertTable( createTable( (DocTable)docElement, docHelper ) );
@@ -491,7 +493,12 @@ public class ITextDocHandler implements DocHandler {
 	protected static Element getElement( Document document, DocElement docElement, boolean addElement, ITextHelper docHelper ) throws Exception {
 		Element result = null;
 		DocumentParent documentParent = new DocumentParent( document );
-		if ( docElement instanceof DocPara ) {
+		if ( docElement instanceof DocPhrase ) {
+			result = createPhrase( (DocPhrase)docElement, docHelper );
+			if ( addElement ) {
+				documentParent.add( result );	
+			}
+		} else if ( docElement instanceof DocPara ) {
 			result = createPara( (DocPara)docElement, docHelper );
 			if ( addElement ) {
 				documentParent.add( result );	
