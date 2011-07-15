@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.morozko.java.core.log.LogFacade;
@@ -52,6 +53,7 @@ import org.morozko.java.mod.doc.DocRow;
 import org.morozko.java.mod.doc.DocStyle;
 import org.morozko.java.mod.doc.DocTable;
 
+import com.itextpdf.text.log.SysoLogger;
 import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -193,16 +195,27 @@ public class ITextDocHandler implements DocHandler {
 		return p;
 	}	
 	
-	protected static Phrase createPhrase( DocPhrase docPhrase, ITextHelper docHelper ) throws Exception {
+	protected static Phrase createPhrase( DocPhrase docPhrase, ITextHelper docHelper, List fontMap ) throws Exception {
 		String text = docPhrase.getText();
 		int style = docPhrase.getStyle();
 		String fontName = docPhrase.getFontName();
 		Font f = createFont(fontName, docPhrase.getSize(), style, docHelper );
 		Phrase p = new Phrase( text, f );
+		if (fontMap != null) {
+			fontMap.add( f );
+		}
 		return p;
-	}	
+	}
 	
+	protected static Phrase createPhrase( DocPhrase docPhrase, ITextHelper docHelper ) throws Exception {
+		return createPhrase(docPhrase, docHelper, null);
+	}	
+
 	protected static Paragraph createPara( DocPara docPara, ITextHelper docHelper ) throws Exception {
+		return createPara(docPara, docHelper, null);
+	}
+	
+	protected static Paragraph createPara( DocPara docPara, ITextHelper docHelper, List fontMap ) throws Exception {
 		int style = docPara.getStyle();
 		String text = docPara.getText();
 //		if ( DOC_OUTPUT_HTML.equals( this.docType ) ) {
@@ -216,6 +229,7 @@ public class ITextDocHandler implements DocHandler {
 //		}
 		String fontName = docPara.getFontName();
 		Font f = createFont(fontName, docPara.getSize(), style, docHelper );
+		Phrase phrase = new Phrase( text, f );
 		Paragraph p = new Paragraph( new Phrase( text, f ) );
 		if ( docPara.getForeColor() != null ) {
 			Color c = parseHtmlColor( docPara.getForeColor() );
@@ -235,6 +249,10 @@ public class ITextDocHandler implements DocHandler {
 			p.setSpacingAfter( docPara.getSpaceAfter().floatValue() );
 		}
 		p.setFont( f );
+		phrase.setFont( f );
+		if ( fontMap != null ) {
+			fontMap.add( f );
+		}
 		return p;
 	}
 	
@@ -312,21 +330,19 @@ public class ITextDocHandler implements DocHandler {
 				}				
 				CellParent cellParent = new CellParent( cell );
 				Iterator itCurrent = docCell.docElements();
+				List fontList = new ArrayList();
 				while ( itCurrent.hasNext() ) {
 					DocElement docElement = (DocElement) itCurrent.next();
 					if ( docElement instanceof DocPara ) {
 						DocPara docPara = (DocPara)docElement;
 						setStyle( docCell , docPara );
-						Paragraph paragraph = createPara( docPara, docHelper );
-//						BaseFont bf = (BaseFont)fonts.get( "garamond" );
-						//BaseFont bf = BaseFont.createFont( "/font/gara.tff", BaseFont.CP1257, true );
-//						paragraph.setFont( new Font( bf ) );
+						Paragraph paragraph = createPara( docPara, docHelper, fontList );
 						cellParent.add( paragraph );
 					} else if ( docElement instanceof DocPhrase ) {
 						DocPhrase docPhrase = (DocPhrase)docElement;
 						//setStyle( docCell , docPara );
 						LogFacade.getLog().info( "phrase" );
-						cellParent.add( createPhrase( docPhrase, docHelper ) );						
+						cellParent.add( createPhrase( docPhrase, docHelper, fontList ) );						
 					} else if ( docElement instanceof DocTable ) {
 						LogFacade.getLog().debug( "nested table" );
 						table.insertTable( createTable( (DocTable)docElement, docHelper ) );
@@ -336,8 +352,15 @@ public class ITextDocHandler implements DocHandler {
 					}
 				}
 				table.addCell( cell );
+				List listChunk = cell.getChunks();
+				for ( int k=0; k<listChunk.size(); k++ ) {
+					Chunk c = (Chunk)listChunk.get( k );
+					Font f = (Font) fontList.get( k );
+					c.setFont( f );
+				}
 			}
 		}
+
 		return table;
 	}
 	
