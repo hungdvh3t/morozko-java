@@ -199,6 +199,8 @@ public class DocFacade {
 	public static void main( String[] args ) {
 		try {
 			
+			//ITextDocHandler.registerFont( "garamond", "/font/gara.ttf");
+			
 			File file = new File( args[0] );
 			
 			File outputDir = new File( args[1] );
