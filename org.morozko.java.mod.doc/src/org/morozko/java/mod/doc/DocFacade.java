@@ -199,7 +199,7 @@ public class DocFacade {
 	public static void main( String[] args ) {
 		try {
 			
-			//ITextDocHandler.registerFont( "garamond", "/font/gara.ttf");
+			ITextDocHandler.registerFont( "garamond", "/ext/font/symbol.ttf");
 			
 			File file = new File( args[0] );
 			
