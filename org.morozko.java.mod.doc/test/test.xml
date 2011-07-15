@@ -8,7 +8,6 @@
 
 	<meta>
 	
-		<info name="default-font-name">garamond</info>
 		<info name="page-orient">horizontal</info>
         <info name="excel-table-id">excel-table=Abilitazioni</info>
         <info name="excel-width-multiplier">400</info>
@@ -53,7 +52,11 @@
     			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para style="bold">Abilitazione</para></cell>
     			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para style="bold">Società</para></cell>
     		</row> 			    			
-    		
+    		<row>
+    			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para>test1</para><phrase>test1</phrase><image url="https://ssl.gstatic.com/s2/oz/images/google-logo-plus-0fbe8f0119f4a902429a5991af5db563.png"/></cell>
+    			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para style="bold">Abilitazione</para></cell>
+    			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para style="bold">Società</para></cell>
+    		</row> 			    		
     	</table>
   </body>
   
