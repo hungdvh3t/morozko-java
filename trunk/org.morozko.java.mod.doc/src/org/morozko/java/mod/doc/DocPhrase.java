@@ -18,6 +18,16 @@ public class DocPhrase extends DocElement implements DocStyle {
 		
 	private String fontName;
 	
+	private Float leading;
+	
+	public Float getLeading() {
+		return leading;
+	}
+
+	public void setLeading(Float leading) {
+		this.leading = leading;
+	}
+	
 	public String getFontName() {
 		return fontName;
 	}

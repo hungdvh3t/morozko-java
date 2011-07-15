@@ -86,7 +86,8 @@ public class ITextDocHandler implements DocHandler {
 	private static HashMap fonts = new HashMap();
 
 	public static void registerFont( String name, String path ) throws Exception {
-		registerFont( name, BaseFont.createFont( path, BaseFont.CP1252, true ) );
+		BaseFont font = BaseFont.createFont( path, BaseFont.CP1252, true );
+		registerFont( name, font );
 	}
 	
 	public static void registerFont( String name, BaseFont font ) {
@@ -94,7 +95,8 @@ public class ITextDocHandler implements DocHandler {
 	}
 	
 	public static BaseFont findFont( String name ) {
-		return (BaseFont)fonts.get( name );
+		BaseFont res = (BaseFont)fonts.get( name );
+		return res;
 	}
 	
 	private static void setStyle( DocStyle parent, DocStyle current ) {
@@ -182,6 +184,15 @@ public class ITextDocHandler implements DocHandler {
 		return image;
 	}	
 	
+	protected static Chunk createChunk( DocPhrase docPhrase, ITextHelper docHelper ) throws Exception {
+		String text = docPhrase.getText();
+		int style = docPhrase.getStyle();
+		String fontName = docPhrase.getFontName();
+		Font f = createFont(fontName, docPhrase.getSize(), style, docHelper );
+		Chunk p = new Chunk( text, f );
+		return p;
+	}	
+	
 	protected static Phrase createPhrase( DocPhrase docPhrase, ITextHelper docHelper ) throws Exception {
 		String text = docPhrase.getText();
 		int style = docPhrase.getStyle();
@@ -222,7 +233,8 @@ public class ITextDocHandler implements DocHandler {
 		}
 		if ( docPara.getSpaceAfter() != null ) {
 			p.setSpacingAfter( docPara.getSpaceAfter().floatValue() );
-		}		
+		}
+		p.setFont( f );
 		return p;
 	}
 	
@@ -305,7 +317,11 @@ public class ITextDocHandler implements DocHandler {
 					if ( docElement instanceof DocPara ) {
 						DocPara docPara = (DocPara)docElement;
 						setStyle( docCell , docPara );
-						cellParent.add( createPara( docPara, docHelper ) );
+						Paragraph paragraph = createPara( docPara, docHelper );
+//						BaseFont bf = (BaseFont)fonts.get( "garamond" );
+						//BaseFont bf = BaseFont.createFont( "/font/gara.tff", BaseFont.CP1257, true );
+//						paragraph.setFont( new Font( bf ) );
+						cellParent.add( paragraph );
 					} else if ( docElement instanceof DocPhrase ) {
 						DocPhrase docPhrase = (DocPhrase)docElement;
 						//setStyle( docCell , docPara );
@@ -396,7 +412,6 @@ public class ITextDocHandler implements DocHandler {
 		String defaultFontName = info.getProperty( DOC_DEFAULT_FONT_NAME, "helvetica" );
 		String defaultFontSize = info.getProperty( DOC_DEFAULT_FONT_SIZE, "10" );
 		String defaultFontStyle = info.getProperty( DOC_DEFAULT_FONT_STYLE, "normal" );
-		
 		ITextHelper docHelper = new ITextHelper();
 		docHelper.setDefFontName( defaultFontName );
 		docHelper.setDefFontStyle( defaultFontStyle );
@@ -447,7 +462,7 @@ public class ITextDocHandler implements DocHandler {
 		DocHeader docHeader = docBase.getDocHeader();
 		if ( docHeader != null && docHeader.isUseHeader() ) {
 			if ( docHeader.isBasic() ) {
-				HeaderFooter header = this.createHeaderFoter( docHeader, docHeader.getAlign() );
+				HeaderFooter header = this.createHeaderFoter( docHeader, docHeader.getAlign(), docHelper );
 				this.document.setHeader( header );	
 			} else {
 				if ( DOC_OUTPUT_PDF.equals( this.docType ) ) {
@@ -460,7 +475,7 @@ public class ITextDocHandler implements DocHandler {
 		DocFooter docFooter = docBase.getDocFooter();
 		if ( docFooter != null && docFooter.isUseFooter() ) {
 			if ( docFooter.isBasic() ) {
-				HeaderFooter footer = this.createHeaderFoter( docFooter, docFooter.getAlign() );
+				HeaderFooter footer = this.createHeaderFoter( docFooter, docFooter.getAlign(), docHelper );
 				this.document.setFooter( footer );	
 			} else {
 				if ( DOC_OUTPUT_PDF.equals( this.docType ) ) {
@@ -519,12 +534,21 @@ public class ITextDocHandler implements DocHandler {
 		return result;
 	}
 	
-	private HeaderFooter createHeaderFoter( DocHeaderFooter container, int align ) throws Exception {
+	private HeaderFooter createHeaderFoter( DocHeaderFooter container, int align, ITextHelper docHelper ) throws Exception {
 		Iterator it = container.docElements(); 
 		Phrase phrase = new Phrase();
+		float leading = (float)-1.0;
 		while ( it.hasNext() ) {
 			DocElement docElement = (DocElement)it.next();
-			if ( docElement instanceof DocPara ) {
+			if ( docElement instanceof DocPhrase ) {
+				DocPhrase docPhrase = (DocPhrase) docElement;
+				Chunk ck = createChunk( docPhrase, docHelper );
+				if( docPhrase.getLeading() != null && docPhrase.getLeading().floatValue() != leading ) {
+					leading = docPhrase.getLeading().floatValue();
+					phrase.setLeading( leading );
+				}
+				phrase.add( ck );
+			} else  if ( docElement instanceof DocPara ) {
 				DocPara docPara = (DocPara) docElement;
 				if ( docPara.getLeading() != null ) {
 					phrase.setLeading( docPara.getLeading().floatValue() );
