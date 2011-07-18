@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import org.morozko.java.core.log.LogFacade;
@@ -53,7 +52,6 @@ import org.morozko.java.mod.doc.DocRow;
 import org.morozko.java.mod.doc.DocStyle;
 import org.morozko.java.mod.doc.DocTable;
 
-import com.itextpdf.text.log.SysoLogger;
 import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -353,10 +351,13 @@ public class ITextDocHandler implements DocHandler {
 				}
 				table.addCell( cell );
 				List listChunk = cell.getChunks();
-				for ( int k=0; k<listChunk.size(); k++ ) {
-					Chunk c = (Chunk)listChunk.get( k );
-					Font f = (Font) fontList.get( k );
-					c.setFont( f );
+				if ( listChunk.size() == fontList.size() ) {
+					for ( int k=0; k<listChunk.size(); k++ ) {
+						Chunk c = (Chunk)listChunk.get( k );
+						System.out.println( "curr "+k+" : "+c.getContent() );
+						Font f = (Font) fontList.get( k );
+						c.setFont( f );
+					}
 				}
 			}
 		}
