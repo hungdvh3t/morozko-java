@@ -188,7 +188,7 @@ public class ITextDocHandler implements DocHandler {
 		String text = docPhrase.getText();
 		int style = docPhrase.getStyle();
 		String fontName = docPhrase.getFontName();
-		Font f = createFont(fontName, docPhrase.getSize(), style, docHelper );
+		Font f = createFont(fontName, docPhrase.getSize(), style, docHelper, docPhrase.getForeColor() );
 		Chunk p = new Chunk( text, f );
 		return p;
 	}	
@@ -197,7 +197,7 @@ public class ITextDocHandler implements DocHandler {
 		String text = docPhrase.getText();
 		int style = docPhrase.getStyle();
 		String fontName = docPhrase.getFontName();
-		Font f = createFont(fontName, docPhrase.getSize(), style, docHelper );
+		Font f = createFont(fontName, docPhrase.getSize(), style, docHelper, docPhrase.getForeColor() );
 		Phrase p = new Phrase( text, f );
 		if (fontMap != null) {
 			fontMap.add( f );
@@ -226,13 +226,14 @@ public class ITextDocHandler implements DocHandler {
 //			text = buffer.toString();
 //		}
 		String fontName = docPara.getFontName();
-		Font f = createFont(fontName, docPara.getSize(), style, docHelper );
+		Font f = createFont(fontName, docPara.getSize(), style, docHelper, docPara.getForeColor() );
 		Phrase phrase = new Phrase( text, f );
 		Paragraph p = new Paragraph( new Phrase( text, f ) );
 		if ( docPara.getForeColor() != null ) {
 			Color c = parseHtmlColor( docPara.getForeColor() );
 			Font f1 = new Font( f.getFamily(), f.getSize(), f.getStyle(), c );
 			p = new Paragraph( new Phrase( text, f1 ) );
+			//f = f1;
 		}
 		if ( docPara.getAlign() != DocPara.ALIGN_UNSET ) {
 			p.setAlignment( getAlign( docPara.getAlign() ) );
@@ -339,7 +340,6 @@ public class ITextDocHandler implements DocHandler {
 					} else if ( docElement instanceof DocPhrase ) {
 						DocPhrase docPhrase = (DocPhrase)docElement;
 						//setStyle( docCell , docPara );
-						LogFacade.getLog().info( "phrase" );
 						cellParent.add( createPhrase( docPhrase, docHelper, fontList ) );						
 					} else if ( docElement instanceof DocTable ) {
 						LogFacade.getLog().debug( "nested table" );
@@ -354,7 +354,6 @@ public class ITextDocHandler implements DocHandler {
 				if ( listChunk.size() == fontList.size() ) {
 					for ( int k=0; k<listChunk.size(); k++ ) {
 						Chunk c = (Chunk)listChunk.get( k );
-						System.out.println( "curr "+k+" : "+c.getContent() );
 						Font f = (Font) fontList.get( k );
 						c.setFont( f );
 					}
@@ -385,14 +384,16 @@ public class ITextDocHandler implements DocHandler {
 		return rtfHeaderFooter;
 	}
 	
-	private static Font createFont( String fontName, int fontSize, int fontStyle, ITextHelper docHelper ) throws Exception {
-		return createFont(fontName, fontName, fontSize, fontStyle, docHelper);
+	private static Font createFont( String fontName, int fontSize, int fontStyle, ITextHelper docHelper, String color ) throws Exception {
+		return createFont(fontName, fontName, fontSize, fontStyle, docHelper, color);
 	}
 	
-	private static Font createFont( String fontName, String fontPath, int fontSize, int fontStyle, ITextHelper docHelper ) throws Exception {
+	private static Font createFont( String fontName, String fontPath, int fontSize, int fontStyle, ITextHelper docHelper, String color ) throws Exception {
 		Font font = null;
 		int size = fontSize;
 		int style = Font.NORMAL;
+		BaseFont bf = null;
+		int bfV = -1;
 		if ( size == -1 ) {
 			size = Integer.parseInt( docHelper.getDefFontSize() );
 		}
@@ -409,20 +410,28 @@ public class ITextDocHandler implements DocHandler {
 			fontName = docHelper.getDefFontName();
 		}
 		if ( "helvetica".equalsIgnoreCase( fontName ) ) {
-			font = new Font( Font.HELVETICA, size, style );
+			bfV = Font.HELVETICA;
 		} else if ( "courier".equalsIgnoreCase( fontName ) ) {
-			font = new Font( Font.COURIER, size, style );
+			bfV = Font.COURIER;
 		} else if ( "times-roman".equalsIgnoreCase( fontName ) ) {
-			font = new Font( Font.TIMES_ROMAN, size, style );
+			bfV = Font.TIMES_ROMAN;
 		} else if ( "symbol".equalsIgnoreCase( fontName ) ) {
-			font = new Font( Font.SYMBOL, size, style );
+			bfV = Font.SYMBOL;
 		} else {
-			BaseFont bf = findFont( fontName );
+			bf = findFont( fontName );
 			if ( bf == null) {
 				bf = BaseFont.createFont( fontPath, BaseFont.CP1252, true );
 				registerFont( fontName, bf );
 			}
-			font = new Font( bf, size, style );
+		}
+		Color c = Color.BLACK;
+		if ( color != null ) {
+			c = parseHtmlColor( color );
+		}
+		if ( bfV == -1 ) {
+			font = new Font( bf, size, style, c );	
+		} else {
+			font = new Font( bfV, size, style, c );
 		}
 		return font;
 	}
