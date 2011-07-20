@@ -46,6 +46,7 @@ public class DocPara extends DocElement implements DocStyle {
 	public static final int ALIGN_CENTER = 2;
 	public static final int ALIGN_RIGHT = 3;
 	public static final int ALIGN_JUSTIFY = 9;
+	public static final int ALIGN_JUSTIFY_ALL = 8;
 	// v align
 	public static final int ALIGN_TOP = 4;
 	public static final int ALIGN_MIDDLE = 5;

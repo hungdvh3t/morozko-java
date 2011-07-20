@@ -20,7 +20,7 @@
 
 <!ENTITY % BasicElement "( para | table | image | phrase )">
 
-<!ENTITY % AlignType "( left | center | right )">
+<!ENTITY % AlignType "( left | center | right | justify | justifyall )">
 
 <!ENTITY % StyleType "( normal | bold | underline | italic | bolditalic )">
 

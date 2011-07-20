@@ -158,9 +158,7 @@ public class DocContentHandler implements ContentHandler {
 	 * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public void endElement(String uri, String localName, String qName) throws SAXException {
-		//System.out.println( "END : "+qName );
 		if ( CONTAINER_LIST.contains( qName ) ) {
-			//System.out.println( "END : "+qName+" CHANGE " );
 			if ( !this.parents.isEmpty() ) {
 				this.currentContainer = (DocContainer)this.parents.remove( this.parents.size()-1 );	
 			} else {
@@ -178,8 +176,9 @@ public class DocContentHandler implements ContentHandler {
 		} else if ( "left".equalsIgnoreCase( align ) ) {
 			result = DocPara.ALIGN_LEFT;
 		} else if ( "justify".equalsIgnoreCase( align ) ) {
-			System.out.println( "JUSTIFY" );
 			result = DocPara.ALIGN_JUSTIFY;
+		} else if ( "justifyall".equalsIgnoreCase( align ) ) {
+			result = DocPara.ALIGN_JUSTIFY_ALL;
 		}
 		return result;
 	}	
