@@ -1,5 +1,5 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<c:set var="lista" value="E;F;G;H;I"/>
 <doc>
   <metadata>   	
   	 	 <info name="page-orient">horizontal</info>
@@ -13,8 +13,8 @@
     
     <table columns="5"  colwidths="20;20;20;20;20"  width="100" id="excel-table">
     	<row>
-	        <cell header="true">
-	          <para>A1</para>
+	        <cell header="true" align="justify">
+	          <para>sdgsdfdsk ndsgnds jndsko nkgnfsk nskdnkngn skgsn knskog ndsko nsokgn</para>
 	        </cell>
 	        <cell header="true">
 	          <para>A2</para>
@@ -28,7 +28,12 @@
 	        <cell header="true">
 	          <para>A5</para>
 	        </cell>
-      	</row>    
+      	</row>
+      	
+      		<c:forTokens items="${lista}" delims=";" var="curr">
+      			<row><cell colspan="5"><para>${curr}</para></cell></row>    
+      		</c:forTokens>
+      	
     	<row>
 	        <cell>
 	          <para>B1</para>
