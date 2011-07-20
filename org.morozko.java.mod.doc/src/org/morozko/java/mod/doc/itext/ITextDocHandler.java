@@ -155,6 +155,8 @@ public class ITextDocHandler implements DocHandler {
 		} else if ( align == DocPara.ALIGN_CENTER ) {
 			r = Element.ALIGN_CENTER;	
 		} else if ( align == DocPara.ALIGN_JUSTIFY ) {
+			r = Element.ALIGN_JUSTIFIED;
+		} else if ( align == DocPara.ALIGN_JUSTIFY_ALL ) {
 			r = Element.ALIGN_JUSTIFIED_ALL;
 		}
 		return r;

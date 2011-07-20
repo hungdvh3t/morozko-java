@@ -48,12 +48,12 @@
   
     	<table columns="3" colwidths="40;30;30"  width="100" id="excel-table">
     		<row>
-    			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para font-name="garamond" style="bold">Utente</para></cell>
-    			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para style="bold">Abilitazione</para></cell>
-    			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para style="bold">Società</para></cell>
+    			<cell back-color="#ff0000" fore-color="#00ff00" border-width="2" align="center"><para font-name="garamond" style="bold">Utente</para></cell>
+    			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="justify"><para style="bold">Abilitazione edbfgsdjh sfghso sdfjhgo sjhgsfgo fosf jkosfgko sgio sgkojhn sdko dog jhsfoi sjog nsfogn o oih oh uotbhuj baduoqeb oub</para></cell>
+    			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="justifyall"><para style="bold">Abilitazione edbfgsdjh sfghso sdfjhgo sjhgsfgo fosf jkosfgko sgio sgkojhn sdko dog jhsfoi sjog nsfogn o oih oh uotbhuj baduoqeb oub</para></cell>
     		</row> 			    			
     		<row>
-    			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para>test1</para><phrase>test2</phrase><image url="http://26.2.205.72/NSRHomeWeb/html/common/img/logo.gif"/></cell>
+    			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para>test1</para><phrase>test2</phrase><!--<image url="http://26.2.205.72/NSRHomeWeb/html/common/img/logo.gif"/>--></cell>
     			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para style="bold">Abilitazione</para></cell>
     			<cell back-color="#ff0000" fore-color="#ffffff" border-width="2" align="center"><para style="bold">Società</para></cell>
     		</row> 			    		
