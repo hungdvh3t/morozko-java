@@ -25,10 +25,14 @@
  */
 package org.morozko.java.mod.doc.tlds;
 
+import java.io.File;
+import java.net.MalformedURLException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 
 import org.morozko.java.core.ent.tld.helpers.TagSupportHelper;
+import org.morozko.java.core.log.LogFacade;
 
 /**
  * <p>/p>
@@ -45,6 +49,16 @@ public class ImageTag extends TagSupportHelper {
 
 	private String url;
 	
+	private String file;
+	
+	public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
+	}
+
 	private String scaling;
 
 	private String webapp;
@@ -97,16 +111,30 @@ public class ImageTag extends TagSupportHelper {
 	public int doStartTag() throws JspException {
 		StringBuffer render = new StringBuffer();
 		render.append( "<image url='" );
-		HttpServletRequest request = (HttpServletRequest)this.pageContext.getRequest();
-		if ( this.getWebapp()== null || "true".equalsIgnoreCase( this.getWebapp() ) ) {
-			render.append( request.getScheme() );
-			render.append( "://" );
-			render.append( request.getServerName() );
-			render.append( ":" );
-			render.append( request.getServerPort() );
-			render.append( request.getContextPath() );
+		if ( this.getUrl() != null ) {			
+			HttpServletRequest request = (HttpServletRequest)this.pageContext.getRequest();
+			if ( this.getWebapp()== null || "true".equalsIgnoreCase( this.getWebapp() ) ) {
+				render.append( request.getScheme() );
+				render.append( "://" );
+				render.append( request.getServerName() );
+				render.append( ":" );
+				render.append( request.getServerPort() );
+				render.append( request.getContextPath() );
+			}
+			render.append( this.getUrl() );
+		} else if ( this.getFile() != null ) {
+			File base = new File( pageContext.getServletContext().getRealPath( "/" ) );
+			LogFacade.getLog().info( "ImageTag > base dir : "+base.getAbsolutePath() );
+			File file = new File( base, this.file );
+			try {
+				LogFacade.getLog().info( "ImageTag > file url : "+file.toURL() );
+				render.append( file.toURL().toString() );
+			} catch (MalformedURLException e) {
+				throw ( new JspException( e.toString(), e ) );
+			}
+		} else {
+			throw ( new JspException( "Either url or file attribute must be declared!" ) );
 		}
-		render.append( this.getUrl() );
 		render.append( "'" );
 		if ( this.getScaling() != null ) {
 			render.append( " scaling='"  );

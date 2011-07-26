@@ -37,7 +37,12 @@
 <bodycontent>JSP</bodycontent>
 <attribute>
 <name>url</name>
-<required>true</required>
+<required>false</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+<attribute>
+<name>file</name>
+<required>false</required>
 <rtexprvalue>true</rtexprvalue>
 </attribute>
 <attribute>
