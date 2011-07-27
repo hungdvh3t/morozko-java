@@ -2,6 +2,7 @@ package org.morozko.java.mod.codegen.handler;
 
 import java.util.List;
 
+import org.morozko.java.core.log.LogFacade;
 import org.morozko.java.mod.codegen.GenHelper;
 import org.morozko.java.mod.codegen.NavMap;
 import org.morozko.java.mod.codegen.NavNode;
@@ -55,7 +56,9 @@ public class DaogenHandler extends Coder {
 			String table = operation.split( ":" )[1];
 			DGConfig daogen = navMap.getDaogen( table );
 			TableConfig tc = daogen.getTable( table );
-			LoadConfig lc = tc.getLoad( operation.split( ":" )[2] );
+			String loadName = operation.split( ":" )[2];
+			LogFacade.getLog().info( "loadName : "+loadName );
+			LoadConfig lc = tc.getLoad( loadName );
 			// facade body
 			String daoPack = daogen.getGeneralProps().getProperty( "package.dao" );
 			String daoFactoryType = daoPack+"."+daogen.getGeneralProps().getProperty( "factory.dao.module" );
