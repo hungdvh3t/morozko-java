@@ -158,8 +158,10 @@ public class Generate {
             }            
             
             if ("true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.dao" ) )) {
+            	
             	File daoFileTrue = new File( baseDirTrue, createPath( generalProps.getProperty( "package.dao" ), name+"DAO.java" ) );
                 TrueCoder.createTrueFile( dgConfig, daoFileTrue, name+"DAO", generalProps.getProperty( "package.dao" ), TrueCoder.TYPE_DAO );
+                System.out.println( "TEST "+daoFileTrue+" : "+daoFileTrue.exists() );
             }
             if ("true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.bean" ) )) {
                 File beanFileTrue = new File( baseDirTrue, createPath( generalProps.getProperty( "package.bean" ), name+"Bean.java" ) );
