@@ -12,9 +12,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import org.morozko.java.mod.web.actions.AbstractAction;
-import org.morozko.java.core.ent.servlet.request.ParamMap;
 import org.morozko.java.core.util.result.ResultBean;
-import org.morozko.java.mod.web.servlet.config.SessionContext;
+import org.morozko.java.mod.web.servlet.config.ActionContext;
 import org.morozko.java.mod.web.utils.MessageUtils;
 import {12}.{9};
 import {13}.{14};
@@ -36,10 +35,9 @@ public class {0} extends AbstractAction '{'
 		if ( actionForm != null ) '{'
 			dto =  actionForm.toDTO();
 		'}'
-		SessionContext sessionContext = SessionContext.getHttpSessionContext( request );
-		ParamMap paramMap = ParamMap.getParamMap( request );
+		ActionContext actionContext = ActionContext.newContext( request, response, this.getServlet().getServletContext() );
 		{16} facade = {17}FacadeFactory.getInstance().get{16}();
-		ResultBean result = facade.handle{19}( dto, paramMap, sessionContext );
+		ResultBean result = facade.handle{19}( dto, actionContext );
 		if ( result != null ) '{'
 		    MessageUtils.queueOperationOk( request );
 			request.setAttribute( "result", result.getResult() );	
