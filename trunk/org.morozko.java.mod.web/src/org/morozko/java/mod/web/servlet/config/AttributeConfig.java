@@ -11,6 +11,11 @@ import org.w3c.dom.Element;
 
 public class AttributeConfig extends BasicConfig {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8260541569146010622L;
+
 	public void configure(Properties props) throws ConfigException {
 		throw ( new ConfigException( "Unsupported" ) );
 	}
