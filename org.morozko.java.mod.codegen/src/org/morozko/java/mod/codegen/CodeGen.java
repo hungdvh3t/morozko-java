@@ -28,7 +28,7 @@ public class CodeGen extends Coder {
 	
 	public static void main( String[] args ) {
 		try {
-			System.out.println( "CodeGen V 0.0.3 ( 2010-06-07 ) by Matteo Franci" );
+			System.out.println( "CodeGen V 0.0.4 ( 2011-08-02 ) by Matteo Franci" );
 			ArgList list = ArgUtils.parseArgs( args );
 			String c = list.findArgValue( "c" );
 			NavMap navMap = ConfigParse.parse( DOMIO.loadDOMDoc( new File( c ) ).getDocumentElement() );
