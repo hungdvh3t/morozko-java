@@ -36,6 +36,10 @@ public class TemplateResolver {
 		return resolve( "Action.def" );
 	}
 	
+	public String getActionNoForm() throws Exception {
+		return resolve( "ActionNoForm.def" );
+	}
+	
 	public String getForm() throws Exception {
 		return resolve( "Form.def" );
 	}

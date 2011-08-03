@@ -28,7 +28,7 @@ public class CodeGen extends Coder {
 	
 	public static void main( String[] args ) {
 		try {
-			System.out.println( "CodeGen V 0.0.4 ( 2011-08-02 ) by Matteo Franci" );
+			System.out.println( "CodeGen V 0.1.0 ( 2011-08-03 ) by Matteo Franci" );
 			ArgList list = ArgUtils.parseArgs( args );
 			String c = list.findArgValue( "c" );
 			NavMap navMap = ConfigParse.parse( DOMIO.loadDOMDoc( new File( c ) ).getDocumentElement() );
@@ -166,14 +166,20 @@ public class CodeGen extends Coder {
 				}
 				
 				// action
-				CodeGenUtils.genFile( templateResolver.getAction(), params, new File( helper.dirOutputSrc , helper.actionsDir+"/"+actionName+".java" ), overwrite );
+				if ( node.getForm() != null ) {
+					CodeGenUtils.genFile( templateResolver.getAction(), params, new File( helper.dirOutputSrc , helper.actionsDir+"/"+actionName+".java" ), overwrite );
+				} else {
+					CodeGenUtils.genFile( templateResolver.getActionNoForm(), params, new File( helper.dirOutputSrc , helper.actionsDir+"/"+actionName+".java" ), overwrite );
+				}
 				// jsp
 				CodeGenUtils.genFile( templateResolver.getPage(), params, new File( helper.dirOutputJsp , helper.jspDir+"/"+pageName+".jsp" ), overwrite );
 				if ( jspFormBody.length() > 0 ) {
 					CodeGenUtils.genFile( templateResolver.getJspForm(), params, new File( helper.dirOutputJsp , helper.jspFormDir+"/"+node.getForm().getName().toLowerCase()+"_form.jsp" ), overwrite );
 				}
 				// form
-				CodeGenUtils.genFile( templateResolver.getForm(), params, new File( helper.dirOutputSrc , helper.formDir+"/"+formName+".java" ), overwrite );
+				if ( node.getForm() != null ) {
+					CodeGenUtils.genFile( templateResolver.getForm(), params, new File( helper.dirOutputSrc , helper.formDir+"/"+formName+".java" ), overwrite );	
+				}
 				// dto
 				CodeGenUtils.genFile( templateResolver.getDTO(), params, new File( helper.dirOutputSrc , helper.dtoDir+"/"+dtoName+".java" ), overwrite );
 				// buffer
@@ -181,7 +187,9 @@ public class CodeGen extends Coder {
 				helper.tilesBuffer.append( CodeGenUtils.genText( templateResolver.getTilesDef(), params ) );
 				helper.navMap1Buffer.append( CodeGenUtils.genText( templateResolver.getNavmapProp(), params ) );
 				helper.navMap2Buffer.append( CodeGenUtils.genText( templateResolver.getNavmapConf(), params ) );
-				helper.struts1Buffer.append( CodeGenUtils.genText( templateResolver.getStrutsForm(), params ) );
+				if ( node.getForm() != null ) {
+					helper.struts1Buffer.append( CodeGenUtils.genText( templateResolver.getStrutsForm(), params ) );
+				}
 				if ( node.isFormValidate() ) {
 					helper.struts2Buffer.append( CodeGenUtils.genText( templateResolver.getStrutsActionForm(), params ) );	
 				} else {
