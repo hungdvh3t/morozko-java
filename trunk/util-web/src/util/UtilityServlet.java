@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import util.handler.EditHandler;
 import util.handler.FileHandler;
+import util.handler.SecurityHandler;
 import util.handler.Util;
 
 /**
@@ -53,7 +54,7 @@ public class UtilityServlet extends HttpServlet {
                 	EditHandler.handleEdit(request, response, context);
                 }
         	} else {
-        		handleUser(request, response, context);
+        		SecurityHandler.handleUser(request, response, context, this.usePassword);
         	}
         } catch(Exception e) {
             PrintWriter pw = Util.startHtml(response);
@@ -61,32 +62,6 @@ public class UtilityServlet extends HttpServlet {
             e.printStackTrace(pw);
             pw.println("</pre>");
         }
-	}
-
-	private void handleUser( HttpServletRequest request, HttpServletResponse response, ServletContext context ) throws Exception {
-		String user = request.getParameter( "user" );
-		String pass = request.getParameter( "pass" );
-		boolean logged = false;
-		if ( user != null && pass != null ) {
-			if ( pass.equals( this.usePassword ) ) {
-				request.getSession().setAttribute( "currentUser" , user );
-				RequestDispatcher rd = request.getRequestDispatcher( "/fs" );
-				rd.forward( request , response );
-				logged = true;
-			}
-		} 
-		if ( !logged ) {
-			PrintWriter pw = Util.startHtml(response);
-			pw.println("<html>");
-			pw.println("<body>");
-			pw.println("<form method='post' action='fs'>");
-			pw.println("Username <input type='text' name='user'>");
-			pw.println("Password <input type='password' name='pass'>");
-			pw.println("<input type='submit' name='LogIn'>");
-			pw.println("</form>");
-			pw.println("</body>");
-			pw.println("</html>");
-		}
 	}
 
 	@Override
