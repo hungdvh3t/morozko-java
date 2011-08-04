@@ -1,12 +1,15 @@
 package util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -21,6 +24,8 @@ public class UtilityServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 133432432432L;
        
+	private String usePassword;
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -40,11 +45,18 @@ public class UtilityServlet extends HttpServlet {
 	 */
 	protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
         try {
-            String action = request.getParameter( "action" );
-            ServletContext context = this.getServletContext();
-            if ( action == null ) {
-            	handleFile(request, response, context);
-            }
+        	String currentUser = (String)request.getSession().getAttribute( "currentUser" );
+        	ServletContext context = this.getServletContext();
+        	if ( this.usePassword == null || currentUser != null ) {
+        		String action = request.getParameter( "action" );
+                if ( action == null ) {
+                	handleFile(request, response, context);
+                } else if ( "edit".equalsIgnoreCase( action ) ) {
+                	handleEdit(request, response, context);
+                }
+        	} else {
+        		handleUser(request, response, context);
+        	}
         } catch(Exception e) {
             PrintWriter pw = new PrintWriter(response.getWriter());
             pw.println("<pre>");
@@ -53,6 +65,32 @@ public class UtilityServlet extends HttpServlet {
         }
 	}
 
+	private void handleUser( HttpServletRequest request, HttpServletResponse response, ServletContext context ) throws Exception {
+		String user = request.getParameter( "user" );
+		String pass = request.getParameter( "pass" );
+		boolean logged = false;
+		if ( user != null && pass != null ) {
+			if ( pass.equals( this.usePassword ) ) {
+				request.getSession().setAttribute( "currentUser" , user );
+				RequestDispatcher rd = request.getRequestDispatcher( "/fs" );
+				rd.forward( request , response );
+				logged = true;
+			}
+		} 
+		if ( !logged ) {
+			PrintWriter pw = new PrintWriter(response.getWriter());
+			pw.println("<html>");
+			pw.println("<body>");
+			pw.println("<form method='post' action='fs'>");
+			pw.println("Username <input type='text' name='user'>");
+			pw.println("Password <input type='password' name='pass'>");
+			pw.println("<input type='submit' name='LogIn'>");
+			pw.println("</form>");
+			pw.println("</body>");
+			pw.println("</html>");
+		}
+	}
+	
 	private static String fileAtts( File file ) {
 		StringBuffer atts = new StringBuffer();
 		if ( file.canRead() ) {
@@ -127,6 +165,7 @@ public class UtilityServlet extends HttpServlet {
 			pw.println("<th"+tdSyle+">Size</th>");
 			pw.println("<th"+tdSyle+">Attributes</th>");
 			pw.println("<th"+tdSyle+">Last modified</th>");
+			pw.println("<th"+tdSyle+">Actions</th>");
 			pw.println("</tr>");
 			
 			for (int k = 0; k < listKids.length; k++) {
@@ -136,6 +175,9 @@ public class UtilityServlet extends HttpServlet {
 				pw.println("<td"+tdSyle+" align='right'>"+current.length()+"</td>");
 				pw.println("<td"+tdSyle+">"+fileAtts( current )+"</td>");
 				pw.println("<td"+tdSyle+" align='right'>"+new Timestamp( current.lastModified() )+"</td>");
+				pw.println("<td"+tdSyle+">&nbsp;" );
+				pw.println("<a target='editFrame' href='fs?action=edit&path="+current.getCanonicalPath()+"'>Edit</a>" );
+				pw.println("</td>" );
 				pw.println("</tr>");
 			}
 			
@@ -154,10 +196,47 @@ public class UtilityServlet extends HttpServlet {
 			fis.close();
 		}
 	}
-
+	
+	private static void handleEdit( HttpServletRequest request, HttpServletResponse response, ServletContext context ) throws Exception {
+		
+		String path = request.getParameter( "path" );
+		File currentFile = new File( path );
+		String fileContent = null;
+		
+		if ( request.getParameter( "save" ) != null ) {
+			fileContent = request.getParameter( "fileContent" );
+			FileOutputStream fos = new FileOutputStream( currentFile );
+			fos.write( fileContent.getBytes() );
+			fos.close();
+		} else {
+			
+			byte buffer[] = new byte[1024];
+			FileInputStream fis = new FileInputStream(currentFile);
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			for ( int read = fis.read(buffer); read > 0; read = fis.read(buffer) ) {
+				os.write( buffer, 0, read );
+			}
+			fis.close();
+			fileContent = os.toString();			
+		}
+		
+		PrintWriter pw = new PrintWriter(response.getWriter());
+		pw.println("<html>");
+		pw.println("<body>");
+		pw.println("<form method='post' action='fs'>");
+		pw.println("<input type='hidden' name='action' value='edit'>");
+		pw.println("<input type='hidden' name='path' value='"+path+"'>");
+		pw.println("<textarea cols='120' rows='40' name='fileContent'>"+fileContent+"</textarea>");
+		pw.println("<input type='submit' name='save'>");
+		pw.println("</form>");
+		pw.println("</body>");
+		pw.println("</html>");
+	}
+	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
+		this.usePassword = config.getInitParameter( "usePassword" );
 		System.out.println( "UtilityServlet startup OK" );
 	}
 	
