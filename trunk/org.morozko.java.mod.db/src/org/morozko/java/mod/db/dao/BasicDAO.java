@@ -418,7 +418,7 @@ public class BasicDAO extends BasicLogObject {
             rs.close();
             ps.close();
         } catch (SQLException e) {
-            throw (new DAOException(e));
+        	throw (new DAOException( e.getMessage()+"[query:"+query+"]", e ));
         } finally {
             this.close( conn );
         }
@@ -453,7 +453,7 @@ public class BasicDAO extends BasicLogObject {
             rs.close();
             ps.close();
         } catch (SQLException e) {
-            throw (new DAOException(e));
+        	throw (new DAOException( e.getMessage()+"[query:"+query+"]", e ));
         } finally {
             this.close( conn );
         }
@@ -480,7 +480,7 @@ public class BasicDAO extends BasicLogObject {
 				rs.close();
 				ps.close();
 			} catch (SQLException e) {
-				throw (new DAOException(e));
+				throw (new DAOException( e.getMessage()+"[query:"+query+"]", e ));
 			} finally {
 				this.close( conn );
 			}
