@@ -85,17 +85,65 @@ public class BasicDAO extends BasicLogObject {
 		return result;
 	}		
 
+	public boolean updateBatch( List opList ) throws DAOException {
+		boolean result = true;
+		Connection conn = this.getConnection();
+		try {
+			conn.setAutoCommit( false );
+			int tmp = 0;
+			PreparedStatement pstm = null;
+			for (int k=0; k<opList.size(); k++) {
+				OpDAO currentOp = (OpDAO)opList.get( k );
+				this.getLog().debug( "updateBatch : "+currentOp.getSql()+" , params : "+currentOp.getFieldList().size() );
+				if ( pstm == null ) {
+					String query = this.queryFormat( currentOp.getSql(), "update(opdao)" );
+					pstm = conn.prepareStatement( query );
+				}
+				this.setAll( pstm, currentOp.getFieldList() );
+				pstm.addBatch();
+			}
+			this.getLog().debug( "updateBatch result : "+tmp+" / "+opList.size() );
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				this.getLog().error( "Errore durante il rollback : ", e );
+			}
+			throw (new DAOException(e));
+		} finally {
+			try {
+				conn.setAutoCommit( true );
+			} catch (SQLException e) {
+				this.getLog().error( "Errore durante deallocazione connessione [conn.setAutoCommit( true )]", e );
+			} finally {
+				this.close( conn );
+			}
+		}
+		return result;
+	}
+
+	
 	public boolean updateTransaction( List opList ) throws DAOException {
 		boolean result = true;
 		Connection conn = this.getConnection();
 		try {
 			conn.setAutoCommit( false );
 			int tmp = 0;
+//			String query = null;
+//			PreparedStatement pstm = null;
 			for (int k=0; k<opList.size(); k++) {
 				OpDAO currentOp = (OpDAO)opList.get( k );
 				this.getLog().debug( "updateTransaction : "+currentOp.getSql()+" , params : "+currentOp.getFieldList().size() );
 				if (currentOp.getType()==OpDAO.TYPE_UPDATE) {
-					tmp+= this.update( currentOp, conn );
+//					tmp+= this.update( currentOp, conn );
+//					String tmpQuery = this.queryFormat( currentOp.getSql(), "update(opdao)" );
+//					if ( !tmpQuery.equals( query ) ) {
+//						pstm = conn.prepareStatement( tmpQuery );
+//					}
+//					this.setAll( pstm, currentOp.getFieldList() );
+//					tmp+= pstm.executeUpdate();
+					tmp+= this.update( currentOp, conn ); // vecchio codice non caching
 				}
 			}
 			this.getLog().debug( "updateTransaction result : "+tmp+" / "+opList.size() );
