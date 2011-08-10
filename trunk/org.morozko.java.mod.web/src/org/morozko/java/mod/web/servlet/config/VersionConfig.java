@@ -84,6 +84,31 @@ public class VersionConfig extends BasicConfig {
 			}
 			pw.println( "</ul>" );
 		}
+		if ( "1".equalsIgnoreCase( request.getParameter( "status" ) ) ) {
+			pw.println( "<ul>server status:" );
+			Runtime rt = Runtime.getRuntime();
+			pw.println( "<li>os           : "+System.getProperty( "os.name" )+" ("+System.getProperty( "os.version" )+" "+System.getProperty( "os.arch" )+")</li>" );
+			pw.println( "<li>java         : Java "+System.getProperty( "java.version" )+" ("+System.getProperty( "java.vendor" )+", url:"+System.getProperty( "java.vendor.url" )+")</li>" );
+			pw.println( "<li>java specs   : "+System.getProperty( "java.specification.name" )+" "+System.getProperty( "java.specification.version" )+" ("+System.getProperty( "java.specification.vendor" )+")</li>" );
+			pw.println( "<li>java runtime : "+System.getProperty( "java.runtime.name" )+" "+System.getProperty( "java.runtime.version" )+"</li>" );
+			pw.println( "<li>java vm      : "+System.getProperty( "java.vm.name" )+" "+System.getProperty( "java.vm.version" )+" ("+System.getProperty( "java.vm.vendor" )+"), info:"+System.getProperty( "java.vm.info" )+"</li>" );
+			pw.println( "<li>server       : "+this.getConfigContext().getContext().getServerInfo()+"</li>" );
+			pw.println( "<li>processors   : "+rt.availableProcessors()+"</li>" );
+			pw.println( "<li>free  memory : "+rt.freeMemory()+"</li>" );
+			pw.println( "<li>total memory : "+rt.totalMemory()+"</li>" );
+			pw.println( "<li>max   memory : "+rt.maxMemory()+"</li>" );
+			pw.println( "</ul>" );
+		}
+		if ( "1".equalsIgnoreCase( request.getParameter( "sysprops" ) ) ) {
+			pw.println( "<ul>system properties:" );
+			Iterator itKeys = System.getProperties().keySet().iterator();
+			while ( itKeys.hasNext() ) {
+				String key = (String)itKeys.next();
+				String value = System.getProperty( key );
+				pw.println( "<li>"+key+"="+value+"</li>" );
+			}
+			pw.println( "</ul>" );
+		}
 		pw.println( "</body>" );
 		pw.println( "</html>" );
 	}

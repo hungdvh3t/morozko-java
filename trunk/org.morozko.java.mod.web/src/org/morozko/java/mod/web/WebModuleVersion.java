@@ -5,8 +5,8 @@ import org.morozko.java.core.cfg.BaseModuleVersion;
 public class WebModuleVersion extends BaseModuleVersion {
 
 	public static final String NAME = "Module Web";
-	public static final String VERSION = "1.0.6";
-	public static final String DATE = "2011-07-28";
+	public static final String VERSION = "1.0.8";
+	public static final String DATE = "2011-08-10";
 	public static final String DEPENDANCIES = "/org/morozko/java/mod/db/dependancies.properties";
 	
 	public WebModuleVersion() {
