@@ -32,6 +32,9 @@ public class ConfigParse {
 					currentNode.setModule( props.getProperty( "module" ) );
 					currentNode.setDescription( props.getProperty( "description" ) );
 					currentNode.setFacade( props.getProperty( "facade" ) );
+					currentNode.setMenu1( props.getProperty( "menu-1" ) );
+					currentNode.setMenu2( props.getProperty( "menu-2" ) );
+					currentNode.setMenu3( props.getProperty( "menu-3" ) );
 					currentNode.setOverwrite( props.getProperty( "overwrite" ) );
 					currentNode.setOperation( props.getProperty( "operation" ) );
 					currentNode.setJspInclude( props.getProperty( "jsp-include" ) );

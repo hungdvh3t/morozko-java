@@ -28,7 +28,7 @@ public class CodeGen extends Coder {
 	
 	public static void main( String[] args ) {
 		try {
-			System.out.println( "CodeGen V 0.1.0 ( 2011-08-03 ) by Matteo Franci" );
+			System.out.println( "CodeGen V 0.1.1 ( 2011-08-11 ) by Matteo Franci" );
 			ArgList list = ArgUtils.parseArgs( args );
 			String c = list.findArgValue( "c" );
 			NavMap navMap = ConfigParse.parse( DOMIO.loadDOMDoc( new File( c ) ).getDocumentElement() );
@@ -200,9 +200,12 @@ public class CodeGen extends Coder {
 				Element currentElement = helper.navTree.createElement( "nav-node" );
 				currentElement.setAttribute( "nav-entry" , node.getName() );
 				currentElement.setAttribute( "nav-module" , helper.moduleName );
-				currentElement.setAttribute( "menu-1" , helper.navMap.getGeneralProps().get( "menu-1-def" ) );
-				currentElement.setAttribute( "menu-2" , helper.navMap.getGeneralProps().get( "menu-2-def" ) );
-				currentElement.setAttribute( "menu-3" , helper.navMap.getGeneralProps().get( "menu-3-def" ) );
+				String menu1 = nvl( node.getMenu1(), helper.navMap.getGeneralProps().get( "menu-1-def" ) );
+				String menu2 = nvl( node.getMenu1(), helper.navMap.getGeneralProps().get( "menu-2-def" ) );
+				String menu3 = nvl( node.getMenu1(), helper.navMap.getGeneralProps().get( "menu-3-def" ) );
+				currentElement.setAttribute( "menu-1" , menu1 );
+				currentElement.setAttribute( "menu-2" , menu2 );
+				currentElement.setAttribute( "menu-3" , menu3 );
 				parent.appendChild( currentElement );
 				// add facade name to facade list
 				
@@ -213,6 +216,14 @@ public class CodeGen extends Coder {
 			}
 			
 		}
+	}
+	
+	private static String nvl( String value1, String value2 ) {
+		String res = value1;
+		if ( value1 == null ) {
+			res = value2;
+		}
+		return res;
 	}
 	
 	private static void generate( NavMap navMap ) throws Exception {
