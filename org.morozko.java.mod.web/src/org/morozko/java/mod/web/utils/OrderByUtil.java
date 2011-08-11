@@ -1,4 +1,4 @@
-package org.morozko.java.mod.web.util;
+package org.morozko.java.mod.web.utils;
 
 import org.morozko.java.core.ent.servlet.request.ParamMap;
 import org.morozko.java.core.log.LogFacade;
