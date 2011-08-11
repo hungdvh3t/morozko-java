@@ -36,7 +36,8 @@ public class OrderByUtil {
 	 */	
 	public static final String PARAM_ORDER_BY_MODE = "orderByMode";
 
-	private static final String ATT_ORDER_BY_MODE = "OrderByUtil.ATT_NAME";
+	private static final String ATT_ORDER_BY_MODE = OrderByUtil.class.getName()+".ATT_MODE";
+	private static final String ATT_ORDER_BY_TEMP = OrderByUtil.class.getName()+".ATT_TEMP";
 	
 	/**
 	 * Constant for ascending ordering mode (ASC)
@@ -73,13 +74,9 @@ public class OrderByUtil {
 	public static String handleOrderBy( SessionContext sessionContext, ParamMap paramMap ) {
 		String orderBy = paramMap.getParam( PARAM_ORDER_BY );
 		String mode = paramMap.getParam( PARAM_ORDER_BY_MODE );
-		LogFacade.getLog().debug( ">>>>>>>>>>>>>>>> handleOrderBy 1 >>>>>>>>> "+orderBy );
-		LogFacade.getLog().debug( ">>>>>>>>>>>>>>>> handleOrderBy 2 >>>>>>>>> "+mode );
 		if ( orderBy != null && mode == null ) {
 			if ( "1".equalsIgnoreCase( paramMap.getParam( PARAM_ORDER_BY_CHANGE ) ) ) {
 				String att = (String) sessionContext.getAttribute( ATT_ORDER_BY_MODE );
-				LogFacade.getLog().debug( ">>>>>>>>>>>>>>>> att >>>>>>>>> "+att );
-				LogFacade.getLog().debug( ">>>>>>>>>>>>>>>> handleOrderBy 3 >>>>>>>>> "+att );
 				if ( ATT_ORDER_BY_MODE_ASC.equals( att ) ) {
 					mode = ATT_ORDER_BY_MODE_DESC;
 				} else if ( ATT_ORDER_BY_MODE_DESC.equals( att ) ) {
@@ -88,10 +85,8 @@ public class OrderByUtil {
 				} else {
 					mode = ATT_ORDER_BY_MODE_ASC;
 				}
-				LogFacade.getLog().debug( ">>>>>>>>>>>>>>>> handleOrderBy 4 >>>>>>>>> "+mode );
 			} else {
 				mode = (String) sessionContext.getAttribute( ATT_ORDER_BY_MODE, ATT_ORDER_BY_MODE_ASC );
-				LogFacade.getLog().debug( ">>>>>>>>>>>>>>>> handleOrderBy 5 >>>>>>>>> "+mode );
 			}			
 		}
 		sessionContext.setAttribute( ATT_ORDER_BY_MODE , mode );
@@ -99,7 +94,6 @@ public class OrderByUtil {
 		if ( orderBy != null && ( ATT_ORDER_BY_MODE_ASC.equals( mode ) || ATT_ORDER_BY_MODE_DESC.equals( mode ) ) ) {
 			result = orderBy+" "+mode;
 		}
-		LogFacade.getLog().debug( ">>>>>>>>>>>>>>>> handleOrderBy 6 >>>>>>>>> "+result );
 		return result;
 	}
 	
