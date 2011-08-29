@@ -67,6 +67,12 @@ public class FileHandler {
 			pw.println("<html>");
 			pw.println("<body>");
 			
+			pw.println( "<form method='post' action='fs'>" );
+			pw.println( "<input size='128' maxlength='512' type='text' name='path' value='"+currentFile.getCanonicalPath()+"'/>" );
+			pw.println( "<input type='submit' name='cd' value='Change Dir'/>" );
+			pw.println( "</form>" );
+			
+			
 			if ( currentFile == null ) {
 				pw.println( "<h3>No path provided, listing file system roots : </h3>" );
 			} else {
