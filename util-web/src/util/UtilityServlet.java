@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import util.handler.EditHandler;
+import util.handler.ExecHandler;
 import util.handler.FileHandler;
 import util.handler.SecurityHandler;
 import util.handler.Util;
@@ -53,6 +54,8 @@ public class UtilityServlet extends HttpServlet {
                 	FileHandler.handleFile(request, response, context, this.maxPostSize );
                 } else if ( "edit".equalsIgnoreCase( action ) ) {
                 	EditHandler.handleEdit(request, response, context);
+                } else if ( "exec".equalsIgnoreCase( action ) ) {
+                	ExecHandler.handleEdit(request, response, context);
                 }
         	} else {
         		SecurityHandler.handleUser(request, response, context, this.usePassword);
