@@ -30,6 +30,11 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 	
+	<security-role>
+		<role-name>manager</role-name>
+		<description>Administrative role</description>
+	</security-role>
+	
 	<security-constraint>
 		<display-name>admin_users</display-name>
 		<web-resource-collection>
@@ -45,7 +50,7 @@
 		</web-resource-collection>
 		<auth-constraint>
 			<description>admin_users</description>
-			<role-name>util</role-name>
+			<role-name>manager</role-name>
 		</auth-constraint>
 	</security-constraint>
 	
