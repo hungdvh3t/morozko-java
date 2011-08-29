@@ -9,6 +9,10 @@
 		<display-name>UtilityServlet</display-name>
 		<servlet-name>UtilityServlet</servlet-name>
 		<servlet-class>util.UtilityServlet</servlet-class>
+		<init-param>
+			<param-name>maxPostSize</param-name>
+			<param-value>10000000</param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	

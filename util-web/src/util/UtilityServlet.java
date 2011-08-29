@@ -24,6 +24,8 @@ public class UtilityServlet extends HttpServlet {
        
 	private String usePassword;
 	
+	private int maxPostSize = 1024*1024;
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -48,7 +50,7 @@ public class UtilityServlet extends HttpServlet {
         	if ( this.usePassword == null || currentUser != null ) {
         		String action = request.getParameter( "action" );
                 if ( action == null ) {
-                	FileHandler.handleFile(request, response, context);
+                	FileHandler.handleFile(request, response, context, this.maxPostSize );
                 } else if ( "edit".equalsIgnoreCase( action ) ) {
                 	EditHandler.handleEdit(request, response, context);
                 }
@@ -67,6 +69,9 @@ public class UtilityServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		this.usePassword = config.getInitParameter( "usePassword" );
+		try {
+			this.maxPostSize = Integer.parseInt( config.getInitParameter( "maxPostSize" ) );
+		} catch (Exception e) {}
 		System.out.println( "UtilityServlet startup OK" );
 	}
 	

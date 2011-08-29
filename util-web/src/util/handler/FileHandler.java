@@ -11,6 +11,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.oreilly.servlet.MultipartRequest;
+
 public class FileHandler {
 
 	private static String fileAtts( File file ) {
@@ -43,9 +45,20 @@ public class FileHandler {
 		return label.toString();
 	}
 	
-	public static void handleFile( HttpServletRequest request, HttpServletResponse response, ServletContext context ) throws Exception {
+	public static void handleFile( HttpServletRequest request, HttpServletResponse response, ServletContext context, int maxPostSize ) throws Exception {
 		// percorso da processare
 		String path = request.getParameter("path");
+
+		if ( path == null) {
+			System.out.println( "SAVE PATH  = "+context.getRealPath( "/" ) );
+			MultipartRequest mr = new MultipartRequest( request , context.getRealPath( "/" ), maxPostSize );
+			path = mr.getParameter( "path" );
+			File file = mr.getFile( "fileData" );
+			File newFile = new File( path, file.getName() );
+			file.renameTo( newFile );
+		}
+		
+		System.out.println( "PATH >>> "+path );
 		
 		// current file ed, eventualmente suo figli
 		File currentFile = null;
@@ -67,11 +80,16 @@ public class FileHandler {
 			pw.println("<html>");
 			pw.println("<body>");
 			
-			pw.println( "<form method='post' action='fs'>" );
+			pw.println( "<p><form method='post' action='fs'>" );
 			pw.println( "<input size='128' maxlength='512' type='text' name='path' value='"+currentFile.getCanonicalPath()+"'/>" );
 			pw.println( "<input type='submit' name='cd' value='Change Dir'/>" );
-			pw.println( "</form>" );
-			
+			pw.println( "</form></p>" );
+
+			pw.println( "<p><form method='post' action='fs' enctype='multipart/form-data'>" );
+			pw.println( "<input type='hidden' name='path' value='"+currentFile.getCanonicalPath()+"'/>" );
+			pw.println( "<input type='file' name='fileData'/>" );
+			pw.println( "<input type='submit' name='cd' value='Upload'/> (maxsize:"+String.format("%,d%n", (Integer) maxPostSize )+")" );
+			pw.println( "</form></p>" );
 			
 			if ( currentFile == null ) {
 				pw.println( "<h3>No path provided, listing file system roots : </h3>" );
