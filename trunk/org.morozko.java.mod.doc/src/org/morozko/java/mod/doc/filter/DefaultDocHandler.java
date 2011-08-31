@@ -68,4 +68,24 @@ public class DefaultDocHandler extends BasicLogObject implements DocHandler {
 		this.setForward( props.getProperty( "forward" ) );
 	}
 	
+	public boolean isUseJsp() {
+		return useJsp;
+	}
+
+	public void setUseJsp(boolean useJsp) {
+		this.useJsp = useJsp;
+	}
+
+	public String getJsp() {
+		return jsp;
+	}
+
+	public void setJsp(String jsp) {
+		this.jsp = jsp;
+	}
+
+	private boolean useJsp;
+	
+	private String jsp;
+	
 }

@@ -12,6 +12,11 @@ import org.w3c.dom.Element;
 
 public class DocServletConfig extends BasicConfig {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5671884706527956909L;
+	
 	public static final String ATT_NAME_DOCFACADE = "DocServletConfig.ATT_NAME_DOCFACADE";
 	
 	public void configure(Properties props) throws ConfigException {

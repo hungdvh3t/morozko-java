@@ -66,7 +66,7 @@ public class DocRequestFacade extends BasicLogObject {
 
 		DocTypeHandler docTypeHandler = (DocTypeHandler)this.getDocRequestConfig().getTypeHandlerMap().get( type );
 
-		DocContext docContext = new DocContext();
+		DocContext docContext = new DocContext( this.getDocRequestConfig() );
 		docContext.setName(name);
 		
 		// fine processamento
@@ -108,42 +108,48 @@ public class DocRequestFacade extends BasicLogObject {
 				if ( !jspFile.exists() ) {
 					throw new DocException( "01", "Jsp File doesn't exists : '"+jspRelative+"'", null );
 				}
-				String jspPath = this.getDocRequestConfig().getJspPath()+"/doc-handler.jsp";
-				if (this.getDocRequestConfig().getProcessingPage() != null ) {
-					request.setAttribute( "doc-handler-name" , name );
-					jspPath = this.getDocRequestConfig().getJspPath()+"/"+this.getDocRequestConfig().getProcessingPage() ;
-				}
-				RequestDispatcher rd = request.getRequestDispatcher( jspPath );
-				this.getLog().info( "jspPath : '"+jspPath+"'" );
-				rd.forward( request , resp );
-				String xmlData = null;
-				if ( "pushbody".equalsIgnoreCase( this.getDocRequestConfig().getOutMode() ) ) {
-					StringWriter sw = (StringWriter)request.getAttribute( "doc.writer" );
-					xmlData = sw.toString();
-				} else {
-					HttpServletResponseByteData re = (HttpServletResponseByteData) resp;
-					re.flush();
-					xmlData = re.getBaos().toString();	
-				}
-				if ( this.getDocRequestConfig().isDebug() ) {
-					this.getLog().info( "xmlData 1 : \n"+xmlData );
-				}
-				if ( !this.getDocRequestConfig().isSkipFilter() ) {
-					if ( this.getDocRequestConfig().isDebug() ) {
-						this.getLog().info( "skip filter : true" );
-					}
-				} else {
-					xmlData = this.getDocRequestConfig().getFilter().filterTo( xmlData );
-					if ( this.getDocRequestConfig().isDebug() ) {
-						this.getLog().info( "xmlData 2 : \n"+xmlData );
-					}
-				}		
 				
-				docContext.setXmlData( xmlData );
+				
+				// use jsp?
+				if ( docHandler.isUseJsp() ) {
+					String jspPath = this.getDocRequestConfig().getJspPath()+"/doc-handler.jsp";
+					if (this.getDocRequestConfig().getProcessingPage() != null ) {
+						request.setAttribute( "doc-handler-name" , name );
+						jspPath = this.getDocRequestConfig().getJspPath()+"/"+this.getDocRequestConfig().getProcessingPage() ;
+					}
+					RequestDispatcher rd = request.getRequestDispatcher( jspPath );
+					this.getLog().info( "jspPath : '"+jspPath+"'" );
+					rd.forward( request , resp );
+					String xmlData = null;
+					if ( "pushbody".equalsIgnoreCase( this.getDocRequestConfig().getOutMode() ) ) {
+						StringWriter sw = (StringWriter)request.getAttribute( "doc.writer" );
+						xmlData = sw.toString();
+					} else {
+						HttpServletResponseByteData re = (HttpServletResponseByteData) resp;
+						re.flush();
+						xmlData = re.getBaos().toString();	
+					}
+					if ( this.getDocRequestConfig().isDebug() ) {
+						this.getLog().info( "xmlData 1 : \n"+xmlData );
+					}
+					if ( !this.getDocRequestConfig().isSkipFilter() ) {
+						if ( this.getDocRequestConfig().isDebug() ) {
+							this.getLog().info( "skip filter : true" );
+						}
+					} else {
+						xmlData = this.getDocRequestConfig().getFilter().filterTo( xmlData );
+						if ( this.getDocRequestConfig().isDebug() ) {
+							this.getLog().info( "xmlData 2 : \n"+xmlData );
+						}
+					}	
+					docContext.setXmlData( xmlData );
+				
+				}
+				
 				docContext.setType( type );
 				docContext.setContentType( contentType );
 				docContext.setEncoding( encoding );
-				
+
 				this.handleDocWorker(request, response, docTypeHandler, docContext);
 				
 				docHandler.handleDocPost(request, response, this.getDocRequestConfig().getContext().getContext());
@@ -187,7 +193,7 @@ public class DocRequestFacade extends BasicLogObject {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		docContext.setBufferStream( baos );
 		if ( docTypeHandler == null ) {
-			DocBase docBase = DocFacade.parse( new StringReader( docContext.getXmlData()  ), this.getDocRequestConfig().getDocHelper() );
+			DocBase docBase = docContext.getDocBase( request );
 			String contentDisposition = null;
 			if ( docContext.getType().equalsIgnoreCase( "xml" ) ) {
 				docContext.getBufferStream().write( docContext.getXmlData().getBytes() );
@@ -211,7 +217,7 @@ public class DocRequestFacade extends BasicLogObject {
 				response.addHeader("Content-Disposition", contentDisposition );
 			}	
 		} else {
-			docTypeHandler.handleDocType( request, response, docContext);
+			docTypeHandler.handleDocType( request, response, docContext );
 		}
 		OutputStream os = response.getOutputStream();
 		baos.writeTo( os );
