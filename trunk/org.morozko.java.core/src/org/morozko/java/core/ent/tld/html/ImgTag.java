@@ -54,6 +54,46 @@ public class ImgTag extends TagSupportHelper {
 	
 	private String altKey;
 	
+	private String width;
+	
+	private String height;
+	
+	private String styleClass;
+	
+	private String styleId;
+	
+	public String getStyleClass() {
+		return styleClass;
+	}
+
+	public void setStyleClass(String styleClass) {
+		this.styleClass = styleClass;
+	}
+
+	public String getStyleId() {
+		return styleId;
+	}
+
+	public void setStyleId(String styleId) {
+		this.styleId = styleId;
+	}
+
+	public String getWidth() {
+		return width;
+	}
+
+	public void setWidth(String width) {
+		this.width = width;
+	}
+
+	public String getHeight() {
+		return height;
+	}
+
+	public void setHeight(String height) {
+		this.height = height;
+	}
+
 	/**
 	 * @return the altKey
 	 */
@@ -125,7 +165,7 @@ public class ImgTag extends TagSupportHelper {
 			ResourceBundle bundle = (ResourceBundle)this.pageContext.getServletContext().getAttribute( "org.morozko.java.core.ent.tld.html.message" );
 			a = bundle.getString( this.getAltKey() );
 		}
-		this.print( "<img "+renderAttribute( "border", this.border )+renderAttribute( "src", src )+renderAttribute( "alt" , a)+"/>" );
+		this.print( "<img "+renderAttribute( "width", this.width )+renderAttribute( "height", this.height )+renderAttribute( "id", this.styleId )+renderAttribute( "class", this.styleClass )+renderAttribute( "border", this.border )+renderAttribute( "src", src )+renderAttribute( "alt" , a)+"/>" );
 		return EVAL_PAGE;
 	}
 
