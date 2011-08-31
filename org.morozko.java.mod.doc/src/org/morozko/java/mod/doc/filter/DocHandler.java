@@ -31,6 +31,8 @@ import org.w3c.dom.Element;
  */
 public interface DocHandler {
 
+	public final static String ATT_NAME_DOC = "org.morozko.java.mod.doc.DocBase.ATT_NAME";
+	
 	public void handleDoc( HttpServletRequest request, HttpServletResponse response, ServletContext context ) throws Exception;
 	
 	public void handleDocPost( HttpServletRequest request, HttpServletResponse response, ServletContext context ) throws Exception;
@@ -41,4 +43,11 @@ public interface DocHandler {
 
 	public String getForward();
 	
+	public boolean isUseJsp();
+
+	public void setUseJsp(boolean useJsp);
+
+	public String getJsp();
+
+	public void setJsp(String jsp);
 }

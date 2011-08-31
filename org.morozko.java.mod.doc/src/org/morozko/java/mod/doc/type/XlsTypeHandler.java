@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
-import java.io.StringReader;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
@@ -34,7 +33,6 @@ import org.morozko.java.mod.doc.DocBase;
 import org.morozko.java.mod.doc.DocBorders;
 import org.morozko.java.mod.doc.DocCell;
 import org.morozko.java.mod.doc.DocElement;
-import org.morozko.java.mod.doc.DocFacade;
 import org.morozko.java.mod.doc.DocPara;
 import org.morozko.java.mod.doc.DocRow;
 import org.morozko.java.mod.doc.DocTable;
@@ -275,11 +273,10 @@ public class XlsTypeHandler extends BasicTypeHandler {
 		outputXls.close();
 	}
 	
-	public void handleDocType(HttpServletRequest request, HttpServletResponse response, DocContext docContext) throws Exception {
+	public void handleDocType(HttpServletRequest request, HttpServletResponse response, DocContext docContext ) throws Exception {
 		this.getLog().info( "XlsTypeHandler start" );
-		String xmlData = docContext.getXmlData();
 		try {
-			DocBase docBase = DocFacade.parse( new StringReader( xmlData ) );
+			DocBase docBase = docContext.getDocBase( request );
 			String excelTemplate = docBase.getInfo().getProperty( PROP_XLS_TEMPLATE );
 			Workbook templateXls = null;
 			if ( excelTemplate != null ) {

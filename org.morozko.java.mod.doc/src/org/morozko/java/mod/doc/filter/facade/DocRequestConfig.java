@@ -128,6 +128,8 @@ private ConfigContext context;
 				Properties atts = DOMUtils.attributesToProperties( docHandlerTag );
 				String name = atts.getProperty( "name" );
 				String type = atts.getProperty( "type" );
+				String useJsp = atts.getProperty( "use-jsp", "true" );
+				String jsp = atts.getProperty( "jsp", name );
 				this.getLog().info( "DocHandler : "+name+" -> "+type );
 				DocHandler docHandler = null;
 				if ( type != null ) {
@@ -136,6 +138,8 @@ private ConfigContext context;
 					docHandler = new DefaultDocHandler();
 				}
 				docHandler.init( docHandlerTag );
+				docHandler.setJsp( jsp );
+				docHandler.setUseJsp( "true".equals( useJsp ) );
 				this.docHandlerMap.put( name , docHandler );
 			}
 			try {

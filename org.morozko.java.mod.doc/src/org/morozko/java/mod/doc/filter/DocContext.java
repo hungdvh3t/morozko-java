@@ -1,16 +1,22 @@
 package org.morozko.java.mod.doc.filter;
 
 import java.io.OutputStream;
+import java.io.StringReader;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.morozko.java.mod.doc.DocBase;
+import org.morozko.java.mod.doc.DocFacade;
+import org.morozko.java.mod.doc.filter.facade.DocRequestConfig;
 
 
 public class DocContext {
-	
-	public String getXmlData() {
-		return xmlData;
-	}
 
-	public void setXmlData(String xmlData) {
-		this.xmlData = xmlData;
+	private DocRequestConfig docRequestConfig;
+	
+	public DocContext(DocRequestConfig docRequestConfig) {
+		super();
+		this.docRequestConfig = docRequestConfig;
 	}
 
 	private String name;
@@ -53,6 +59,14 @@ public class DocContext {
 		this.type = type;
 	}
 
+	public String getXmlData() {
+		return xmlData;
+	}
+
+	public void setXmlData(String xmlData) {
+		this.xmlData = xmlData;
+	}
+	
 	private String xmlData;
 	
 	private OutputStream bufferStream;
@@ -64,5 +78,16 @@ public class DocContext {
 	public void setBufferStream(OutputStream bufferStream) {
 		this.bufferStream = bufferStream;
 	}
+
+	public DocBase getDocBase( HttpServletRequest request ) throws Exception {
+		DocBase docBase = null;
+		if ( this.getXmlData() != null ) {
+			docBase = DocFacade.parse( new StringReader( this.getXmlData()  ), this.docRequestConfig.getDocHelper() );
+		} else {
+			docBase = (DocBase) request.getAttribute( DocHandler.ATT_NAME_DOC );
+		}
+		return docBase;
+	}
+	
 	
 }

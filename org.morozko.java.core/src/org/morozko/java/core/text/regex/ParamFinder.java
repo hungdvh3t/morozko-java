@@ -62,7 +62,7 @@ public class ParamFinder {
 	
 	private int postL;
 	
-	private ParamFinder( String pre, String post, int preL, int postL ) {
+	protected ParamFinder( String pre, String post, int preL, int postL ) {
 		String pattern = pre+"(.*?)"+post;
 		this.p = Pattern.compile( pattern );
 		this.pre = pre;
