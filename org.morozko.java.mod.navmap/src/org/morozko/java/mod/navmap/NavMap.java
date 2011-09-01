@@ -61,7 +61,7 @@ public class NavMap extends NavNode {
 			
 		} catch (Exception e) {
 			LogFacade.getLog().warn("loadProps "+path);
-			LogFacade.getLog().debug("loadProps "+path, e);
+			//LogFacade.getLog().debug("loadProps "+path, e);
 		}
 		return props;
 	}
