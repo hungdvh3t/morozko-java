@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,14 @@ import com.oreilly.servlet.MultipartRequest;
 
 public class FileHandler {
 
+	private static Comparator<File> SORT_FILE = new Comparator<File>() {
+		@Override
+		public int compare(File f1, File f2) {
+			int res = f1.getName().compareTo( f2.getName() );
+			return res;
+		}
+	};
+	
 	private static String fileAtts( File file ) {
 		StringBuffer atts = new StringBuffer();
 		if ( file.canRead() ) {
@@ -126,7 +136,7 @@ public class FileHandler {
 			pw.println("<th"+tdSyle+">Last modified</th>");
 			pw.println("<th"+tdSyle+">Actions</th>");
 			pw.println("</tr>");
-			
+			Arrays.sort( listKids, SORT_FILE );
 			for (int k = 0; k < listKids.length; k++) {
 				File current = listKids[k];
 				pw.println("<tr>");
