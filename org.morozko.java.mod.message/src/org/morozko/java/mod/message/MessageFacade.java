@@ -39,13 +39,7 @@ import java.util.Properties;
 public class MessageFacade {
 
 	public static MessageHandler newMessage( String sender, String to, String cc, String bcc, String subject, String[] textParts, File[] fileParts, Properties headers ) {
-		List parts = new ArrayList();
-		for ( int k=0; k<textParts.length; k++ ) {
-			parts.add( newTextPart( textParts[k] ) );
-		}
-		for ( int k=0; k<fileParts.length; k++ ) {
-			parts.add( newFilePart( fileParts[k] ) );
-		}		
+		List parts = parts(textParts, fileParts);
 		MessageHandler message = new MessageDefault( parts,
 												new MessageAddress( sender ),
 												MessageAddress.parse( to ),
@@ -54,6 +48,19 @@ public class MessageFacade {
 												subject,
 												MessageHeaders.fromProperties( headers ));
 		return message;
+	}
+	
+	public static List parts( String[] textParts, File[] fileParts ) {
+		List parts = new ArrayList();
+		for ( int k=0; k<textParts.length; k++ ) {
+			parts.add( newTextPart( textParts[k] ) );
+		}
+		if ( fileParts != null ) {
+			for ( int k=0; k<fileParts.length; k++ ) {
+				parts.add( newFilePart( fileParts[k] ) );
+			}		
+		}
+		return parts;
 	}
 	
 	public static MessageFilePart newFilePart( File file ) {
