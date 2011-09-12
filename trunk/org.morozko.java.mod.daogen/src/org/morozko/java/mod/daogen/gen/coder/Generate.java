@@ -31,6 +31,9 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import javax.swing.plaf.metal.MetalIconFactory.FileIcon16;
+
+import org.morozko.java.core.io.FileIO;
 import org.morozko.java.mod.daogen.gen.config.DGConfig;
 import org.morozko.java.mod.daogen.gen.config.TableConfig;
 
@@ -107,7 +110,21 @@ public class Generate {
         	
             File baseDir = new File( generalProps.getProperty( "base.dir" ) );
 
-            if ("true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.model" ) )) {
+            boolean generateHelpers = true;
+            
+            File xmlTableConfig = new File( baseDir, createPath( generalProps.getProperty( "package.dao" ), tableConfig.getTableName()+".xml" ) );
+            String xmlTableContent = "";
+            if ( xmlTableConfig.exists() ) {
+            	xmlTableContent = FileIO.readString( xmlTableConfig );
+            }
+            if ( tableConfig.getXmlTable().equals( xmlTableContent ) ) {
+            	generateHelpers = false;
+            } else {
+            	FileIO.writeBytes( tableConfig.getXmlTable().getBytes() , xmlTableConfig );
+            }
+            
+            
+            if ( generateHelpers && "true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.model" ) )) {
             	log( "GENERATING MODEL ("+tableConfig.getTableName()+")" );
                 File daoFile = new File( baseDir, createPath( generalProps.getProperty( "package.model" )+".helpers", tableConfig.getTableName()+"ModelHelper.java" ) );
                 daoFile.getParentFile().mkdirs();
@@ -117,7 +134,7 @@ public class Generate {
                 daoStream.close();
             }
 
-            if ("true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.bean" ) )) {
+            if ( generateHelpers && "true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.bean" ) )) {
             	log( "GENERATING BEAN ("+tableConfig.getTableName()+")" );
                 File daoFile = new File( baseDir, createPath( generalProps.getProperty( "package.bean" )+".helpers", tableConfig.getTableName()+"BeanHelper.java" ) );
                 daoFile.getParentFile().mkdirs();
@@ -127,7 +144,7 @@ public class Generate {
                 daoStream.close();    
             }
 
-            if ("true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.rse" ) )) {
+            if ( generateHelpers && "true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.rse" ) )) {
             	log( "GENERATING RSE ("+tableConfig.getTableName()+")" );
                 File daoFile = new File( baseDir, createPath( generalProps.getProperty( "package.dao" )+".helpers", tableConfig.getTableName()+"ModelRSEHelper.java" ) );
                 daoFile.getParentFile().mkdirs();
@@ -137,7 +154,7 @@ public class Generate {
                 daoStream.close();                    
             }
             
-            if ("true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.dao" ) )) {
+            if ( generateHelpers && "true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.dao" ) )) {
             	log( "GENERATING DAO ("+tableConfig.getTableName()+")" );
                 File daoFile = new File( baseDir, createPath( generalProps.getProperty( "package.dao" )+".helpers", tableConfig.getTableName()+"DAOHelper.java" ) );
                 daoFile.getParentFile().mkdirs();
@@ -157,8 +174,7 @@ public class Generate {
                 TrueCoder.createTrueFile( dgConfig, daoFactoryModuleFileTrue, moduleDAOFactory, generalProps.getProperty( "package.dao" ), TrueCoder.TYPE_DAO_FACTORY );
             }            
             
-            if ("true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.dao" ) )) {
-            	
+            if ("true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.dao" ) )) {            	
             	File daoFileTrue = new File( baseDirTrue, createPath( generalProps.getProperty( "package.dao" ), name+"DAO.java" ) );
                 TrueCoder.createTrueFile( dgConfig, daoFileTrue, name+"DAO", generalProps.getProperty( "package.dao" ), TrueCoder.TYPE_DAO );
                 System.out.println( "TEST "+daoFileTrue+" : "+daoFileTrue.exists() );

@@ -36,6 +36,16 @@ import java.util.List;
  */
 public class TableConfig {
 
+	private String xmlTable;
+	
+	public String getXmlTable() {
+		return xmlTable;
+	}
+
+	public void setXmlTable(String xmlTable) {
+		this.xmlTable = xmlTable;
+	}
+
 	public boolean isFake() {
 		return fake;
 	}

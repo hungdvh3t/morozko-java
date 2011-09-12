@@ -30,6 +30,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -293,8 +294,16 @@ public class ConfigParser extends BasicLogObject {
             List relationsCache = new ArrayList();
             for (int k=0; k<list.size(); k++) {
                 Element table = (Element)list.get( k );
+                // xml version
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            	DOMIO.writeDOMIndent( table , baos );
+            	String xmlTable = baos.toString();
+            	
+                // start
                 Properties props = DOMUtils.attributesToProperties( table );
                 TableConfig tableConfig = new TableConfig();
+                tableConfig.setXmlTable( xmlTable );
+                
                 // il nome del nuovo oggetto
                 String name = props.getProperty( "name" ) ;
                 this.getLog().info( "table name '"+name+"'" );
