@@ -1,5 +1,5 @@
 #labels Featured
-#Introduction page to Morozko Java Librariy.
+Introduction page to Morozko Java Librariy.
 
 = Introduction =
 
