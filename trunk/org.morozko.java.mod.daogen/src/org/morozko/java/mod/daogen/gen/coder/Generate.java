@@ -54,6 +54,8 @@ public class Generate {
    
         	log( "CODE GENERATION START" );
         	
+        	int gen = 0;
+        	
         	Properties generalProps = dgConfig.getGeneralProps();
         	
             Iterator it = dgConfig.getTableConfigList().iterator();
@@ -61,7 +63,7 @@ public class Generate {
             	TableConfig tableConfig = ( TableConfig ) it.next();
             	if ( !"true".equalsIgnoreCase( dgConfig.getExcludeProps().getProperty( tableConfig.getTableName() ) ) ) {
             		log( "GENERATING CODE FOR TABLE : "+tableConfig.getTableName() );
-                	handleTable( dgConfig, tableConfig );	
+                	gen+= handleTable( dgConfig, tableConfig );	
             	} else {
             		log( "SKIPPING   CODE FOR TABLE : "+tableConfig.getTableName() );
             	}
@@ -69,7 +71,7 @@ public class Generate {
             
             File baseDir = new File( generalProps.getProperty( "base.dir" ) );
             
-            if ( !"true".equalsIgnoreCase( dgConfig.getExcludeProps().getProperty( "factory" ) ) && "true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.factory" ) )) {
+            if ( gen > 0 && !"true".equalsIgnoreCase( dgConfig.getExcludeProps().getProperty( "factory" ) ) && "true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.factory" ) )) {
             	log( "GENERATING FACTORY" );
                 File daoFile = new File( baseDir, createPath( generalProps.getProperty( "package.dao" )+".helpers", generalProps.getProperty( "factory.dao.module" )+"Helper.java" ) );
                 daoFile.getParentFile().mkdirs();
@@ -101,9 +103,11 @@ public class Generate {
     
     public static boolean REGENERATE = false;
     
-    public static void handleTable( DGConfig dgConfig, TableConfig tableConfig ) throws Exception {
+    public static int handleTable( DGConfig dgConfig, TableConfig tableConfig ) throws Exception {
         
     	String name = tableConfig.getTableName();
+    	
+    	int gen = 0;
     	
     	if ( name != null ) {
         	Properties generalProps = dgConfig.getGeneralProps();
@@ -121,6 +125,7 @@ public class Generate {
             	generateHelpers = false;
             } else {
             	FileIO.writeBytes( tableConfig.getXmlTable().getBytes() , xmlTableConfig );
+            	gen++;
             }
             
             
@@ -191,6 +196,8 @@ public class Generate {
     	} else {
     		log( "NULL TABLE : "+name );
     	}
+    	
+    	return gen;
     	
     }
 		
