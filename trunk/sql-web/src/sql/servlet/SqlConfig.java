@@ -6,7 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.morozko.java.mod.db.connect.ConnectionFactory;
+
 public class SqlConfig {
+
+	private ConnectionFactory connectionFactory;
+	
+	public ConnectionFactory getConnectionFactory() {
+		return connectionFactory;
+	}
+
+	public void setConnectionFactory(ConnectionFactory connectionFactory) {
+		this.connectionFactory = connectionFactory;
+	}
 
 	private List<SqlQuery> listQuery;
 	

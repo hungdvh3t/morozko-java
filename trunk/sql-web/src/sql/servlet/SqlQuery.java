@@ -1,6 +1,17 @@
 package sql.servlet;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SqlQuery {
+
+	public SqlQuery() {
+		this.updateMap = new HashMap<String, SqlUpdate>();
+	}
+	
+	public Map<String, SqlUpdate> getUpdateMap() {
+		return updateMap;
+	}
 
 	private String name;
 	
@@ -10,6 +21,18 @@ public class SqlQuery {
 	
 	private String type;
 
+	private String key;
+	
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	private Map<String, SqlUpdate> updateMap;
+	
 	public String getDescription() {
 		return description;
 	}
