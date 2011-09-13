@@ -3,6 +3,7 @@
   * [MorozkoJavaMainWiki Indtroduction].
   * Mudule list
     * [Core Library Core]
-    * [ModDoc Document (PDF/RTF/XLS ecc) generation]
-    * [ModNavmap Web application view/control framework]
-    * [ModWeb Web Functions (Helper functions for Web/Struts)]
+    * [ModDoc Document generation]
+    * [ModDaogen DAO/Model framework]
+    * [ModNavmap (M)VC framework]
+    * [ModWeb Wev functions]
