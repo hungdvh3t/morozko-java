@@ -6,4 +6,4 @@
     * [ModDoc Document generation]
     * [ModDaogen DAO/Model framework]
     * [ModNavmap (M)VC framework]
-    * [ModWeb Wev functions]
+    * [ModWeb Web functions]
