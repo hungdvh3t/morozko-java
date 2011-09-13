@@ -1,7 +1,7 @@
 [TableOfContents Table Of Contents]
 
   * [MorozkoJavaMainWiki Indtroduction].
-  * Mudules Documentation
+  * Library Mudules Documentation 
     * [Core Library Core (TODO)]
     * [ModDoc Document generation (TODO)]
     * [ModDaogen DAO/Model framework (TODO)]
