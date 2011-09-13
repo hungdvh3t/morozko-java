@@ -7,6 +7,10 @@
 		<display-name>SqlServlet</display-name>
 		<servlet-name>SqlServlet</servlet-name>
 		<servlet-class>sql.servlet.SqlServlet</servlet-class>
+		<init-param>
+			<param-name>sql-config</param-name>
+			<param-value>jndi:java:comp/env/config/sqlconfig</param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
@@ -22,6 +26,26 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 	<jsp-config>
+		<taglib>
+			<taglib-uri>/morozko/mhtml</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/mhtml-1-0.tld</taglib-location>
+		</taglib>			
+		<taglib>
+			<taglib-uri>/morozko/mlogic</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/mlogic-1-0.tld</taglib-location>
+		</taglib>			
+		<taglib>
+			<taglib-uri>/morozko/mlist</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/mlist-1-0.tld</taglib-location>
+		</taglib>		
+		<taglib>
+			<taglib-uri>/morozko/mformat</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/mformat-1-0.tld</taglib-location>
+		</taglib>				
+		<taglib>
+			<taglib-uri>/morozko/mmap</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/mmap-1-0.tld</taglib-location>
+		</taglib>	
 		<taglib>
 			<taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
 			<taglib-location>/WEB-INF/tlds/c.tld</taglib-location>
