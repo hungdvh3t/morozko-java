@@ -50,5 +50,34 @@
 			<taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
 			<taglib-location>/WEB-INF/tlds/c.tld</taglib-location>
 		</taglib>
-	</jsp-config>		
+	</jsp-config>	
+	
+	<security-role>
+		<role-name>manager</role-name>
+		<description>Administrative role</description>
+	</security-role>
+	
+	<security-constraint>
+		<display-name>admin_users</display-name>
+		<web-resource-collection>
+			<web-resource-name>admin_users</web-resource-name>
+			<url-pattern>/*</url-pattern>					
+			<http-method>GET</http-method>
+			<http-method>PUT</http-method>
+			<http-method>HEAD</http-method>
+			<http-method>TRACE</http-method>
+			<http-method>POST</http-method>
+			<http-method>DELETE</http-method>
+			<http-method>OPTIONS</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>admin_users</description>
+			<role-name>manager</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<login-config>
+		<auth-method>BASIC</auth-method>
+	</login-config>			
+		
 </web-app>
