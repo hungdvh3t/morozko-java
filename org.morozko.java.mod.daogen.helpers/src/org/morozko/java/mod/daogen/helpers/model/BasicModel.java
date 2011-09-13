@@ -63,21 +63,46 @@ public class BasicModel implements Serializable {
         return new java.sql.Date( DATE_FORMAT.parse( v , new ParsePosition( 0 ) ).getTime() );
     }    
     
-    public static final DateFormat DATE_FORMAT = new SimpleDateFormat( "dd/MM/yyyy" );
+    public static final String DEF_DATE_FORMAT = CONVERT.getString( "date.format" );
+    public static final String DEF_TIME_FORMAT = CONVERT.getString( "time.format" );
+    public static final String DEF_TIMESTAMP_FORMAT = CONVERT.getString( "timestamp.format" );
     
-    public static final DateFormat TIME_FORMAT = new SimpleDateFormat( "HH:mm:ss" );
+    /**
+     * @deprecated Deprecato da sostituire con newDateFormat()
+     */
+    public static final DateFormat DATE_FORMAT = new SimpleDateFormat( DEF_DATE_FORMAT );
     
-    public static final DateFormat TIMESTAMP_FORMAT = new SimpleDateFormat( "dd/MM/yyyy HH:mm:ss" );
+    /**
+     * @deprecated Deprecato da sostituire con newTimeFormat()
+     */    
+    public static final DateFormat TIME_FORMAT = new SimpleDateFormat( DEF_TIME_FORMAT );
+    
+    /**
+     * @deprecated Deprecato da sostituire con newTimestampFormat()
+     */    
+    public static final DateFormat TIMESTAMP_FORMAT = new SimpleDateFormat( DEF_TIMESTAMP_FORMAT );
+    
+    public static DateFormat newDateFormat() {
+    	return new SimpleDateFormat( DEF_DATE_FORMAT );
+    }
+    
+    public static DateFormat newTimeFormat() {
+    	return new SimpleDateFormat( DEF_TIME_FORMAT );
+    }
+    
+    public static DateFormat newTimestampFormat() {
+    	return new SimpleDateFormat( DEF_TIMESTAMP_FORMAT );
+    }    
     
     public String formatObject( Object obj ) {
         String result = "";
         if (obj != null) {
             if ( obj instanceof java.sql.Date ) {
-                result = DATE_FORMAT.format( (java.sql.Date)obj );                
+                result = newDateFormat().format( (java.sql.Date)obj );                
             } else if ( obj instanceof java.sql.Time ) {
-                result = DATE_FORMAT.format( (java.sql.Time)obj );
+                result = newTimeFormat().format( (java.sql.Time)obj );
             } else if ( obj instanceof java.util.Date ) {
-                result = TIMESTAMP_FORMAT.format( (java.util.Date)obj );
+                result = newTimestampFormat().format( (java.util.Date)obj );
 			} else if ( obj instanceof DAOID ) {      
 				result = obj.toString();
 			} else if ( obj instanceof java.lang.Number ) {
