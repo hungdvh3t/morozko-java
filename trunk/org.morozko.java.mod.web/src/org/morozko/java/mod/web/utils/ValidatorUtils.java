@@ -1,5 +1,6 @@
 package org.morozko.java.mod.web.utils;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -45,6 +46,12 @@ public class ValidatorUtils {
 	    errors.add( "errors", new ActionMessage( key ) );
 	}
 	
+	public static void main( String[] args ) {
+		String testDate = "28/02/2008";
+		ActionErrors errors = new ActionErrors();
+		System.out.println( fieldDate( "Test Date" , testDate, errors, false, null, null ) );
+	}
+	
 	/**
 	 * Verifica la validit&agrave; di una data :
 	 * - validit&agrave; formale della strigna data (GG/MM/AAAA)
@@ -59,30 +66,18 @@ public class ValidatorUtils {
 	 * @param max			data massima di value ( non viene verificato se <code>max == null</code>)
 	 * @return				<code>true</code> se tutte le validazioni vengono superate (e quindi non sono stati aggiunti errori ad errors).
 	 */
+	
 	public static boolean fieldDate( String field, String value, ActionErrors errors, boolean optional, String min, String max ) {
+		return fieldDate( field, value, errors, optional, min, max, BasicModel.newDateFormat() );
+	}
+	
+	public static boolean fieldDate( String field, String value, ActionErrors errors, boolean optional, String min, String max, DateFormat dateFormat ) {
 		boolean result = true;
 		if ( !( optional && isNull( value ) ) ) {
 			try {
-			    if ( value.length() != 10 ) {
-			        throw ( new Exception( "Wrong length" ) );
-			    }
-			    int d = Integer.parseInt( value.substring( 0, 2 ) );
-			    int m = Integer.parseInt( value.substring( 3, 5 ) );
-			    //int y = Integer.parseInt( value.substring( 6, 10 ) );
-			    if ( m<1 || m>12 ) {
-			        throw ( new Exception( "mese errato" ) );
-			    } else {
-			        if ( m==2 && ( d<1 || d>28 ) ) {
-			            throw ( new Exception( "giorno errato 1" ) );
-			        } else if ( ( m==4 || m==6 || m==9 || m==11 ) && ( d<1 || d>30 ) ) {
-			            throw ( new Exception( "giorno errato 2" ) );
-			    	} else if ( d<1 || d>31 ) {
-			            throw ( new Exception( "giorno errato 3" ) );    
-			        }
-			    }
-			    Date valueDate = BasicBean.DATE_FORMAT.parse( value );
+			    Date valueDate = dateFormat.parse( value );
 			    if ( min != null ) {
-			        Date dateMin = BasicBean.DATE_FORMAT.parse( min );
+			        Date dateMin = dateFormat.parse( min );
 			        if ( valueDate.before( dateMin ) ) {
 			            Object[] args = { field, min };
 					    errors.add( "errors", new ActionMessage( "struts.message.validate.field.date.minDate", args ) );
@@ -90,7 +85,7 @@ public class ValidatorUtils {
 			        }
 			    }
 			    if ( max != null ) {
-			        Date dateMax = BasicBean.DATE_FORMAT.parse( max );
+			        Date dateMax = dateFormat.parse( max );
 			        if ( valueDate.after( dateMax ) ) {
 			            Object[] args = { field, max };
 					    errors.add( "errors", new ActionMessage( "struts.message.validate.field.date.maxDate", args ) );

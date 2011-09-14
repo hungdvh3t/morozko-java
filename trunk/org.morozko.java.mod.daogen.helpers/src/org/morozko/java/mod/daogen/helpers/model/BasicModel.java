@@ -82,16 +82,22 @@ public class BasicModel implements Serializable {
      */    
     public static final DateFormat TIMESTAMP_FORMAT = new SimpleDateFormat( DEF_TIMESTAMP_FORMAT );
     
+    private static DateFormat newFormat( String pattern ) {
+    	DateFormat df = new SimpleDateFormat( pattern );
+    	df.setLenient( "true".equalsIgnoreCase( CONVERT.getString( "dateformat.lenient" ) ) );
+    	return df;
+    }
+    
     public static DateFormat newDateFormat() {
-    	return new SimpleDateFormat( DEF_DATE_FORMAT );
+    	return newFormat( DEF_DATE_FORMAT );
     }
     
     public static DateFormat newTimeFormat() {
-    	return new SimpleDateFormat( DEF_TIME_FORMAT );
+    	return newFormat( DEF_TIME_FORMAT );
     }
     
     public static DateFormat newTimestampFormat() {
-    	return new SimpleDateFormat( DEF_TIMESTAMP_FORMAT );
+    	return newFormat( DEF_TIMESTAMP_FORMAT );
     }    
     
     public String formatObject( Object obj ) {
