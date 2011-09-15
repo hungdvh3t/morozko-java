@@ -32,7 +32,6 @@
 	
 	<security-role>
 		<role-name>manager</role-name>
-		<description>Administrative role</description>
 	</security-role>
 	
 	<security-constraint>
