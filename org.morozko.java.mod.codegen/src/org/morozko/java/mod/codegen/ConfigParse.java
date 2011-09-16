@@ -38,6 +38,7 @@ public class ConfigParse {
 					currentNode.setOverwrite( props.getProperty( "overwrite" ) );
 					currentNode.setOperation( props.getProperty( "operation" ) );
 					currentNode.setJspInclude( props.getProperty( "jsp-include" ) );
+					currentNode.setJspTemplate( "tiles."+props.getProperty( "module" )+"."+props.getProperty( "jsp-template", "template" ) );
 					currentNode.setAuth( props.getProperty( "auth", "NOCHECK" ) );
 					String formName = props.getProperty( "form" );
 					if ( formName != null ) {
