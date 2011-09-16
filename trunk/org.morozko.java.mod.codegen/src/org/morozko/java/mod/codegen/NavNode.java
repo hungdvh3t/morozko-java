@@ -27,6 +27,16 @@ public class NavNode {
 	
 	private String jspInclude;
 	
+	private String jspTemplate;
+	
+	public String getJspTemplate() {
+		return jspTemplate;
+	}
+
+	public void setJspTemplate(String jspTemplate) {
+		this.jspTemplate = jspTemplate;
+	}
+
 	private boolean formValidate;
 	
 	private String formInput;

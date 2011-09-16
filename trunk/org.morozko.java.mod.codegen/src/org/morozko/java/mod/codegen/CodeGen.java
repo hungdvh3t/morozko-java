@@ -122,7 +122,7 @@ public class CodeGen extends Coder {
 									helper.actionPackage,						 // 1 -
 									// parametri jsp			
 									"tiles."+helper.moduleName+"."+pageName,	// 2 - tiles definition name
-									"tiles."+helper.moduleName+".template",     // 3 -
+									node.getJspTemplate(),     // 3 -
 									helper.moduleName,							// 4 -
 									pageName,							 // 5 -
 									// navmap properties
