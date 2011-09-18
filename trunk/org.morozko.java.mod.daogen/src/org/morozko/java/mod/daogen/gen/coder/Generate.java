@@ -124,6 +124,7 @@ public class Generate {
             if ( tableConfig.getXmlTable().equals( xmlTableContent ) ) {
             	generateHelpers = false;
             } else {
+            	xmlTableConfig.getParentFile().mkdirs();
             	FileIO.writeBytes( tableConfig.getXmlTable().getBytes() , xmlTableConfig );
             	gen++;
             }
