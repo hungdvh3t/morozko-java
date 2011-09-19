@@ -1,6 +1,7 @@
 package org.morozko.java.mod.web.filter;
 
 import java.io.IOException;
+import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -8,11 +9,11 @@ import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 import org.morozko.java.core.ent.servlet.filter.HttpFilter;
-import org.morozko.java.mod.doc.filter.HttpServletResponseByteData;
+import org.morozko.java.mod.web.servlet.request.HttpServletRequestUrlChanger;
+import org.morozko.java.mod.web.servlet.response.HttpServletResponseByteData;
 
 public class ZipFilter extends HttpFilter {
 
@@ -20,31 +21,78 @@ public class ZipFilter extends HttpFilter {
 		
 	}
 	
-	public static final String EXT = ".zip";
+	public static final int COMPRESS_MODE_NONE = 0;
+	
+	public static final int COMPRESS_MODE_ZIP = 1;
+	
+	public static final int COMPRESS_MODE_GZIP = 2;
+	
+	private static final String EXT_ZIP = ".zip";
+	
+	private static final String EXT_GZIP = ".gz";
+	
+	
+	private static final CompressMode MODE_ZIP = new CompressMode( COMPRESS_MODE_ZIP , EXT_ZIP );
+	private static final CompressMode MODE_GZIP = new CompressMode( COMPRESS_MODE_GZIP , EXT_GZIP );
+	
+	private static final CompressMode MODE_LIST[] = { MODE_ZIP, MODE_GZIP};
+	
+	public static void zip( byte[] data, String fileName, HttpServletResponse response ) throws IOException {
+		response.setContentType( "application/zip" );
+		String contentDisposition = "attachment; filename="+fileName;
+		response.addHeader("Content-Disposition", contentDisposition );
+		ZipOutputStream zos = new ZipOutputStream( response.getOutputStream() );
+		ZipEntry ze = new ZipEntry( fileName );
+		zos.putNextEntry( ze );
+		zos.write( data );
+		zos.closeEntry();
+		zos.close();
+	}
 
+	public static void gzip( byte[] data, String fileName, HttpServletResponse response ) throws IOException {
+		response.setContentType( "application/zip" );
+		String contentDisposition = "attachment; filename="+fileName;
+		response.addHeader("Content-Disposition", contentDisposition );
+		GZIPOutputStream gos = new GZIPOutputStream( response.getOutputStream() );
+		gos.write( data );
+		gos.close();
+	}
+
+	public static boolean checkExt( String fileName, String ext ) {
+		return fileName.lastIndexOf( ext ) == fileName.length()-ext.length();
+	}
+	
+	public static int checkMode( String url ) {
+		int mode = COMPRESS_MODE_NONE;
+		for ( int k=0; k<MODE_LIST.length; k++ ) {
+			CompressMode current = MODE_LIST[k];
+			if ( checkExt( url , current.getExt() ) ) {
+				mode = current.getMode();
+			}
+		}
+		return mode;
+	}
+
+	
 	public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 		String url = request.getRequestURI();
-		int index = url.lastIndexOf( EXT );
-		if ( index == url.length()-EXT.length() ) {
+		int mode = checkMode( url );
+		if ( mode != COMPRESS_MODE_NONE ) {
 			int index1 = url.lastIndexOf( "/" );
+			int index2 = url.lastIndexOf( "." );
 			String text = url.substring( index1+1 );
-			String replace = text.substring( 0, text.length()-EXT.length() );
-			HttpServletRequest req = new HttpServletRequestFilter( request, text, replace );
+			String replace = text.substring( 0, index2 );
+			HttpServletRequest req = new HttpServletRequestUrlChanger( request, text, replace );
 			HttpServletResponseByteData res = new HttpServletResponseByteData( response );
 			chain.doFilter( req, res );
-			response.setContentType( "application/zip" );
-			String contentDisposition = "attachment; filename="+text;
-			response.addHeader("Content-Disposition", contentDisposition );
-			ZipOutputStream zos = new ZipOutputStream( response.getOutputStream() );
-			ZipEntry ze = new ZipEntry( replace );
-			zos.putNextEntry( ze );
-			zos.write( res.getBaos().toByteArray() );
-			zos.closeEntry();
-			zos.close();
+			if ( mode == COMPRESS_MODE_ZIP ) {
+				zip( res.getBaos().toByteArray() , replace, response );
+			} else if ( mode == COMPRESS_MODE_GZIP ) {
+				gzip( res.getBaos().toByteArray() , replace, response );
+			}
 		} else {
 			chain.doFilter( request, response );	
 		}
-		
 	}
 
 	public void destroy() {
@@ -53,27 +101,32 @@ public class ZipFilter extends HttpFilter {
 
 }
 
-class HttpServletRequestFilter extends HttpServletRequestWrapper {
+class CompressMode {
+	
+	private int mode;
 
-	private String text;
-	
-	private String replace;
-	
-	public HttpServletRequestFilter( HttpServletRequest request, String text, String replace ) {
-		super(request);
-		this.text = text;
-		this.replace = replace;
+	private String ext;
+
+	public CompressMode(int mode, String ext) {
+		super();
+		this.mode = mode;
+		this.ext = ext;
 	}
 
-	public String getRequestURI() {
-		return super.getRequestURI().replaceAll( this.text , this.replace );
+	public int getMode() {
+		return mode;
 	}
 
-	public StringBuffer getRequestURL() {
-		String s = super.getRequestURL().toString().replaceAll( this.text , this.replace );
-		StringBuffer b = new StringBuffer();
-		b.append( s );
-		return b;
+	public void setMode(int mode) {
+		this.mode = mode;
+	}
+
+	public String getExt() {
+		return ext;
+	}
+
+	public void setExt(String ext) {
+		this.ext = ext;
 	}
 	
 }

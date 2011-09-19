@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 
@@ -23,6 +22,7 @@ import org.morozko.java.mod.doc.config.DocConfig;
 import org.morozko.java.mod.doc.config.DocConstants;
 import org.morozko.java.mod.doc.filter.facade.DocRequestConfig;
 import org.morozko.java.mod.web.servlet.config.ConfigContext;
+import org.morozko.java.mod.web.servlet.response.HttpServletResponseByteData;
 import org.w3c.dom.Element;
 
 public class DocRequestFacade extends BasicLogObject {
@@ -32,9 +32,18 @@ public class DocRequestFacade extends BasicLogObject {
 	public void handleDoc( HttpServletRequest request, HttpServletResponse response ) throws ServletException {
 		this.getLog().info( "start processing "+DocConfig.VERSION );
 		
+		
+		
 		request.setAttribute( "docConsts" , DocConstants.DEF );
 		this.getLog().info( "out-mode    : "+this.getDocRequestConfig().getOutMode() );
 		String uri = request.getRequestURI();
+		
+//		// compress mode
+//		int compressMode = ZipFilter.checkMode( uri );
+////		if ( compressMode != ZipFilter.COMPRESS_MODE_NONE ) {
+////			uri = 
+////		}
+		
 		String render = request.getParameter( "render-type" );
 		String truncate = request.getParameter( "truncate" );
 		this.getLog().info( "uri : "+uri );

@@ -1,12 +1,4 @@
-/*
- * @(#)HttpServletResponseData.java
- *
- * @project    : serviceapp
- * @package    : net.jsomnium.jlib.mod.web.filter
- * @creation   : 12/lug/07
- * @license	   : META-INF/LICENSE.TXT
- */
-package org.morozko.java.mod.doc.filter;
+package org.morozko.java.mod.web.servlet.response;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,20 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.morozko.java.core.log.LogFacade;
+import org.morozko.java.mod.doc.filter.DataServletOutputStream;
 
-/**
- * <p>
- *	<jdl:section>
- * 		<jdl:text lang='it'>
- * 		</jdl:text>
- * 		<jdl:text lang='en'>
- * 		</jdl:text>  
- *	</jdl:section>
- * </p>
- *
- * @author mfranci
- *
- */
 public class HttpServletResponseByteData extends HttpServletResponseWrapper  {
 
 //	/* (non-Javadoc)
