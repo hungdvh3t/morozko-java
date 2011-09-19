@@ -16,7 +16,7 @@ import org.morozko.java.mod.web.servlet.request.HttpServletRequestUrlChanger;
 import org.morozko.java.mod.web.servlet.response.HttpServletResponseByteData;
 
 public class ZipFilter extends HttpFilter {
-
+	
 	public void init(FilterConfig config) throws ServletException {
 		
 	}
@@ -39,7 +39,7 @@ public class ZipFilter extends HttpFilter {
 	
 	public static void zip( byte[] data, String fileName, HttpServletResponse response ) throws IOException {
 		response.setContentType( "application/zip" );
-		String contentDisposition = "attachment; filename="+fileName;
+		String contentDisposition = "attachment; filename="+fileName+EXT_ZIP;
 		response.addHeader("Content-Disposition", contentDisposition );
 		ZipOutputStream zos = new ZipOutputStream( response.getOutputStream() );
 		ZipEntry ze = new ZipEntry( fileName );
@@ -50,8 +50,8 @@ public class ZipFilter extends HttpFilter {
 	}
 
 	public static void gzip( byte[] data, String fileName, HttpServletResponse response ) throws IOException {
-		response.setContentType( "application/zip" );
-		String contentDisposition = "attachment; filename="+fileName;
+		response.setContentType( "application/gzip" );
+		String contentDisposition = "attachment; filename="+fileName+EXT_GZIP;
 		response.addHeader("Content-Disposition", contentDisposition );
 		GZIPOutputStream gos = new GZIPOutputStream( response.getOutputStream() );
 		gos.write( data );
@@ -78,9 +78,9 @@ public class ZipFilter extends HttpFilter {
 		String url = request.getRequestURI();
 		int mode = checkMode( url );
 		if ( mode != COMPRESS_MODE_NONE ) {
-			int index1 = url.lastIndexOf( "/" );
-			int index2 = url.lastIndexOf( "." );
+			int index1 = url.lastIndexOf( '/' );
 			String text = url.substring( index1+1 );
+			int index2 = text.lastIndexOf( '.' );
 			String replace = text.substring( 0, index2 );
 			HttpServletRequest req = new HttpServletRequestUrlChanger( request, text, replace );
 			HttpServletResponseByteData res = new HttpServletResponseByteData( response );
