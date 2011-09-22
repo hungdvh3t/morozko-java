@@ -54,12 +54,21 @@ import org.xml.sax.SAXException;
 /**
  * <p></p>
  *
- * @author mfranci
+ * @author Matteo 
  *
  */
 public class DocContentHandler implements ContentHandler {
 	
-	private static final String[] ELEMENT_CONTAINER = { "table", "row", "cell", "body", "meta", "metadata", "header", "footer", "header-ext", "footer-ext" };
+	private static final String[] ELEMENT_CONTAINER = { "table", 
+														"row", 
+														"cell", 
+														"body", 
+														"meta", 
+														"metadata", 
+														"header", 
+														"footer", 
+														"header-ext", 
+														"footer-ext" };
 	
 	private static final List CONTAINER_LIST = Arrays.asList( ELEMENT_CONTAINER );
 	
