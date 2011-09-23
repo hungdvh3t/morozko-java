@@ -116,6 +116,16 @@ public class CodeGen extends Coder {
 					jspBody.append( "<jsp:include page=\"/struts/"+helper.moduleName+"/content/"+node.getJspInclude()+".jsp\" flush=\"true\"/>" );
 				}
 				
+				String actionForm = "";
+				if ( node.isFormValidate() ) {
+					actionForm = " validate='"+node.isFormValidate()+"' ";
+					if ( node.getFormInput() != null ) {
+						actionForm+= "input='tiles."+helper.moduleName+"."+node.getFormInput()+"'";
+					}
+				} else {
+					actionForm = " validate='false' ";
+				}
+				
 				Object[] params = { 
 									// parametri actions
 									actionName ,						 // 0 -	
@@ -145,7 +155,7 @@ public class CodeGen extends Coder {
 									extendForm,							// 22 -
 									dtoBuffer.toString(),				// 23 -
 									formToDtoBuffer.toString(),			// 24 -
-									"tiles."+helper.moduleName+"."+node.getFormInput(),	// 25 - form input
+									actionForm,	// 25 - form input
 									jspFormBody.toString(), 			// 26
 									node.getAuth(),						// 27
 									helper.appName,						// 28
@@ -190,7 +200,7 @@ public class CodeGen extends Coder {
 				if ( node.getForm() != null ) {
 					helper.struts1Buffer.append( CodeGenUtils.genText( templateResolver.getStrutsForm(), params ) );
 				}
-				if ( node.isFormValidate() ) {
+				if ( node.getForm() != null ) {
 					helper.struts2Buffer.append( CodeGenUtils.genText( templateResolver.getStrutsActionForm(), params ) );	
 				} else {
 					helper.struts2Buffer.append( CodeGenUtils.genText( templateResolver.getStrutsAction(), params ) );
