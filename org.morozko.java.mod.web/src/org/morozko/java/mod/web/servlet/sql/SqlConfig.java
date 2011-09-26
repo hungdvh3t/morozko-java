@@ -45,7 +45,7 @@ public class SqlConfig extends BasicConfig {
 		Element root = configXml.getDocumentElement();
 		SearchDOM search = SearchDOM.newInstance( true , true );
 		SqlConfig sqlConfig = new SqlConfig();
-		// connection factoru 
+		// connection factory
 		Element cfTag = search.findTag( root, "connection-factory" );
 		Properties props = DOMUtils.attributesToProperties( cfTag );
 		ConnectionFactory cf = ConnectionFactoryImpl.newInstance( props );
