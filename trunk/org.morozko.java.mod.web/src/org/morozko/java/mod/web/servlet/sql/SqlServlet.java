@@ -100,7 +100,7 @@ public class SqlServlet extends LogObjectServlet {
 		super.init(config);
 		try {
 			String configParam = config.getInitParameter( "sql-config" );
-			this.sqlConfig = SqlConfig.configure(configParam, config.getServletContext());
+			this.sqlConfig = SqlModule.configure(configParam, config.getServletContext());
 		} catch (Exception e) {
 			throw new ServletException( e );
 		}
