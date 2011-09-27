@@ -1,6 +1,7 @@
 package org.morozko.java.mod.web.servlet.sql;
 
-import java.io.File;
+import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,39 +10,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.servlet.ServletContext;
-
-import org.morozko.java.core.cfg.ConfigException;
-import org.morozko.java.core.ent.servlet.context.ContextHelper;
 import org.morozko.java.core.log.LogFacade;
 import org.morozko.java.core.xml.dom.DOMIO;
 import org.morozko.java.core.xml.dom.DOMUtils;
 import org.morozko.java.core.xml.dom.SearchDOM;
 import org.morozko.java.mod.db.connect.ConnectionFactory;
 import org.morozko.java.mod.db.connect.ConnectionFactoryImpl;
-import org.morozko.java.mod.web.servlet.config.BasicConfig;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class SqlConfig extends BasicConfig {
+public class SqlConfig implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5510904149852039264L;
+	private static final long serialVersionUID = -144709501669419525L;
 
-	public void configure(Properties props) throws ConfigException {
-		try {
-			String configParam = props.getProperty( "sql-config" );
-			configure(configParam, this.getConfigContext().getContext() );
-		} catch (Exception e) {
-			LogFacade.getLog().error( "SqlConfig.configure() error "+e, e );
-		}
-	}	
-	
-	public static SqlConfig configure( String configParam, ServletContext context ) throws Exception {
-		File configFile = ContextHelper.resolvePath( context, configParam );
-		Document configXml = DOMIO.loadDOMDoc( configFile );
+	public static SqlConfig configure( InputStream configData ) throws Exception {
+		Document configXml = DOMIO.loadDOMDoc( configData );
 		Element root = configXml.getDocumentElement();
 		SearchDOM search = SearchDOM.newInstance( true , true );
 		SqlConfig sqlConfig = new SqlConfig();
@@ -83,7 +69,6 @@ public class SqlConfig extends BasicConfig {
 		}
 		// setting config
 		LogFacade.getLog().info( "SqlConfig.configure() INIT END >>>>>>>>>> OK" );
-		context.setAttribute( "sqlConfig" , sqlConfig );
 		return sqlConfig;
 	}
 	
