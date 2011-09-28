@@ -46,43 +46,7 @@ public class SqlServlet extends LogObjectServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String query = request.getParameter( "query" );
-		String update = request.getParameter( "update" );
-		List messageList = new ArrayList();
-		if ( query != null ) {
-			SqlQuery sqlQuery = this.sqlConfig.getQuery( query );
-			try {
-				ConnectionFactory cf = this.sqlConfig.getConnectionFactory();
-				if ( update != null ) {
-					String updateName = request.getParameter( "name" );
-					String updateKey = request.getParameter( "key" );
-					String updateValue = request.getParameter( "value" );
-					SqlUpdate sqlUpdate = (SqlUpdate)sqlQuery.getUpdateMap().get( updateName );
-					StringBuffer buffer = new StringBuffer();
-					buffer.append( "update " );
-					buffer.append( sqlUpdate.getTable() );
-					buffer.append( " set " );
-					buffer.append( sqlUpdate.getColumn() );
-					buffer.append( " = " );
-					buffer.append( updateValue );
-					buffer.append( " WHERE " );
-					buffer.append( sqlQuery.getKey() );
-					buffer.append( " = " );	
-					buffer.append( updateKey );
-					this.getLog().info( "buffer : "+buffer );
-					UpdateDAO dao = new UpdateDAO( cf );
-					if ( dao.update( buffer.toString() ) > 0 ) {
-						messageList.add( "OK" );
-					}
-				}
-				Result result = Result.query(cf, sqlQuery);
-				request.setAttribute( "output" , result );
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-		request.setAttribute( "messageList" , messageList );
+		SqlFacade.handle(request, response, this.sqlConfig);
 		RequestDispatcher rd = request.getRequestDispatcher( "/index.jsp" );
 		rd.forward( request, response );
 	}
