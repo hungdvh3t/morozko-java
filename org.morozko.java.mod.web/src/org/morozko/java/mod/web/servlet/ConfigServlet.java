@@ -24,6 +24,7 @@ import org.morozko.java.core.xml.dom.SearchDOM;
 import org.morozko.java.mod.web.servlet.config.BasicConfig;
 import org.morozko.java.mod.web.servlet.config.CommandConfig;
 import org.morozko.java.mod.web.servlet.config.ConfigContext;
+import org.morozko.java.mod.web.servlet.config.ModuleConfig;
 import org.morozko.java.mod.web.servlet.config.VersionConfig;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -38,9 +39,13 @@ public class ConfigServlet extends LogObjectServlet {
 	
 	private CommandConfig commandConfig = null;
 	
+	private ModuleConfig moduleConfig = null;
+	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			if ( req.getRequestURI().indexOf( "/"+VersionConfig.OPERATION_VERSION ) != -1 && this.versionConfig != null ) {
+			if ( req.getRequestURI().indexOf( "/"+ModuleConfig.OPERATION_RELOAD ) != -1 && this.moduleConfig != null ) {
+				this.moduleConfig.renderModule( req, resp );
+			} else if ( req.getRequestURI().indexOf( "/"+VersionConfig.OPERATION_VERSION ) != -1 && this.versionConfig != null ) {
 				this.versionConfig.renderVersion( req, resp );
 			} else if ( req.getRequestURI().indexOf( "/"+CommandConfig.OPERATION_COMMAND ) != -1 && this.commandConfig != null ) {
 				int index = req.getRequestURI().indexOf( "/"+CommandConfig.OPERATION_COMMAND );
@@ -84,6 +89,7 @@ public class ConfigServlet extends LogObjectServlet {
 		this.configContext = new ConfigContext( config.getServletContext() );
 		this.log( "ConfigServlet v 0.1.2 2011-05-18" );
 		logProp( "reading configuration", configFilePath ); 
+		this.moduleConfig = new ModuleConfig();
 		try {
 			File configFile = resolvePath( configFilePath , config.getServletContext() );
 			logProp( "configuration read", configFile.getCanonicalPath() );
@@ -107,17 +113,20 @@ public class ConfigServlet extends LogObjectServlet {
 					logProp( "module class", type );
 					ConfigurableObject co = (ConfigurableObject)ClassHelper.newInstance( type );
 					if ( co instanceof BasicConfig ) {
-						((BasicConfig)co).setConfigContext( configContext );
+						BasicConfig bc = (BasicConfig)co;
+						bc.setConfigContext( configContext );
 						if ( co instanceof VersionConfig ) {
 							this.versionConfig = (VersionConfig) co;
 							this.versionConfig.setInitLog( initLog );
 						} else if ( co instanceof CommandConfig ) {
 							this.commandConfig = (CommandConfig) co;
 						}
+						this.moduleConfig.addModule( name , bc , moduleTag );
 					}
 					co.configure( moduleTag );
 					logProp( "module configured [OK]", name );
 					logMessage = "[OK] configured";
+					
 				} catch ( Throwable t ) {
 					log( "module configuration failed [KO] "+t );
 					logMessage = "[KO] "+t;
