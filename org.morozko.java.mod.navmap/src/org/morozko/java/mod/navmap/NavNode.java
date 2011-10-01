@@ -25,6 +25,7 @@
 
 package org.morozko.java.mod.navmap;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,8 +40,13 @@ import org.morozko.java.mod.navmap.servlet.NavController;
  * 
  * @author asacca
  */
-public class NavNode {
+public class NavNode implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7593197273138150387L;
+
 	public static NavNode getFromSession( HttpServletRequest request ) {
 		return (NavNode) request.getSession().getAttribute( NavController.ATT_NAME_NAVNODE );
 	}

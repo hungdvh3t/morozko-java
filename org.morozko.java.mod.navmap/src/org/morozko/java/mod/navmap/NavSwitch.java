@@ -35,6 +35,11 @@ import java.util.Map;
  */
 public class NavSwitch extends NavId {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6802201165506521185L;
+	
 	private Map navSwitchKeyMap;
 	
 	public NavSwitch( Map navSwitchKeyMap ) {
