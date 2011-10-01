@@ -37,6 +37,11 @@ public class NavEntry extends NavId {
 	
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = -3362183285780938404L;
+
+	/**
+	 * 
 	 * <p>Metodo che copia una singola NavEntry.</p>
 	 * 
 	 * @return un nuovo oggetto NavEntry impostato con i valori del NavEntry

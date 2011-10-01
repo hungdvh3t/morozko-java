@@ -25,13 +25,20 @@
  */
 package org.morozko.java.mod.navmap;
 
+import java.io.Serializable;
+
 /**
  * <p>/p>
  *
  * @author Morozko
  *
  */
-public class NavId {
+public class NavId implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7330064151867921844L;
 
 	public String toString() {
 		return this.getClass().getName()+"["+

@@ -55,7 +55,7 @@ public abstract class SessionContext implements Serializable {
 		SessionContext context = (SessionContext)session.getAttribute( HttpSessionContext.ATT_NAME );
 		if ( context == null ) {
 			context = new HttpSessionContext( session );
-			session.setAttribute( HttpSessionContext.ATT_NAME , context );
+			//session.setAttribute( HttpSessionContext.ATT_NAME , context );
 		}
 		return context;
 	}
