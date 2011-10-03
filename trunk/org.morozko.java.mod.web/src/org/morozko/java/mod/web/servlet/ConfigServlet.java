@@ -25,6 +25,7 @@ import org.morozko.java.mod.web.servlet.config.BasicConfig;
 import org.morozko.java.mod.web.servlet.config.CommandConfig;
 import org.morozko.java.mod.web.servlet.config.ConfigContext;
 import org.morozko.java.mod.web.servlet.config.ModuleConfig;
+import org.morozko.java.mod.web.servlet.config.StatusConfig;
 import org.morozko.java.mod.web.servlet.config.VersionConfig;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -41,12 +42,16 @@ public class ConfigServlet extends LogObjectServlet {
 	
 	private ModuleConfig moduleConfig = null;
 	
+	private StatusConfig statusConfig = null;
+	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
 			if ( req.getRequestURI().indexOf( "/"+ModuleConfig.OPERATION_RELOAD ) != -1 && this.moduleConfig != null ) {
 				this.moduleConfig.renderModule( req, resp );
 			} else if ( req.getRequestURI().indexOf( "/"+VersionConfig.OPERATION_VERSION ) != -1 && this.versionConfig != null ) {
 				this.versionConfig.renderVersion( req, resp );
+			} else if ( req.getRequestURI().indexOf( "/"+StatusConfig.OPERATION ) != -1 && this.statusConfig != null ) {
+				this.statusConfig.render( req, resp );
 			} else if ( req.getRequestURI().indexOf( "/"+CommandConfig.OPERATION_COMMAND ) != -1 && this.commandConfig != null ) {
 				int index = req.getRequestURI().indexOf( "/"+CommandConfig.OPERATION_COMMAND );
 				String command = req.getRequestURI().substring( index+2+CommandConfig.OPERATION_COMMAND.length() );
@@ -56,8 +61,8 @@ public class ConfigServlet extends LogObjectServlet {
 			} else {
 				resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
 			}
-		} catch (Throwable t) {
-			this.getLog().error( t );
+		} catch (Exception e) {
+			this.getLog().error( "Config servler error"+e , e );
 			resp.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
 		}
 	}
@@ -87,9 +92,12 @@ public class ConfigServlet extends LogObjectServlet {
 		super.init( config );
 		String configFilePath = config.getInitParameter( "config-file-path" );
 		this.configContext = new ConfigContext( config.getServletContext() );
-		this.log( "ConfigServlet v 0.1.2 2011-05-18" );
+		this.log( "ConfigServlet v 0.2.0 2011-10-01" );
 		logProp( "reading configuration", configFilePath ); 
 		this.moduleConfig = new ModuleConfig();
+		this.moduleConfig.setConfigContext( this.configContext );
+		this.statusConfig = new StatusConfig();
+		this.statusConfig.setConfigContext( this.configContext );
 		try {
 			File configFile = resolvePath( configFilePath , config.getServletContext() );
 			logProp( "configuration read", configFile.getCanonicalPath() );
