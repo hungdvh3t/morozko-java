@@ -35,5 +35,6 @@
 	<classpathentry kind="lib" path="/javalibs/morozko/mj-mod-tools-db.jar"/>
 	<classpathentry kind="lib" path="/javalibs/morozko/mj-mod-tools.jar"/>
 	<classpathentry kind="lib" path="/javalibs/morozko/mj-core.jar"/>
+	<classpathentry kind="lib" path="/javalibs/jdbc/oracle/10g_R2_10.2.0.4/ojdbc14.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
