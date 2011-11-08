@@ -1,5 +1,6 @@
 package org.morozko.java.mod.pmd.rules.struts;
 
+import net.sourceforge.pmd.RuleContext;
 import net.sourceforge.pmd.ast.ASTFieldDeclaration;
 
 
@@ -19,6 +20,7 @@ public class PublicAttributesInAction extends AbstractActionRule {
 	public Object visit(ASTFieldDeclaration node, Object data) {
 		boolean isAction = checkActionAtt( data );
 		if ( isAction && node.isPublic() && !( node.isStatic() && node.isFinal() ) ){
+			//RuleContext context = (RuleContext)data;
 			this.addViolation( data, node );
 		}
 		return super.visit(node, data);
