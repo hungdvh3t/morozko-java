@@ -74,7 +74,7 @@
 <!ATTLIST para font-name CDATA #IMPLIED>
 <!ATTLIST para leading CDATA #IMPLIED>
 <!ATTLIST para space-before CDATA #IMPLIED>
-<!ATTLIST para space-asfter CDATA #IMPLIED>
+<!ATTLIST para space-after CDATA #IMPLIED>
 <!ATTLIST para id CDATA #IMPLIED>
 
 <!ELEMENT phrase ( #PCDATA  )>
@@ -86,7 +86,7 @@
 <!ATTLIST table fore-color CDATA #IMPLIED>
 <!ATTLIST table back-color CDATA #IMPLIED>
 <!ATTLIST table space-before CDATA #IMPLIED>
-<!ATTLIST table space-asfter CDATA #IMPLIED>
+<!ATTLIST table space-after CDATA #IMPLIED>
 <!ATTLIST table id CDATA #IMPLIED>
 
 <!ELEMENT row ( cell* )>

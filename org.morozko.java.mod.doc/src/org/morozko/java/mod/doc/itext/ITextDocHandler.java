@@ -266,6 +266,17 @@ public class ITextDocHandler implements DocHandler {
 		table.setPadding(2);
 		table.setSpacing(0);
 		table.setCellsFitPage( true );
+		
+		
+		
+		
+		if ( docTable.getSpaceBefore() != null ) {
+			table.setSpacing( docTable.getSpaceBefore().floatValue() );
+		}
+		if ( docTable.getSpaceAfter() != null ) {
+			table.setSpacing( docTable.getSpaceAfter().floatValue() );
+		}
+		
 		int[] cw = docTable.getColWithds();
 		if (  cw != null ) {
 			float[] w = new float[ cw.length ];
