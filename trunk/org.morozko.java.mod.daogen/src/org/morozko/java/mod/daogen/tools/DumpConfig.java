@@ -266,7 +266,18 @@ public class DumpConfig {
 
 	}
 	
-	private static final String VERSION = "V 0.9.2 (2007-08-22)";
+	private static final String VERSION = "V 0.9.3 (2011-11-16)";
+	
+	private static void printHelp() {
+		System.out.println( "USAGE : DumpConfig -d [driver] -c [url] -u [user] -p [pass] [-s [schema]] [-i [idprefix]]" );
+		System.out.println( " where : " );
+		System.out.println( " -d is jdbc driver [required]" );
+		System.out.println( " -c is jdbc url [required]" );
+		System.out.println( " -u is connection username [required]" );
+		System.out.println( " -p is connection password [required]" );
+		System.out.println( " -s is database schema [optional]" );
+		System.out.println( " -i prefix for id (a field startind with idprefix is condisidered daoid) [optional]" );
+	}
 	
 	public static void main( String[] args ) {
 		try {
@@ -339,6 +350,7 @@ public class DumpConfig {
 			
 			
 		} catch (Exception e) {
+			printHelp();
 			e.printStackTrace();
 		}
 	}
