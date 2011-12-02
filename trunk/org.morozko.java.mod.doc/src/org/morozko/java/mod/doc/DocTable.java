@@ -34,6 +34,26 @@ package org.morozko.java.mod.doc;
 public class DocTable extends DocContainer implements DocStyle {
 
 	
+	private int padding;
+	
+	private int spacing;
+	
+	public int getPadding() {
+		return padding;
+	}
+
+	public void setPadding(int padding) {
+		this.padding = padding;
+	}
+
+	public int getSpacing() {
+		return spacing;
+	}
+
+	public void setSpacing(int spacing) {
+		this.spacing = spacing;
+	}
+
 	public Float getSpaceBefore() {
 		return spaceBefore;
 	}

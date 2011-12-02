@@ -87,6 +87,8 @@
 <!ATTLIST table back-color CDATA #IMPLIED>
 <!ATTLIST table space-before CDATA #IMPLIED>
 <!ATTLIST table space-after CDATA #IMPLIED>
+<!ATTLIST table padding CDATA #IMPLIED>
+<!ATTLIST table spacing CDATA #IMPLIED>
 <!ATTLIST table id CDATA #IMPLIED>
 
 <!ELEMENT row ( cell* )>

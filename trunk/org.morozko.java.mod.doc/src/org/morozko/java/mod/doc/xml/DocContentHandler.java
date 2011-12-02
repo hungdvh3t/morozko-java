@@ -331,7 +331,9 @@ public class DocContentHandler implements ContentHandler {
 			docTable.setColumns( Integer.parseInt( props.getProperty( "columns" ) )  );
 			docTable.setWidth( Integer.parseInt( props.getProperty( "width", "-1" ) )  );
 			docTable.setBackColor( props.getProperty( "back-color" ) );
-			docTable.setForeColor( props.getProperty( "fore-color" ) ); 
+			docTable.setForeColor( props.getProperty( "fore-color" ) );
+			docTable.setSpacing( Integer.parseInt( props.getProperty( "spacing", "0" ) ) );
+			docTable.setPadding( Integer.parseInt( props.getProperty( "padding", "0" ) ) );
 			String cols = props.getProperty( "colwidths" );
 			if ( cols != null ) {
 				String[] colsParsed = cols.split( ";" );
