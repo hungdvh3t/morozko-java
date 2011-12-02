@@ -263,8 +263,8 @@ public class ITextDocHandler implements DocHandler {
 		table.setBorderWidth(0);	
 		table.setWidth( docTable.getWidth() );
 		table.setBorderColor( Color.black );
-		table.setPadding(2);
-		table.setSpacing(0);
+		table.setPadding( docTable.getPadding() );
+		table.setSpacing( docTable.getSpacing() );
 		table.setCellsFitPage( true );
 		
 		
