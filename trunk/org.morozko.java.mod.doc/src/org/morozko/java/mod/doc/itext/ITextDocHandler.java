@@ -26,6 +26,7 @@
 package org.morozko.java.mod.doc.itext;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ import java.util.Properties;
 
 import org.morozko.java.core.log.LogFacade;
 import org.morozko.java.core.math.BinaryCalc;
+import org.morozko.java.mod.doc.DocBarcode;
 import org.morozko.java.mod.doc.DocBase;
 import org.morozko.java.mod.doc.DocBorders;
 import org.morozko.java.mod.doc.DocCell;
@@ -52,6 +54,7 @@ import org.morozko.java.mod.doc.DocRow;
 import org.morozko.java.mod.doc.DocStyle;
 import org.morozko.java.mod.doc.DocTable;
 
+import com.lowagie.text.BadElementException;
 import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -65,8 +68,12 @@ import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.Table;
 import com.lowagie.text.html.HtmlTags;
+import com.lowagie.text.pdf.Barcode;
+import com.lowagie.text.pdf.Barcode128;
+import com.lowagie.text.pdf.BarcodeEAN;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfArray;
+import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfPageEventHelper;
@@ -360,6 +367,9 @@ public class ITextDocHandler implements DocHandler {
 					} else if ( docElement instanceof DocImage ) {
 						LogFacade.getLog().debug( "cell DocImage : "+docElement );
 						cellParent.add( createImage( (DocImage)docElement ) );
+					} else if ( docElement instanceof DocBarcode ) {
+						LogFacade.getLog().info( "cell DocBarcode : "+docElement );
+						cellParent.add( createBarcode( (DocBarcode)docElement, docHelper ) );
 					}
 				}
 				table.addCell( cell );
@@ -375,6 +385,24 @@ public class ITextDocHandler implements DocHandler {
 		}
 
 		return table;
+	}
+	
+	
+	private static Image createBarcode( DocBarcode docBarcode, ITextHelper helper ) throws Exception {
+		Barcode barcode = null;
+		if ( "128".equalsIgnoreCase( docBarcode.getType() ) ) {
+			barcode = new Barcode128();
+		} else {
+			barcode = new BarcodeEAN();	
+		}
+		if ( docBarcode.getSize() != -1 ) {
+			barcode.setBarHeight( docBarcode.getSize() );
+		}
+		barcode.setCode( docBarcode.getText() );
+		barcode.setAltText( docBarcode.getText() );
+		java.awt.Image awtImage = barcode.createAwtImage( Color.white, Color.black );
+		Image img = Image.getInstance( awtImage, null );
+		return img;
 	}
 	
 	private static RtfHeaderFooter createRtfHeaderFooter( DocHeaderFooter docHeaderFooter, Document document, boolean header, ITextHelper docHelper ) throws Exception {
@@ -463,7 +491,6 @@ public class ITextDocHandler implements DocHandler {
 		docHelper.setDefFontStyle( defaultFontStyle );
 		docHelper.setDefFontSize( defaultFontSize );
 
-		
 		// per documenti tipo HTML
 		if ( DOC_OUTPUT_HTML.equalsIgnoreCase( this.docType ) ) {
 			String cssLink = info.getProperty( DocInfo.INFO_NAME_CSS_LINK );
@@ -484,6 +511,8 @@ public class ITextDocHandler implements DocHandler {
 			}
 			
 			if ( DOC_OUTPUT_PDF.equalsIgnoreCase( this.docType ) ) {
+				
+				
 				String pdfFormat = info.getProperty( DocInfo.INFO_NAME_PDF_FORMAT );
 				if ( "pdf-a".equalsIgnoreCase( pdfFormat ) ) {
 					this.pdfWriter.setPDFXConformance(PdfWriter.PDFA1B);
@@ -496,6 +525,7 @@ public class ITextDocHandler implements DocHandler {
 					this.pdfWriter.getExtraCatalog().put( PdfName.OUTPUTINTENTS, new PdfArray( outi ) );
 					System.out.println( "PDF-A 2 <<<<<<<<<<<<<<<<<<<<<" );
 				}
+				
 			}
 			
 			
@@ -622,7 +652,6 @@ public class ITextDocHandler implements DocHandler {
 
 class ITextHelper {
 
-	
 	private String defFontName;
 	
 	private String defFontSize;
@@ -714,6 +743,16 @@ class CellParent implements ParentElement {
 
 class PdfHelper extends PdfPageEventHelper {
 	
+	private PdfContentByte pdfContentByte;
+	
+	public PdfContentByte getPdfContentByte() {
+		return pdfContentByte;
+	}
+
+	public void setPdfContentByte(PdfContentByte pdfContentByte) {
+		this.pdfContentByte = pdfContentByte;
+	}
+
 	public PdfHelper( ITextHelper docHelper ) {
 		this.docHelper = docHelper;
 	}
