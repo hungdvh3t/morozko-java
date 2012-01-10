@@ -8,6 +8,7 @@
 	 * @project    : org.morozko.java.mod.doc
 	 * @package    : org.morozko.java.mod.doc.res
 	 * @creation   : 2007-08-14
+	 * @version    : 1.1.19 (2012-01-10)
 	 *
 	 * DTD per la configurazione della libreria DOC
 	 */
@@ -18,7 +19,7 @@
 
 <!ENTITY % PhraseElement "( para | image | phrase )">
 
-<!ENTITY % BasicElement "( para | table | image | phrase )">
+<!ENTITY % BasicElement "( para | table | image | phrase | barcode )">
 
 <!ENTITY % AlignType "( left | center | right | justify | justifyall )">
 
@@ -64,6 +65,11 @@
 <!ELEMENT image ( #PCDATA  )>
 <!ATTLIST image url CDATA #REQUIRED>
 <!ATTLIST image scaling CDATA #IMPLIED>
+
+<!ELEMENT barcode ( #PCDATA  )>
+<!ATTLIST barcode text CDATA #REQUIRED>
+<!ATTLIST barcode size CDATA #IMPLIED>
+<!ATTLIST barcode type CDATA #IMPLIED>
 
 <!ELEMENT para ( #PCDATA  )>
 <!ATTLIST para align %AlignType; #IMPLIED>

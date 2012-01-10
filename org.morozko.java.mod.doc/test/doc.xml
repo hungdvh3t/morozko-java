@@ -14,10 +14,18 @@
       Test document 
     </para>
     
+        <table columns="1"  colwidths="100"  width="100" id="excel-table-x">
+    	<row>
+	        <cell header="true" border-width="4">
+	          <barcode type="128" text="803321" size="50"/>
+	        </cell>
+	        </row>
+	       </table>
+    
     <table columns="5"  colwidths="20;20;20;20;20"  width="100" id="excel-table-2">
     	<row>
 	        <cell header="true" border-width="4">
-	          <para>A1</para>
+	          <barcode type="128" text="8033501801021"/>
 	        </cell>
 	        <cell header="true">
 	          <para>A2</para>

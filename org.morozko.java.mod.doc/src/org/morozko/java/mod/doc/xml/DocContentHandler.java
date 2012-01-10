@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+import org.morozko.java.mod.doc.DocBarcode;
 import org.morozko.java.mod.doc.DocBase;
 import org.morozko.java.mod.doc.DocBorders;
 import org.morozko.java.mod.doc.DocCell;
@@ -326,6 +327,12 @@ public class DocContentHandler implements ContentHandler {
 				docPhrase.setLeading( Float.valueOf( leading ) );
 			}
 			this.currentElement = docPhrase;			
+		} else if ( "barcode".equalsIgnoreCase( qName ) ) {
+			DocBarcode barcode = new DocBarcode();
+			barcode.setSize( Integer.parseInt( props.getProperty( "size", "-1" ) ) );
+			barcode.setType( props.getProperty( "type", "EAN" ) );
+			barcode.setText( props.getProperty( "text" ) );
+			this.currentElement = barcode;	
 		} else if ( "table".equalsIgnoreCase( qName ) ) {
 			DocTable docTable = new DocTable();
 			docTable.setColumns( Integer.parseInt( props.getProperty( "columns" ) )  );
