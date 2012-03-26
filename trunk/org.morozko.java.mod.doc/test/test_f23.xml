@@ -1,0 +1,116 @@
+	
+<!DOCTYPE doc SYSTEM "http://www.morozko.org/data/java/mod/doc/dtd/doc-1-0.dtd">
+
+	
+	
+
+
+<!-- 
+
+/doc/quietanzaF23.pdf?codFisc=LGNCMN82P56H224A&ambito=061&modello=SC&dver=20120130&nprgver=1
+
+ -->
+ 
+<doc> 
+
+	<metadata>   	
+	
+	
+		<info name="page-orient">vertical</info>
+		<info name="excel-table-id">excel-table=PriceList</info>
+		<info name="excel-width-multiplier">300</info> 
+		<info name="default-font-name">helvetica</info> 
+		<info name="default-font-size">10</info>  
+		<header-ext>
+			<para align="center" size="15" style="bold">Equitalia SPA</para>	
+			<para align="center" size="15" style="bold">Quietanza di versamento F23</para>
+		</header-ext> 
+	</metadata> 
+
+	<body>
+	
+		<para>TEST</para>
+	
+		<table columns="6" width="100" padding="5">
+	 		<row>
+	   			<cell valign="middle" back-color="#0046d5" fore-color="#ffffff" border-width="0" colspan= "6"><para style="bold" leading="10">1 ESTREMI DEL VERSAMENTO</para></cell>
+	   		</row>
+	   		<row>
+	   			<cell border-width="0"><para style="bold">Quietanza n.</para></cell>
+	   			<cell border-width="0"><para>1</para></cell>
+	   			<cell border-width="0"><para style="bold">emessa il</para></cell>
+	   			<cell border-width="0"><para>30/01/2012</para></cell>
+	   			<cell border-width="0"><para style="bold">dall' operatore</para></cell>
+	   			<cell border-width="0"><para>M12345</para></cell>
+	   		</row>
+	   	</table>
+	   	<!-- 
+	   	<table columns="6" width="100">
+	 		<row>
+	   			<cell back-color="#0046d5" fore-color="#ffffff" border-width="0" colspan= "6"><para style="bold">CONTRIBUENTE</para></cell>
+	   		</row>
+	   		<row>
+	   			<cell border-width="0"><para style="bold">Codice fiscale</para></cell>
+	   			<cell border-width="0" colspan= "5"><para>LGNCMN82P56H224A</para></cell>
+	   		</row>
+	   		<row>
+	   			<cell border-width="0"><para style="bold">Dati anagrafici</para></cell>
+	   			<cell border-width="0" colspan= "5"><para>LAGANA                                  CARMEN                                  </para></cell>
+	   		</row>
+	   		<row>
+	   			<cell border-width="0"><para style="bold">Num. riferimento</para></cell>
+	   			<cell border-width="0" colspan= "2"><para></para></cell>
+	   			<cell border-width="0"><para style="bold">Codice fiscale</para></cell>
+	   			<cell border-width="0" colspan= "2"><para></para></cell>
+	   		</row>
+	   	</table>
+	 	<table columns="4" width="100">
+	 		<row>
+	   			<cell back-color="#0046d5" fore-color="#ffffff" border-width="0" colspan= "4"><para style="bold">DETTAGLIO DEI TRIBUTI</para></cell>
+	   		</row>
+	 		<row>
+	   			<cell border-width="0"><para style="bold">Ufficio o ente</para></cell>
+	   			<cell border-width="0"><para>123/</para></cell>
+	   			<cell border-width="0"><para style="bold">Cod. territoriale</para></cell>
+	   			<cell border-width="0"><para></para></cell>
+	   		</row>
+	   		<row>
+	   			<cell border-width="0"><para style="bold">Contenzioso</para></cell>
+	   			<cell border-width="0"><para></para></cell>
+	   			<cell border-width="0"><para style="bold">Causale</para></cell>
+	   			<cell border-width="0"><para></para></cell>
+	   		</row>
+	   		<row>
+	   			<cell border-width="0"><para style="bold">Estremi dell'atto o del documento</para></cell>
+	   			<cell border-width="0" colspan= "3"><para>/</para></cell>
+	   		</row>
+	   	</table>
+	   	<table columns="4"  width="100" id="excel-table">
+	   		<row>
+	   			<cell ><para style="bold">Cod. tributo</para>
+ </cell>
+	   			<cell><para style="bold">Descrizione</para></cell>
+	   			<cell><para style="bold">Importo</para></cell>
+	   			<cell><para style="bold">Cod. destinatario</para></cell>
+	   		</row>
+	   		
+		   		<row>
+		   			<cell><para>A150</para></cell>
+		   			<cell><para>IN.V.IM. ALBERONA                                 </para></cell>
+		   			<cell><para>122.00</para></cell>
+		   			<cell><para>F205</para></cell>
+		   		</row>	
+	   		
+		   		<row>
+		   			<cell><para>A103</para></cell>
+		   			<cell><para>IN.V.IM. AIELLO DEL FRIULI                        </para></cell>
+		   			<cell><para>454.89</para></cell>
+		   			<cell><para>LI</para></cell>
+		   		</row>	
+	   		
+	   	</table>
+	   	 -->
+	</body>
+  
+</doc>
+
