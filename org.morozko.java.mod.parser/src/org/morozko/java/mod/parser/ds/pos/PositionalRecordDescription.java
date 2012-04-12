@@ -33,6 +33,37 @@ public class PositionalRecordDescription {
 		this.id = id;
 	}
 	
+	private String matchField;
+	
+	private String matchValue;
+	
+	public String getMatchField() {
+		return matchField;
+	}
+
+	public void setMatchField(String matchField) {
+		this.matchField = matchField;
+	}
+
+	public String getMatchValue() {
+		return matchValue;
+	}
+
+	public void setMatchValue(String matchValue) {
+		this.matchValue = matchValue;
+	}
+
 	private List<PositionalFieldDescription> fieldDescriptionList;
+	
+	public PositionalFieldDescription getFieldDescription( String id ) {
+		PositionalFieldDescription field = null;
+		for ( int k=0; field == null && k<this.getFieldDescriptionList().size(); k++ ) {
+			PositionalFieldDescription current = this.getFieldDescriptionList().get( k );
+			if ( current.getId().equals( id ) ) {
+				field = current;
+			}
+		}
+		return field;
+	}
 	
 }
