@@ -1,28 +1,109 @@
 package org.morozko.java.mod.parser.ds.pos;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Iterator;
+
+import org.morozko.java.mod.parser.ds.ParserFatalException;
+import org.morozko.java.mod.parser.ds.ParserInput;
 import org.morozko.java.mod.parser.ds.RecordIterator;
+import org.morozko.java.mod.parser.model.ParserException;
 import org.morozko.java.mod.parser.model.RecordModel;
+import org.morozko.java.mod.parser.model.impl.FieldModelImpl;
+import org.morozko.java.mod.parser.model.impl.RecordModelImpl;
 
 public class PositionalRecordIterator implements RecordIterator {
 
-	@Override
-	public boolean open() {
-		return false;
+	private ParserInput input;
+	
+	private PositionalDataSource dataSource;
+	
+	private BufferedReader reader;
+
+	private PositionalMetadata metadata;
+	
+	private RecordModel currentRecord;
+	
+	int currentRow = 0;
+	
+	public PositionalRecordIterator(ParserInput input,
+			PositionalDataSource dataSource) {
+		super();
+		this.input = input;
+		this.dataSource = dataSource;
 	}
 
 	@Override
-	public boolean close() {
-		return false;
+	public boolean open() throws ParserFatalException {
+		this.reader = new BufferedReader( new InputStreamReader( input.getInputStream() ) );
+		this.metadata = this.dataSource.getMetadata( this.input.getMetadata() );
+		if ( metadata == null ) {
+			throw new ParserFatalException( "Null metadata" );
+		}
+		return true;
+	}
+
+	private RecordModelImpl findNextRecord() throws ParserFatalException {
+		RecordModelImpl record = null;
+		try {
+			String current = this.reader.readLine();
+			this.currentRow++;
+			if ( current != null ) {
+				Iterator<PositionalRecordDescription> itDes = this.metadata.getRecordDescriptionList().iterator();
+				while ( itDes.hasNext() ) {
+					PositionalRecordDescription recordDes = itDes.next();
+					PositionalFieldDescription keyField = recordDes.getFieldDescription( recordDes.getMatchField() );
+					String value = current.substring( keyField.getStartPosition(), keyField.getStartPosition()+keyField.getLength() );
+					//System.out.println( "value > "+value );
+					if ( value.equals( recordDes.getMatchValue() ) ) {
+						record = new RecordModelImpl();
+						for ( int k=0; k<recordDes.getFieldDescriptionList().size(); k++ ) {
+							PositionalFieldDescription currentFieldDes = recordDes.getFieldDescriptionList().get( k );
+							String idField = currentFieldDes.getId();
+							String valueField = current.substring( currentFieldDes.getStartPosition(), currentFieldDes.getStartPosition()+currentFieldDes.getLength() );
+							FieldModelImpl field = new FieldModelImpl( idField , valueField );
+							try {
+								record.addField( field );
+							} catch (ParserException e) {
+								throw new ParserFatalException( "Error on row "+this.currentRow , e );
+							}
+						}
+					} else {
+						record = findNextRecord();	
+					}
+				}				
+			}
+		} catch (Exception e) {
+			throw new ParserFatalException( "Error on row "+this.currentRow , e );
+		}
+		return record;
+	}
+	
+	@Override
+	public boolean hasNext() throws ParserFatalException {
+		this.currentRecord = this.findNextRecord();
+		return this.currentRecord != null;
 	}
 
 	@Override
-	public boolean hasNext() {
-		return false;
+	public RecordModel getNext() throws ParserFatalException {
+		//System.out.println( "CURRENT LINE >>>>>>>>>>>>>>>>>>>>> "+this.currentLine );
+		RecordModelImpl record = new RecordModelImpl();
+		
+		return record;
 	}
 
 	@Override
-	public RecordModel getNext() {
-		return null;
+	public boolean close() throws ParserFatalException {
+		try {
+			this.reader.close();
+		} catch (IOException e) {
+			throw new ParserFatalException( e );
+		}
+		return true;
 	}
+
 
 }

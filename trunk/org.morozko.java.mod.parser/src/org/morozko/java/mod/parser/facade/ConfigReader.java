@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.morozko.java.core.lang.helpers.ClassHelper;
+import org.morozko.java.core.log.LogFacade;
 import org.morozko.java.core.xml.dom.DOMIO;
 import org.morozko.java.core.xml.dom.DOMUtils;
 import org.morozko.java.core.xml.dom.SearchDOM;
@@ -32,6 +33,7 @@ public class ConfigReader {
 				DataSource currentDS = (DataSource)ClassHelper.newInstance( dsProps.getProperty( "type" ) );
 				currentDS.setId( dsProps.getProperty( "id" ) );
 				currentDS.configure( currentTagDS );
+				config.addDS( currentDS.getId() , currentDS );
 			}
 			
 		} catch (Exception e) {

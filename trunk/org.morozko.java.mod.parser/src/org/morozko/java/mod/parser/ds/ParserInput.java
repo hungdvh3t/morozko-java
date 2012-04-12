@@ -1,19 +1,31 @@
 package org.morozko.java.mod.parser.ds;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
 public class ParserInput {
 
-	public ParserInput(String input) {
+	public ParserInput( String input, String metadata ) {
 		super();
 		this.input = input;
+		this.metadata = metadata;
 		this.parameters = new Properties();
 	}
 
 	private String input;
 	
+	private String metadata;
+	
+	public String getMetadata() {
+		return metadata;
+	}
+
+	public void setMetadata(String metadata) {
+		this.metadata = metadata;
+	}
+
 	private Properties parameters;
 
 	public Properties getParameters() {
@@ -31,7 +43,7 @@ public class ParserInput {
 	public InputStream getInputStream() throws ParserFatalException {
 		InputStream is = null;
 		try {
-			is = new URL( this.getInput() ).openStream();
+			is = new FileInputStream( this.getInput() );
 		} catch (Exception e) {
 			throw new ParserFatalException( e );
 		}
