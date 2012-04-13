@@ -74,5 +74,7 @@ public interface RecordModel {
 	 * @return
 	 */
 	public abstract boolean isValid();
+	
+	public RecordDescription getRecordDescription();
 
 }

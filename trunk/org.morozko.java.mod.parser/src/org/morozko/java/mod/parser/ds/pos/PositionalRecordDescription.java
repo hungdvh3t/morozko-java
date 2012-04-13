@@ -3,7 +3,9 @@ package org.morozko.java.mod.parser.ds.pos;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PositionalRecordDescription {
+import org.morozko.java.mod.parser.model.RecordDescription;
+
+public class PositionalRecordDescription implements RecordDescription {
 
 	public PositionalRecordDescription() {
 		this.fieldDescriptionList = new ArrayList<PositionalFieldDescription>();

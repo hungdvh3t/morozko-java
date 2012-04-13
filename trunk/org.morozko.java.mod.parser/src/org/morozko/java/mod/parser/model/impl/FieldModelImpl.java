@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.morozko.java.mod.parser.model.ErrorDescriptor;
+import org.morozko.java.mod.parser.model.FieldDescription;
 import org.morozko.java.mod.parser.model.FieldModel;
 
 public class FieldModelImpl implements FieldModel {
@@ -53,6 +54,16 @@ public class FieldModelImpl implements FieldModel {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+	
+	private FieldDescription fieldDescription;
+
+	public FieldDescription getFieldDescription() {
+		return fieldDescription;
+	}
+
+	public void setFieldDescription(FieldDescription fieldDescription) {
+		this.fieldDescription = fieldDescription;
 	}
 	
 }

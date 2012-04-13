@@ -14,4 +14,6 @@ public interface DataSource {
 	
 	public abstract ProcessOutput process( ProcessInput input ) throws ParserFatalException;
 	
+	public abstract RenderOutput render( RenderInput input ) throws ParserFatalException;
+	
 }

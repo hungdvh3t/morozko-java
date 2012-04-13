@@ -3,7 +3,9 @@ package org.morozko.java.mod.parser.ds.pos;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PositionalMetadata {
+import org.morozko.java.mod.parser.model.MetadataDescription;
+
+public class PositionalMetadata implements MetadataDescription {
 
 	public PositionalMetadata() {
 		this.recordDescriptionList = new ArrayList<PositionalRecordDescription>();

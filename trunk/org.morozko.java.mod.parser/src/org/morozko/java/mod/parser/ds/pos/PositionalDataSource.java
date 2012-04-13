@@ -11,6 +11,8 @@ import org.morozko.java.mod.parser.ds.ParserInput;
 import org.morozko.java.mod.parser.ds.ParserOutput;
 import org.morozko.java.mod.parser.ds.ProcessInput;
 import org.morozko.java.mod.parser.ds.ProcessOutput;
+import org.morozko.java.mod.parser.ds.RenderInput;
+import org.morozko.java.mod.parser.ds.RenderOutput;
 import org.morozko.java.mod.parser.ds.helpers.AbstractDataSource;
 import org.morozko.java.mod.parser.facade.ConfigReader;
 import org.w3c.dom.Element;
@@ -45,7 +47,7 @@ public class PositionalDataSource extends AbstractDataSource {
 				String currentRecordId = currentRecordProps.getProperty( "id" );
 				this.getLog().info( "record : "+currentRecordId );
 				PositionalRecordDescription record = new PositionalRecordDescription();
-				record.setId( currentMetadataId );
+				record.setId( currentRecordId );
 				record.setRecordLength( Integer.parseInt( currentRecordProps.getProperty( "recordLength" ) ) );
 				record.setMatchField( currentRecordProps.getProperty( "matchField" ) );
 				record.setMatchValue( currentRecordProps.getProperty( "matchValue" ) );
@@ -87,11 +89,18 @@ public class PositionalDataSource extends AbstractDataSource {
 
 	@Override
 	public ProcessOutput process(ProcessInput input) throws ParserFatalException {
-		ProcessOutput output = null;
 		if ( true ) {
 			throw new ParserFatalException( "Not implemented" );
 		}
-		return output;
+		return null;
 	}
+
+	@Override
+	public RenderOutput render(RenderInput input) throws ParserFatalException {
+		if ( true ) {
+			throw new ParserFatalException( "Not implemented" );
+		}
+		return null;
+	}	
 
 }
