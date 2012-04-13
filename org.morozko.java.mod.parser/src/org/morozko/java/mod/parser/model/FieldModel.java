@@ -31,5 +31,7 @@ public interface FieldModel {
 	 * @return
 	 */
 	public abstract String getValue();
+	
+	public FieldDescription getFieldDescription();
 
 }

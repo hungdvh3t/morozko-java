@@ -8,6 +8,7 @@ import java.util.List;
 import org.morozko.java.mod.parser.model.ErrorDescriptor;
 import org.morozko.java.mod.parser.model.FieldModel;
 import org.morozko.java.mod.parser.model.ParserException;
+import org.morozko.java.mod.parser.model.RecordDescription;
 import org.morozko.java.mod.parser.model.RecordModel;
 
 public class RecordModelImpl implements RecordModel {
@@ -38,6 +39,16 @@ public class RecordModelImpl implements RecordModel {
 	
 	private List<ErrorDescriptor> recordErrors;
 	
+	private RecordDescription recordDescription;
+	
+	public RecordDescription getRecordDescription() {
+		return recordDescription;
+	}
+
+	public void setRecordDescription(RecordDescription recordDescription) {
+		this.recordDescription = recordDescription;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.morozko.java.mod.parser.model.imp.RecordModel#getFields()
 	 */

@@ -2,13 +2,13 @@ package org.morozko.java.mod.parser.ds.pos;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Iterator;
 
 import org.morozko.java.mod.parser.ds.ParserFatalException;
 import org.morozko.java.mod.parser.ds.ParserInput;
 import org.morozko.java.mod.parser.ds.RecordIterator;
+import org.morozko.java.mod.parser.model.MetadataDescription;
 import org.morozko.java.mod.parser.model.ParserException;
 import org.morozko.java.mod.parser.model.RecordModel;
 import org.morozko.java.mod.parser.model.impl.FieldModelImpl;
@@ -25,7 +25,12 @@ public class PositionalRecordIterator implements RecordIterator {
 	private PositionalMetadata metadata;
 	
 	private RecordModel currentRecord;
+
 	
+	public MetadataDescription getMetadataDescription() {
+		return metadata;
+	}
+
 	int currentRow = 0;
 	
 	public PositionalRecordIterator(ParserInput input,
@@ -39,6 +44,7 @@ public class PositionalRecordIterator implements RecordIterator {
 	public boolean open() throws ParserFatalException {
 		this.reader = new BufferedReader( new InputStreamReader( input.getInputStream() ) );
 		this.metadata = this.dataSource.getMetadata( this.input.getMetadata() );
+		System.out.println( "METADATA : "+this.metadata );
 		if ( metadata == null ) {
 			throw new ParserFatalException( "Null metadata" );
 		}
@@ -59,6 +65,7 @@ public class PositionalRecordIterator implements RecordIterator {
 					//System.out.println( "value > "+value );
 					if ( value.equals( recordDes.getMatchValue() ) ) {
 						record = new RecordModelImpl();
+						record.setRecordDescription( recordDes );
 						for ( int k=0; k<recordDes.getFieldDescriptionList().size(); k++ ) {
 							PositionalFieldDescription currentFieldDes = recordDes.getFieldDescriptionList().get( k );
 							String idField = currentFieldDes.getId();
@@ -66,6 +73,7 @@ public class PositionalRecordIterator implements RecordIterator {
 							FieldModelImpl field = new FieldModelImpl( idField , valueField );
 							try {
 								record.addField( field );
+								field.setFieldDescription( currentFieldDes );
 							} catch (ParserException e) {
 								throw new ParserFatalException( "Error on row "+this.currentRow , e );
 							}
@@ -89,10 +97,7 @@ public class PositionalRecordIterator implements RecordIterator {
 
 	@Override
 	public RecordModel getNext() throws ParserFatalException {
-		//System.out.println( "CURRENT LINE >>>>>>>>>>>>>>>>>>>>> "+this.currentLine );
-		RecordModelImpl record = new RecordModelImpl();
-		
-		return record;
+		return this.currentRecord;
 	}
 
 	@Override

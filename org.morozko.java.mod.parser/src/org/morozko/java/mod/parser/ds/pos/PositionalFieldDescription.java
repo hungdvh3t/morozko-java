@@ -1,6 +1,8 @@
 package org.morozko.java.mod.parser.ds.pos;
 
-public class PositionalFieldDescription {
+import org.morozko.java.mod.parser.model.FieldDescription;
+
+public class PositionalFieldDescription implements FieldDescription {
 
 	private String id;
 
