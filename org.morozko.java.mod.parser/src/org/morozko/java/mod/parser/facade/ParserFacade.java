@@ -7,6 +7,7 @@ import org.morozko.java.mod.parser.ds.ParserInput;
 import org.morozko.java.mod.parser.ds.ParserOutput;
 import org.morozko.java.mod.parser.ds.RecordIterator;
 import org.morozko.java.mod.parser.ds.RenderInput;
+import org.morozko.java.mod.parser.ds.csv.CsvDataSource;
 import org.morozko.java.mod.parser.ds.xml.XmlDataSource;
 import org.morozko.java.mod.parser.model.RecordModel;
 import org.morozko.java.mod.tools.util.args.ArgList;
@@ -45,6 +46,9 @@ public class ParserFacade {
 			
 			DataSource xmlDS = new XmlDataSource();
 			xmlDS.render( in );
+
+			DataSource csvDS = new CsvDataSource();
+			csvDS.render( in );
 			
 		} catch (Exception e) {
 			e.printStackTrace();

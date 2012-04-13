@@ -1,8 +1,10 @@
-package org.morozko.java.mod.parser.ds.xml;
+package org.morozko.java.mod.parser.ds.csv;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -24,11 +26,14 @@ import org.morozko.java.mod.parser.model.RecordModel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class XmlDataSource extends AbstractDataSource {
+import com.csvreader.CsvWriter;
+
+public class CsvDataSource extends AbstractDataSource {
 
 	@Override
 	public void configure(Element config) throws ParserFatalException {
-		
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -41,24 +46,22 @@ public class XmlDataSource extends AbstractDataSource {
 
 	@Override
 	public ProcessOutput process(ProcessInput input) throws ParserFatalException {
-		ProcessOutput output = null;
-		return output;
+		if ( true ) {
+			throw new ParserFatalException( "Not implemented" );
+		}
+		return null;
 	}
 
-	private static String prepareTagName( String name ) {
-		return name;
-	}
-	
 	@Override
 	public RenderOutput render(RenderInput input) throws ParserFatalException {
+
 		RenderOutput output = new RenderOutput();
-	
-		
 		
 		try {
-		
-			OutputStream stream = new FileOutputStream( new File( "C:/test.xml" ) );
 			
+			OutputStream stream = new FileOutputStream( new File( "C:/test.csv" ) );
+			
+			CsvWriter writer = new CsvWriter( stream, ';', Charset.defaultCharset() );
 			
 			RecordIterator ri = input.getRecords();
 			ri.open();
@@ -69,30 +72,31 @@ public class XmlDataSource extends AbstractDataSource {
 			Document doc = dom.newDocument();
 			Element root = doc.createElement( "root" );
 			
-			XMLStreamWriter writer = XMLOutputFactory.newFactory().createXMLStreamWriter( stream );
-			
-			writer.writeStartDocument();
-			
-			writer.writeStartElement( prepareTagName( ri.getMetadataDescription().getId() ) );
-			writer.writeCharacters( ""+'\n' );
-			
-			while ( ri.hasNext() ) {
+			String[] blank = new String[0];
+			if ( ri.hasNext() ) {
 				RecordModel record = ri.getNext();
-				writer.writeEmptyElement( prepareTagName( record.getRecordDescription().getId() ) );
 				Iterator<FieldModel> fields = record.getFields();
+				ArrayList<String> current = new ArrayList<String>();
+				ArrayList<String> head = new ArrayList<String>();
 				while ( fields.hasNext() ) {
 					FieldModel field = fields.next();
-					writer.writeAttribute( prepareTagName( field.getFieldDescription().getId() ) , field.getValue() );
+					head.add( field.getFieldDescription().getId() );
+					current.add( field.getValue() );
 				}
-				writer.writeCharacters( ""+'\n' );
+				writer.writeRecord( head.toArray( blank ) );
+				writer.writeRecord( current.toArray( blank ) );
 			}
-			
-			
-			writer.writeEndElement();
-
-			
-			writer.writeEndDocument();
-			
+			while ( ri.hasNext() ) {
+				RecordModel record = ri.getNext();
+				Iterator<FieldModel> fields = record.getFields();
+				ArrayList<String> current = new ArrayList<String>();
+				while ( fields.hasNext() ) {
+					FieldModel field = fields.next();
+					current.add( field.getValue() );
+				}
+				writer.writeRecord( current.toArray( blank ) );
+			}
+						
 			ri.close();
 			writer.close();
 			stream.close();
@@ -106,4 +110,3 @@ public class XmlDataSource extends AbstractDataSource {
 	}
 
 }
-
