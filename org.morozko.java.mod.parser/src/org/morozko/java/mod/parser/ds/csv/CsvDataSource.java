@@ -66,12 +66,6 @@ public class CsvDataSource extends AbstractDataSource {
 			RecordIterator ri = input.getRecords();
 			ri.open();
 			
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			dbf.setNamespaceAware( true );
-			DocumentBuilder dom = dbf.newDocumentBuilder();
-			Document doc = dom.newDocument();
-			Element root = doc.createElement( "root" );
-			
 			String[] blank = new String[0];
 			if ( ri.hasNext() ) {
 				RecordModel record = ri.getNext();
