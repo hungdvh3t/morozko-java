@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Iterator;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
@@ -21,7 +20,6 @@ import org.morozko.java.mod.parser.ds.RenderOutput;
 import org.morozko.java.mod.parser.ds.helpers.AbstractDataSource;
 import org.morozko.java.mod.parser.model.FieldModel;
 import org.morozko.java.mod.parser.model.RecordModel;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class XmlDataSource extends AbstractDataSource {
@@ -65,15 +63,17 @@ public class XmlDataSource extends AbstractDataSource {
 			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			dbf.setNamespaceAware( true );
-			DocumentBuilder dom = dbf.newDocumentBuilder();
-			Document doc = dom.newDocument();
-			Element root = doc.createElement( "root" );
 			
 			XMLStreamWriter writer = XMLOutputFactory.newFactory().createXMLStreamWriter( stream );
 			
 			writer.writeStartDocument();
 			
-			writer.writeStartElement( prepareTagName( ri.getMetadataDescription().getId() ) );
+			writer.writeStartElement( prepareTagName( "metadata" ) );
+			
+			if ( ri.getMetadataDescription().getName() != null ) {
+				writer.writeAttribute( prepareTagName( "name" ) , ri.getMetadataDescription().getName() );
+			}
+			
 			writer.writeCharacters( ""+'\n' );
 			
 			while ( ri.hasNext() ) {
@@ -82,7 +82,7 @@ public class XmlDataSource extends AbstractDataSource {
 				Iterator<FieldModel> fields = record.getFields();
 				while ( fields.hasNext() ) {
 					FieldModel field = fields.next();
-					writer.writeAttribute( prepareTagName( field.getFieldDescription().getId() ) , field.getValue() );
+					writer.writeAttribute( prepareTagName( field.getName() ) , field.getValue() );
 				}
 				writer.writeCharacters( ""+'\n' );
 			}

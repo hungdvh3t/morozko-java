@@ -4,4 +4,6 @@ public interface MetadataDescription {
 
 	public String getId();
 	
+	public String getName();
+	
 }
