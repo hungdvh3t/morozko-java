@@ -2,6 +2,16 @@ package org.morozko.java.mod.parser.ds;
 
 public class RenderInput {
 
+	private String output;
+	
+	public String getOutput() {
+		return output;
+	}
+
+	public void setOutput(String output) {
+		this.output = output;
+	}
+
 	private RecordIterator records;
 
 	public RecordIterator getRecords() {
