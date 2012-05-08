@@ -47,64 +47,6 @@ public class XmlDataSource extends AbstractDataSource {
 		return name;
 	}
 	
-//	@Override
-//	public RenderOutput render(RenderInput input) throws ParserFatalException {
-//		RenderOutput output = new RenderOutput();
-//	
-//		
-//		
-//		try {
-//		
-//			OutputStream stream = new FileOutputStream( new File( "C:/test.xml" ) );
-//			
-//			
-//			RecordIterator ri = input.getRecords();
-//			ri.open();
-//			
-//			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-//			dbf.setNamespaceAware( true );
-//			
-//			XMLStreamWriter writer = XMLOutputFactory.newFactory().createXMLStreamWriter( stream );
-//			
-//			writer.writeStartDocument();
-//			
-//			writer.writeStartElement( prepareTagName( "metadata" ) );
-//			
-//			if ( ri.getMetadataDescription().getName() != null ) {
-//				writer.writeAttribute( prepareTagName( "name" ) , ri.getMetadataDescription().getName() );
-//			}
-//			
-//			writer.writeCharacters( ""+'\n' );
-//			
-//			while ( ri.hasNext() ) {
-//				RecordModel record = ri.getNext();
-//				writer.writeEmptyElement( prepareTagName( record.getRecordDescription().getId() ) );
-//				Iterator<FieldModel> fields = record.getFields();
-//				while ( fields.hasNext() ) {
-//					FieldModel field = fields.next();
-//					writer.writeAttribute( prepareTagName( field.getName() ) , field.getValue() );
-//				}
-//				writer.writeCharacters( ""+'\n' );
-//			}
-//			
-//			
-//			writer.writeEndElement();
-//
-//			
-//			writer.writeEndDocument();
-//			
-//			ri.close();
-//			writer.close();
-//			stream.close();
-//			
-//			
-//		} catch (Exception e) {
-//			throw new ParserFatalException( e );
-//		}
-//		
-//		return output;
-//	}	
-	
 	@Override
 	public RenderOutput render(RenderInput input) throws ParserFatalException {
 		RenderOutput output = new RenderOutput();
