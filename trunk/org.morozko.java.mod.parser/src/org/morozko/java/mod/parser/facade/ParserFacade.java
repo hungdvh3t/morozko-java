@@ -44,11 +44,12 @@ public class ParserFacade {
 //			
 			RenderInput in = new RenderInput( ri );
 			
-			DataSource xmlDS = new XmlDataSource();
-			xmlDS.render( in );
-
-			DataSource csvDS = new CsvDataSource();
-			csvDS.render( in );
+			String output = argList.findArgValue( "output" );
+			if ( output != null ) {
+				DataSource xmlDS = new XmlDataSource();
+				in.setOutput( output );
+				xmlDS.render( in );
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -50,7 +50,7 @@ public class XmlDataSource extends AbstractDataSource {
 	public RenderOutput render(RenderInput input) throws ParserFatalException {
 		RenderOutput output = new RenderOutput();
 		try {
-			OutputStream stream = new FileOutputStream( new File( "C:/test.xml" ) );
+			OutputStream stream = new FileOutputStream( new File( input.getOutput() ) );
 			RecordIterator ri = input.getRecords();
 			ri.open();
 			String encoding = "iso-8859-15";
