@@ -25,7 +25,6 @@ public class XmlDataSource extends AbstractDataSource {
 
 	@Override
 	public void configure(Element config) throws ParserFatalException {
-		
 	}
 
 	@Override
