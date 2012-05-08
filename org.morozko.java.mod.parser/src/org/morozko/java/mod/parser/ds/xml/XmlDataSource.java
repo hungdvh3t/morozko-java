@@ -108,58 +108,43 @@ public class XmlDataSource extends AbstractDataSource {
 	@Override
 	public RenderOutput render(RenderInput input) throws ParserFatalException {
 		RenderOutput output = new RenderOutput();
-	
-		
-		
 		try {
-		
 			OutputStream stream = new FileOutputStream( new File( "C:/test.xml" ) );
-			
-			
 			RecordIterator ri = input.getRecords();
 			ri.open();
-			
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			dbf.setNamespaceAware( true );
-			
-			XMLStreamWriter writer = XMLOutputFactory.newFactory().createXMLStreamWriter( stream );
-			
-			writer.writeStartDocument();
-			
+			String encoding = "iso-8859-15";
+			XMLStreamWriter writer = XMLOutputFactory.newFactory().createXMLStreamWriter( stream, encoding );
+			writer.writeStartDocument( encoding, "1.0" );
+			writer.writeCharacters( ""+'\n' );
 			writer.writeStartElement( prepareTagName( "metadata" ) );
-			
 			if ( ri.getMetadataDescription().getName() != null ) {
 				writer.writeAttribute( prepareTagName( "name" ) , ri.getMetadataDescription().getName() );
 			}
-			
 			writer.writeCharacters( ""+'\n' );
-			
 			while ( ri.hasNext() ) {
 				RecordModel record = ri.getNext();
 				writer.writeEmptyElement( prepareTagName( record.getRecordDescription().getId() ) );
 				Iterator<FieldModel> fields = record.getFields();
 				while ( fields.hasNext() ) {
 					FieldModel field = fields.next();
-					writer.writeAttribute( prepareTagName( field.getName() ) , field.getValue() );
+					String fieldValue = field.getValue();
+					if ( fieldValue == null ) {
+						fieldValue = "";
+					} else {
+						fieldValue = fieldValue.trim();
+					}
+					writer.writeAttribute( prepareTagName( field.getName() ) , fieldValue );
 				}
 				writer.writeCharacters( ""+'\n' );
 			}
-			
-			
 			writer.writeEndElement();
-
-			
 			writer.writeEndDocument();
-			
 			ri.close();
 			writer.close();
 			stream.close();
-			
-			
 		} catch (Exception e) {
 			throw new ParserFatalException( e );
 		}
-		
 		return output;
 	}
 
