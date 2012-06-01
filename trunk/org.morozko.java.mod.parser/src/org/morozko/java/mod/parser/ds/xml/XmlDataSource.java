@@ -45,6 +45,24 @@ public class XmlDataSource extends AbstractDataSource {
 		return name;
 	}
 	
+	private static String prepareXmlAttribute( String fieldValue ) {
+		StringBuffer result = new StringBuffer();
+		for ( int k=0; k<fieldValue.length(); k++ ) {
+			char c = fieldValue.charAt( k );
+			if ( Character.isDigit( c ) || Character.isLetter( c ) || Character.isWhitespace( c )  ) {
+				result.append( c );
+			} else {
+				result.append("&#" + (int) c + ";");
+			}
+		} 
+//		result = result.replaceAll( "&" , "&amp;" );
+//		result = result.replaceAll( "<" , "&lt;" );
+//		result = result.replaceAll( ">" , "&gt;" );
+//		result = result.replaceAll( "\"" , "&quot;" );
+//		result = result.replaceAll( "/" , "&quot;" );
+		return result.toString();
+	}	
+	
 	@Override
 	public RenderOutput render(RenderInput input) throws ParserFatalException {
 		RenderOutput output = new RenderOutput();
@@ -73,7 +91,7 @@ public class XmlDataSource extends AbstractDataSource {
 					} else {
 						fieldValue = fieldValue.trim();
 					}
-					writer.writeAttribute( prepareTagName( field.getName() ) , fieldValue );
+					writer.writeAttribute( prepareTagName( field.getName() ) , prepareXmlAttribute( fieldValue ) );
 				}
 				writer.writeCharacters( ""+'\n' );
 			}
