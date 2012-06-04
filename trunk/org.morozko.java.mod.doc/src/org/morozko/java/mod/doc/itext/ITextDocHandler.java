@@ -179,7 +179,7 @@ public class ITextDocHandler implements DocHandler {
 		return r;
 	}	
 	
-	protected static Image createImage( DocImage docImage ) {
+	protected static Image createImage( DocImage docImage ) throws Exception {
 		Image image = null;
 		String url = docImage.getUrl();
 		try {
@@ -188,7 +188,8 @@ public class ITextDocHandler implements DocHandler {
 				image.scalePercent( docImage.getScaling().floatValue() );
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogFacade.getLog().error( "ITextDocHandler.createImage() Error loading image url : "+url, e );
+			throw e;
 		}
 		return image;
 	}	
@@ -768,7 +769,8 @@ class PdfHelper extends PdfPageEventHelper {
 			try {
 				ITextDocHandler.handleElements(doc, this.getDocFooter().docElements(), docHelper);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LogFacade.getLog().error( "ITextDocHandler - PdfHelper.onStartPage : "+e );
+				throw new RuntimeException( e );
 			}
 		}
 	}
@@ -778,7 +780,8 @@ class PdfHelper extends PdfPageEventHelper {
 			try {
 				ITextDocHandler.handleElements(doc, this.getDocHeader().docElements(), docHelper );
 			} catch (Exception e) {
-				e.printStackTrace();
+				LogFacade.getLog().error( "ITextDocHandler - PdfHelper.onStartPage : "+e );
+				throw new RuntimeException( e );
 			}
 		}
 	}
