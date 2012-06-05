@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import org.morozko.java.mod.db.connect.ConnectionFactory;
+import org.morozko.java.mod.parser.ds.BasicRecordIterator;
 import org.morozko.java.mod.parser.ds.ParserFatalException;
 import org.morozko.java.mod.parser.ds.ParserInput;
 import org.morozko.java.mod.parser.ds.RecordIterator;
@@ -13,7 +14,13 @@ import org.morozko.java.mod.parser.model.RecordModel;
 import org.morozko.java.mod.parser.model.impl.FieldModelImpl;
 import org.morozko.java.mod.parser.model.impl.RecordModelImpl;
 
-public class JdbcRecordIterator implements RecordIterator {
+public class JdbcRecordIterator extends BasicRecordIterator implements RecordIterator {
+
+	@Override
+	protected RecordModel findNextWorker() throws ParserFatalException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	private ParserInput input;
 	

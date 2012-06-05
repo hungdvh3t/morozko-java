@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Iterator;
 
+import org.morozko.java.mod.parser.ds.BasicRecordIterator;
 import org.morozko.java.mod.parser.ds.ParserFatalException;
 import org.morozko.java.mod.parser.ds.ParserInput;
 import org.morozko.java.mod.parser.ds.RecordIterator;
@@ -14,7 +15,7 @@ import org.morozko.java.mod.parser.model.RecordModel;
 import org.morozko.java.mod.parser.model.impl.FieldModelImpl;
 import org.morozko.java.mod.parser.model.impl.RecordModelImpl;
 
-public class PositionalRecordIterator implements RecordIterator {
+public class PositionalRecordIterator extends BasicRecordIterator implements RecordIterator {
 
 	private ParserInput input;
 	
@@ -23,10 +24,12 @@ public class PositionalRecordIterator implements RecordIterator {
 	private BufferedReader reader;
 
 	private PositionalMetadata metadata;
-	
-	private RecordModel currentRecord;
 
-	
+	@Override
+	protected RecordModel findNextWorker() throws ParserFatalException {
+		return this.findNextRecord();
+	}
+
 	public MetadataDescription getMetadataDescription() {
 		return metadata;
 	}
@@ -88,17 +91,7 @@ public class PositionalRecordIterator implements RecordIterator {
 		}
 		return record;
 	}
-	
-	@Override
-	public boolean hasNext() throws ParserFatalException {
-		this.currentRecord = this.findNextRecord();
-		return this.currentRecord != null;
-	}
 
-	@Override
-	public RecordModel getNext() throws ParserFatalException {
-		return this.currentRecord;
-	}
 
 	@Override
 	public boolean close() throws ParserFatalException {

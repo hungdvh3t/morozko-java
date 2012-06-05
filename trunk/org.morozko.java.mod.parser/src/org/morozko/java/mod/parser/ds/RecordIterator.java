@@ -1,5 +1,6 @@
 package org.morozko.java.mod.parser.ds;
 
+import org.morozko.java.mod.parser.filter.FilterChain;
 import org.morozko.java.mod.parser.model.MetadataDescription;
 import org.morozko.java.mod.parser.model.RecordModel;
 
@@ -14,5 +15,9 @@ public interface RecordIterator {
 	public abstract boolean close()  throws ParserFatalException;
 	
 	public MetadataDescription getMetadataDescription();
+	
+	public FilterChain getRecordFilterChain();
+	
+	public void setRecordFilterChain( FilterChain chain );
 	
 }
