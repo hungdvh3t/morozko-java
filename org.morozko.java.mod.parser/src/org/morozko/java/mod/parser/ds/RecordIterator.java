@@ -20,4 +20,10 @@ public interface RecordIterator {
 	
 	public void setRecordFilterChain( FilterChain chain );
 	
+	public int getCountSkipped();
+	
+	public int getCountTotal();
+	
+	public int getCountAccepted();
+	
 }
