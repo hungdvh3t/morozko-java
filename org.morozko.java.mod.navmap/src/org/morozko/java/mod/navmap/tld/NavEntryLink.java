@@ -43,8 +43,8 @@ public class NavEntryLink extends NavEntryTagSupportHelper {
 	private static final long serialVersionUID = -665604548318109931L;
 
 	public int doStartTag() throws JspException {
-		NavNode navNode = this.findNavNode();
-		NavEntry navEntry = navNode.getNavEntry();
+		//NavNode navNode = this.findNavNode();
+		NavEntry navEntry = this.findNavEntry();
 		String target = "";
 		
 		if (  navEntry.getTarget() != null ) {
@@ -57,6 +57,7 @@ public class NavEntryLink extends NavEntryTagSupportHelper {
 		
 		String link = this.getDisplay( navEntry );
 		if ( navEntry.getRenderLink().booleanValue() ) {
+			NavNode navNode = this.findNavNode();
 			String href = this.createRealLink( navNode, "true".equalsIgnoreCase( this.getParameter() ) );
 			link = "<a "+target+" href='"+href+"'"+this.getStyleData()+">"+this.getDisplay( navEntry )+"</a>";	
 		} else {
