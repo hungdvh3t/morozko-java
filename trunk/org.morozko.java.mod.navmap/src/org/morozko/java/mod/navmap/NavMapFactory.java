@@ -182,8 +182,10 @@ public class NavMapFactory {
 			
 			boolean valid = !validateDTD;
 			
+			System.out.println( ">>>>>>>>>>>>> TEST NAV MAP FACTORY 1 "+source );
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 			StreamIO.pipeStream( source.getByteStream(), buffer );
+			System.out.println( ">>>>>>>>>>>>> TEST NAV MAP FACTORY 2 "+source );
 			
 			StringReader reader1 = new StringReader( buffer.toString() );
 			StringReader reader2 = new StringReader( buffer.toString() );

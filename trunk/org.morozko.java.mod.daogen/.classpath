@@ -6,6 +6,6 @@
 	<classpathentry kind="lib" path="/javalibs/morozko/mj-mod-cmd.jar"/>
 	<classpathentry kind="lib" path="/javalibs/morozko/mj-mod-tools.jar"/>
 	<classpathentry kind="lib" path="/javalibs/morozko/mj-mod-tools-db.jar"/>
-	<classpathentry kind="lib" path="/javalibs/morozko/mj-mod-db.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.morozko.java.mod.db"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
