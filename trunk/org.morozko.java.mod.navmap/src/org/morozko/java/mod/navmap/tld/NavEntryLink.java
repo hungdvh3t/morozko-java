@@ -56,10 +56,15 @@ public class NavEntryLink extends NavEntryTagSupportHelper {
 		}
 		
 		String link = this.getDisplay( navEntry );
-		if ( navEntry.getRenderLink().booleanValue() ) {
+		if ( navEntry.getRenderLink().booleanValue()  ) {
 			NavNode navNode = this.findNavNode();
-			String href = this.createRealLink( navNode, "true".equalsIgnoreCase( this.getParameter() ) );
-			link = "<a "+target+" href='"+href+"'"+this.getStyleData()+">"+this.getDisplay( navEntry )+"</a>";	
+			if ( navNode != null ) {
+				String href = this.createRealLink( navNode, "true".equalsIgnoreCase( this.getParameter() ) );
+				link = "<a "+target+" href='"+href+"'"+this.getStyleData()+">"+this.getDisplay( navEntry )+"</a>";
+			} else {
+				String href = this.createRealLink( navEntry );
+				link = "<a "+target+" href='"+href+"'"+this.getStyleData()+">"+this.getDisplay( navEntry )+"</a>";
+			}
 		} else {
 			link = "<span "+this.getStyleData()+">"+this.getDisplay( navEntry )+"</span>";
 		}
