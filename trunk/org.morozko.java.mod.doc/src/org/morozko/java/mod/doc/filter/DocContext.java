@@ -82,6 +82,7 @@ public class DocContext {
 	public DocBase getDocBase( HttpServletRequest request ) throws Exception {
 		DocBase docBase = null;
 		if ( this.getXmlData() != null ) {
+			System.out.println( "XML >>> "+this.getXmlData() );
 			docBase = DocFacade.parse( new StringReader( this.getXmlData()  ), this.docRequestConfig.getDocHelper() );
 		} else {
 			docBase = (DocBase) request.getAttribute( DocHandler.ATT_NAME_DOC );
