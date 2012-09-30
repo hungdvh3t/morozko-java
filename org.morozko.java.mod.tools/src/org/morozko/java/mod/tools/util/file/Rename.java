@@ -14,9 +14,12 @@ public class Rename {
 				recurse( list[k], from, to );
 			}
 		} else {
-			String newName = f.getName().replaceAll( from , to );
-			//System.out.println( "from:"+f.getName()+" to:"+newName );
-			f.renameTo( new File( f.getParentFile(), newName ) );
+			String oldName = f.getName();
+			String newName = oldName.replaceAll( from , to );
+			if ( !oldName.equals( newName ) ) {
+				System.out.println( "from:"+f.getName()+" to:"+newName );
+				f.renameTo( new File( f.getParentFile(), newName ) );	
+			}
 		}
 	}
 	
