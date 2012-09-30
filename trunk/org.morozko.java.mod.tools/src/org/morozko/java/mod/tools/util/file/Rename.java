@@ -17,8 +17,8 @@ public class Rename {
 			String oldName = f.getName();
 			String newName = oldName.replaceAll( from , to );
 			if ( !oldName.equals( newName ) ) {
-				System.out.println( "from:"+f.getName()+" to:"+newName );
-				f.renameTo( new File( f.getParentFile(), newName ) );	
+				System.out.println( "from:"+f.getName()+" to:"+newName+" result:"+f.renameTo( new File( f.getParentFile(), newName ) ) );
+					
 			}
 		}
 	}
