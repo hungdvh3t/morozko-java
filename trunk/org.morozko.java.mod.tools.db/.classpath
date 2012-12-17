@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="/javalibs/misc/jexcelapi/2_6_5/jxl.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.morozko.java.mod.db"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.morozko.java.mod.tools"/>
+	<classpathentry kind="lib" path="/javalibs/morozko/mj-ext-db.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -66,9 +66,11 @@ public class ColumnContainer {
 	}
 	
 	public void addColumn( ColumnModel columnModel ) {
-		this.columnList.add( columnModel );
-		this.columnMap.put( columnModel.getName(), columnModel );
-		this.columnMapNoCase.put( columnModel.getName().toLowerCase(), columnModel );
+		if ( columnModel != null ) {
+			this.columnList.add( columnModel );
+			this.columnMap.put( columnModel.getName(), columnModel );
+			this.columnMapNoCase.put( columnModel.getName().toLowerCase(), columnModel );
+		}
 	}	
 	
 	public ColumnModel getColumn( String columnName ) {

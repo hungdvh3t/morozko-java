@@ -5,8 +5,8 @@ import org.morozko.java.core.cfg.BaseModuleVersion;
 public class DocModuleVersion extends BaseModuleVersion {
 
 	public static final String NAME = "Module Doc";
-	public static final String VERSION = "1.2.2";
-	public static final String DATE = "2012-01-10";
+	public static final String VERSION = "1.2.3";
+	public static final String DATE = "2012-12-13";
 	public static final String DEPENDANCIES = "/org/morozko/java/mod/doc/dependancies.properties";
 	
 	public DocModuleVersion() {

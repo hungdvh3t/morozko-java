@@ -93,7 +93,10 @@ private ConfigContext context;
 				this.docHelper = DocHelper.DEFAULT;
 			}
 			this.getLog().info( "docHelper    : "+this.docHelper );
-			// filtro
+			
+			// filtro 
+			String skipFilterAtt = generalConfigAtts.getProperty( "skip-filter" );
+			this.skipFilter = "true".equalsIgnoreCase( skipFilterAtt );
 			String filterName = generalConfigAtts.getProperty( "filter" );
 			this.getLog().info( "filterName    : "+filterName );
 			if ( filterName != null ) {
@@ -101,7 +104,9 @@ private ConfigContext context;
 			} else {
 				this.filter = new DefaultTextFilter();
 			}
-			this.getLog().info( "filter    : "+this.filter );
+			this.getLog().info( "filter      : "+this.filter );
+			this.getLog().info( "skip-filter : "+this.skipFilter );
+			
 			// itext font
 			List itextFontTagList = searchDOM.findAllTags( root , "itext-font" );
 			Iterator itextFontTagIt = itextFontTagList.iterator();

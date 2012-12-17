@@ -43,6 +43,7 @@ public class ExecFacade {
 	public static int executeUpdate( ConnectionFactory cf, String sql ) throws DAOException {
 		int result = 0;
 		Connection conn = cf.getConnection();
+		System.out.println( "CONN "+conn );
 		try {
 			Statement stm = conn.createStatement();
 			result = stm.executeUpdate( sql );

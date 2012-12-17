@@ -169,7 +169,7 @@ public class DefaultTableBackup extends BasicLogObject implements TableBackup {
         ResultSet fromRS = fromPS.executeQuery();
         // inizio l'inserimento dei dati
         String insert = queryBuffer.toString();
-        this.getLog().debug("Insert statement : "+insert);
+        this.getLog().info("Insert statement : "+insert);
         
         PreparedStatement toPS = to.prepareStatement(insert);
         // inserimento dati
