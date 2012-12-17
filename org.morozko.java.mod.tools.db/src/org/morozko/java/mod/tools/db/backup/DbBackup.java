@@ -67,11 +67,11 @@ public class DbBackup {
             BackupFacade.backup( DOMIO.loadDOMDoc( f ).getDocumentElement() );
             
         } catch (Exception e) {
-            System.err.println(" options : ");
-            System.err.println("      -f  [config-file] ");
-            System.err.println("      -l  [log-level:0-6] ");
-            System.err.println();
-            e.printStackTrace();
+            System.out.println(" options : ");
+            System.out.println("      -f  [config-file] ");
+            System.out.println("      -l  [log-level:0-6] ");
+            System.out.println();
+            e.printStackTrace( System.out );
         }
         printInfo();
     }    

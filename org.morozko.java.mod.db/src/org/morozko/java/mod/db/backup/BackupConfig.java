@@ -25,6 +25,8 @@
  */
 package org.morozko.java.mod.db.backup;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -109,9 +111,27 @@ public class BackupConfig extends XMLConfigurableObject {
 			
 			Element factoryFromTag = searchDOM.findTag( backupConfig , "cf-from-config" );
 			this.factoryFrom = ConnectionFactoryImpl.newInstance( DOMUtils.attributesToProperties( factoryFromTag ) );
+			try {
+				Connection conn = this.factoryFrom.getConnection();
+				DatabaseMetaData dbmd = conn.getMetaData();
+				this.getLog().info( "Database from : "+dbmd.getDatabaseProductName()+" "+dbmd.getDatabaseProductVersion() );
+				this.getLog().info( "Driver   from : "+dbmd.getDriverName()+" "+dbmd.getDriverVersion() );
+				conn.close();
+			} catch (Exception e) {
+				this.getLog().warn( "Error logging driver data" );
+			}
 			
 			Element factoryToTag = searchDOM.findTag( backupConfig , "cf-to-config" );
 			this.factoryTo = ConnectionFactoryImpl.newInstance( DOMUtils.attributesToProperties( factoryToTag ) );
+			try {
+				Connection conn = this.factoryTo.getConnection();
+				DatabaseMetaData dbmd = conn.getMetaData();
+				this.getLog().info( "Database to : "+dbmd.getDatabaseProductName()+" "+dbmd.getDatabaseProductVersion() );
+				this.getLog().info( "Driver   to : "+dbmd.getDriverName()+" "+dbmd.getDriverVersion() );
+				conn.close();
+			} catch (Exception e) {
+				this.getLog().warn( "Error logging driver data" );
+			}
 			
 			Element sequenceListTag = searchDOM.findTag( backupConfig , "sequence-list" );
 			if ( sequenceListTag != null ) {

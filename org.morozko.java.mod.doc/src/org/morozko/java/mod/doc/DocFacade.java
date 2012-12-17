@@ -199,7 +199,7 @@ public class DocFacade {
 	public static void main( String[] args ) {
 		try {
 			
-			//ITextDocHandler.registerFont( "garamond", "/ext/font/symbol.ttf");
+			ITextDocHandler.registerFont( "default-font", "/font/bookos.ttf");
 			
 			File file = new File( args[0] );
 			
@@ -217,11 +217,11 @@ public class DocFacade {
 			FileOutputStream fos2 = new FileOutputStream( new File( outputDir, file.getName()+".pdf" ) );
 			createPDF( docBase, fos2 );
 			
-			FileOutputStream fos3 = new FileOutputStream( new File( outputDir, file.getName()+".rtf" ) );
-			createRTF( docBase, fos3 );
-			
-			FileOutputStream fos4 = new FileOutputStream( new File( outputDir, file.getName()+".xls" ) );
-			createXLS( docBase, fos4 );
+//			FileOutputStream fos3 = new FileOutputStream( new File( outputDir, file.getName()+".rtf" ) );
+//			createRTF( docBase, fos3 );
+//			
+//			FileOutputStream fos4 = new FileOutputStream( new File( outputDir, file.getName()+".xls" ) );
+//			createXLS( docBase, fos4 );
 			
 			
 		} catch ( Exception e ) {
