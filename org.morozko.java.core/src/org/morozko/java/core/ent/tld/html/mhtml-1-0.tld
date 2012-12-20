@@ -76,6 +76,13 @@
 <name>message</name>
 <tagclass>org.morozko.java.core.ent.tld.html.MessageTag</tagclass>
 <bodycontent>JSP</bodycontent>
+
+<attribute>
+<name>filter</name>
+<required>false</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+
 <attribute>
 <name>bundle</name>
 <required>false</required>

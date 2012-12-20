@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javax.servlet.jsp.JspException;
 
 import org.morozko.java.core.ent.tld.helpers.TagSupportHelper;
+import org.morozko.java.core.text.TextFilter;
 
 public class MessageTag extends TagSupportHelper {
 
@@ -13,7 +14,17 @@ public class MessageTag extends TagSupportHelper {
 	
 	private String bundle;
 	
+	private String filter;
 	
+	
+	public String getFilter() {
+		return filter;
+	}
+
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+
 	/**
 	 * 
 	 */
@@ -32,6 +43,10 @@ public class MessageTag extends TagSupportHelper {
 				MessageFormat mf = new MessageFormat( w );
 				Object[] args = { arg0 };
 				w = mf.format( args );
+			}
+			if ( this.getFilter() != null ) {
+				TextFilter f = HtmlTagUtils.getFilter( this.pageContext.getServletContext(), this.getFilter() );
+				w = f.filterFrom( w );
 			}
 			this.print( w );
 		} else {
