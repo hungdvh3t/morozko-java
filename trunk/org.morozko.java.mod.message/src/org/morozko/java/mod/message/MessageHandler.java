@@ -35,8 +35,10 @@ import java.util.Iterator;
 public interface MessageHandler {
 	
 	public String getSubject();
-	
+
 	public MessageAddress getSender();
+	
+	public MessageAddress getReplyTo();
 	
 	public MessageAddress[] getToList();
 	
