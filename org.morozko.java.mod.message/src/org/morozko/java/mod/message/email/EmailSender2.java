@@ -118,6 +118,11 @@ public class EmailSender2 extends BasicLogObject implements MessageSender {
 			Address fromAddress = new InternetAddress(from);
 			msg.setFrom(fromAddress);
 			
+			if (  message.getReplyTo() != null ) {
+				Address[] rt = { new InternetAddress( message.getReplyTo().getAddress() ) };
+				msg.setReplyTo( rt );
+			}
+			
 			if ( message.getToList().length > 0 ) {
 				InternetAddress[] toList = convert( message.getToList() );
 				msg.setRecipients( RecipientType.TO, toList );

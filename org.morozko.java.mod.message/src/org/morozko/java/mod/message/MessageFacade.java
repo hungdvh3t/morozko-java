@@ -39,16 +39,26 @@ import java.util.Properties;
 public class MessageFacade {
 
 	public static MessageHandler newMessage( String sender, String to, String cc, String bcc, String subject, String[] textParts, File[] fileParts, Properties headers ) {
+		return newMessage(sender, null, to, cc, bcc, subject, textParts, fileParts, headers);
+	}
+
+	public static MessageHandler newMessage( String sender, String replyTo, String to, String cc, String bcc, String subject, String[] textParts, File[] fileParts, Properties headers ) {
 		List parts = parts(textParts, fileParts);
-		MessageHandler message = new MessageDefault( parts,
+		MessageDefault message = new MessageDefault( parts,
 												new MessageAddress( sender ),
 												MessageAddress.parse( to ),
 												MessageAddress.parse( cc ),
 												MessageAddress.parse( bcc ),
 												subject,
 												MessageHeaders.fromProperties( headers ));
+		if ( replyTo != null ) {
+			message.setReplyTo( new MessageAddress( replyTo ) );
+		} else {
+			message.setReplyTo( new MessageAddress( sender ) );
+		}
 		return message;
 	}
+
 	
 	public static List parts( String[] textParts, File[] fileParts ) {
 		List parts = new ArrayList();
@@ -76,9 +86,19 @@ public class MessageFacade {
 class MessageDefault implements MessageHandler {
 
 	private List parts;
-	
+
 	private MessageAddress sender;
 	
+	private MessageAddress replyTo;
+	
+	public MessageAddress getReplyTo() {
+		return replyTo;
+	}
+
+	public void setReplyTo(MessageAddress replyTo) {
+		this.replyTo = replyTo;
+	}
+
 	private MessageAddress[] toList;
 	
 	private MessageAddress[] ccList;
