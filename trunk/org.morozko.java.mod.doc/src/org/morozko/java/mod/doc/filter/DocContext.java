@@ -19,6 +19,16 @@ public class DocContext {
 		this.docRequestConfig = docRequestConfig;
 	}
 
+	private String fileName;
+	
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 	private String name;
 	
 	private String contentType;

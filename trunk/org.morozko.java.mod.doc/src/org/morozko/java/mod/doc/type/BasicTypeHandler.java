@@ -12,11 +12,11 @@ import org.w3c.dom.Element;
 public class BasicTypeHandler extends BasicLogObject implements DocTypeHandler {
 
 	public void setContentDisposition( HttpServletRequest request, HttpServletResponse response, DocContext docContext ) {
-		setContentDisposition(request, response, docContext.getName() );
+		setContentDisposition(request, response, docContext.getFileName() );
 	}
 	
 	public void setContentDisposition( HttpServletRequest request, HttpServletResponse response, String fileName ) {
-		response.addHeader("Content-Disposition", "attachment; filename="+fileName+"."+this.getExtension() );
+		response.addHeader("Content-Disposition", "attachment; filename="+fileName );
 	}
 	
 	private String type;

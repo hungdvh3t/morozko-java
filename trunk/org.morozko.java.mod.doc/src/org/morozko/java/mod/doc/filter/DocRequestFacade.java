@@ -51,6 +51,8 @@ public class DocRequestFacade extends BasicLogObject {
 		this.getLog().info( "truncate    : "+truncate );
 		String data = uri.substring( uri.lastIndexOf( "/" )+1 );
 		String name = data;
+		String fileName = data;
+		this.getLog().info( "filename 1 : "+fileName );
 		String type = render;
 		int index = data.lastIndexOf( "." );
 		if ( render == null ) {
@@ -76,7 +78,9 @@ public class DocRequestFacade extends BasicLogObject {
 		DocTypeHandler docTypeHandler = (DocTypeHandler)this.getDocRequestConfig().getTypeHandlerMap().get( type );
 
 		DocContext docContext = new DocContext( this.getDocRequestConfig() );
+		
 		docContext.setName(name);
+		docContext.setFileName( fileName );
 		
 		// fine processamento
 		DocHandler docHandler = (DocHandler)this.getDocRequestConfig().getDocHandlerMap().get( name );
@@ -204,32 +208,28 @@ public class DocRequestFacade extends BasicLogObject {
 	}
 	
 	private void handleDocWorker( HttpServletRequest request, HttpServletResponse response, DocTypeHandler docTypeHandler, DocContext docContext ) throws Exception {
+		String contentDisposition = "attachment; filename="+docContext.getFileName();
+		this.getLog().info("contentDisposition  : "+contentDisposition );
+		if ( contentDisposition != null ) {
+			response.addHeader("Content-Disposition", contentDisposition );
+		}	
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		docContext.setBufferStream( baos );
+		this.getLog().info( "handleDocWorker - docTypeHandler 1 : "+docTypeHandler );
 		if ( docTypeHandler == null ) {
 			DocBase docBase = docContext.getDocBase( request );
-			String contentDisposition = null;
 			if ( docContext.getType().equalsIgnoreCase( "xml" ) ) {
 				docContext.getBufferStream().write( docContext.getXmlData().getBytes() );
-				contentDisposition = "attachment; filename="+docContext.getName()+".xml";
 			} else if ( docContext.getType().equalsIgnoreCase( "pdf" ) ) {
 				DocFacade.createPDF( docBase , docContext.getBufferStream() );
-				contentDisposition = "attachment; filename="+docContext.getName()+".pdf";
 			} else if ( docContext.getType().equalsIgnoreCase( "pdf2" ) ) {
 				DocFacade.createPDFItext( docBase , docContext.getBufferStream() );
-				contentDisposition = "attachment; filename="+docContext.getName()+".pdf";
 			} else if ( docContext.getType().equalsIgnoreCase( "rtf" ) ) {
 				DocFacade.createRTF( docBase , docContext.getBufferStream() );
-				contentDisposition = "attachment; filename="+docContext.getName()+".rtf";
 			} else if ( docContext.getType().equalsIgnoreCase( "html" ) ) {
 				DocFacade.createHTML( docBase , docContext.getBufferStream() );		
-				contentDisposition = "attachment; filename="+docContext.getName()+".html";
 			}
 			this.getLog().info("content type doc  : "+docContext.getContentType()+" : "+docContext.getEncoding() );
-			this.getLog().info("contentDisposition  : "+contentDisposition );
-			if ( contentDisposition != null ) {
-				response.addHeader("Content-Disposition", contentDisposition );
-			}	
 		} else {
 			docTypeHandler.handleDocType( request, response, docContext );
 		}
