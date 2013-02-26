@@ -9,5 +9,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/org.morozko.java.mod.db"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.morozko.java.mod.tools"/>
 	<classpathentry kind="lib" path="/javalibs/morozko/mj-ext-db.jar"/>
+	<classpathentry kind="lib" path="/javalibs/misc/csv/opencsv-1.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
