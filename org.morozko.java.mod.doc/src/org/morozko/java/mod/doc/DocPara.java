@@ -184,7 +184,16 @@ public class DocPara extends DocElement implements DocStyle {
 	
 	private int align;
 
+	private String format;
 	
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
+
 	private String type;
 	
 	public String getType() {

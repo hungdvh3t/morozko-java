@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import jxl.CellView;
 import jxl.Workbook;
+import jxl.biff.DisplayFormat;
 import jxl.format.Alignment;
 import jxl.format.Border;
 import jxl.format.BorderLineStyle;
@@ -22,6 +23,8 @@ import jxl.format.UnderlineStyle;
 import jxl.format.VerticalAlignment;
 import jxl.write.Label;
 import jxl.write.Number;
+import jxl.write.NumberFormat;
+import jxl.write.NumberFormats;
 import jxl.write.WritableCell;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
@@ -109,6 +112,7 @@ public class XlsTypeHandler extends BasicTypeHandler {
 		for ( int rn=0; rn<matrix.getRowCount(); rn++ ) {
 			for ( int cn=0; cn<matrix.getColumnCount(); cn++ ) {
 				String type = null;
+				String format = null;
 				DocCell cell = matrix.getCell( rn, cn );
 				DocCell parent = matrix.getParent( rn, cn );
 				String text = "";
@@ -120,6 +124,7 @@ public class XlsTypeHandler extends BasicTypeHandler {
 						currentePara = ((DocPara)current);
 						text = currentePara.getText();
 						type = currentePara.getType();
+						format = currentePara.getFormat();
 					} else {
 						text = String.valueOf( current );
 						currentePara = null;
@@ -128,13 +133,30 @@ public class XlsTypeHandler extends BasicTypeHandler {
 					currentePara = null;
 				}
 				WritableCellFormat cf = new WritableCellFormat();
+				DisplayFormat df = null;
+				// in case of number check for format string
+				if ( format != null && "number".equalsIgnoreCase( type ) ) {
+					System.out.println( ">>>>>>>>>>>>>> FORMAT - "+format );
+					if ( "float".equalsIgnoreCase( format ) ) {
+						df = NumberFormats.FLOAT;
+					} else {
+						df = new NumberFormat( format, NumberFormat.COMPLEX_FORMAT);
+					}
+					cf = new WritableCellFormat( df );
+				}
 				if ( parent != null && !ignoreFormat ) {
+					
 					// must go first as it has the chance to change the cell format
 					if ( parent.getForeColor() != null ) {
 						Font f = cf.getFont();
 						WritableFont wf = new WritableFont( f );
 						wf.setColour( ( closestColor( ITextDocHandler.parseHtmlColor( parent.getForeColor() ) ) ) );
-						cf = new WritableCellFormat( wf );
+						if ( df != null ) {
+							cf = new WritableCellFormat( wf, df );	
+						} else {
+							cf = new WritableCellFormat( wf );
+						}
+						
 					}	
 					// style
 					if ( currentePara != null ) {
@@ -150,7 +172,11 @@ public class XlsTypeHandler extends BasicTypeHandler {
 						} else if ( currentePara.getStyle() == DocPara.STYLE_UNDERLINE ) {
 							wf.setUnderlineStyle( UnderlineStyle.SINGLE );
 						}
-						cf = new WritableCellFormat( wf );
+						if ( df != null ) {
+							cf = new WritableCellFormat( wf, df );	
+						} else {
+							cf = new WritableCellFormat( wf );
+						}
 					}
 					// back color
 					if ( parent.getBackColor() != null) {
