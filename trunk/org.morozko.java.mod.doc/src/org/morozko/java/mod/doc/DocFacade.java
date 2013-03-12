@@ -50,6 +50,8 @@ import org.morozko.java.mod.doc.itext.ITextDocHandler;
 import org.morozko.java.mod.doc.itext.ItextPdfDocHandler;
 import org.morozko.java.mod.doc.type.XlsTypeHandler;
 import org.morozko.java.mod.doc.xml.DocContentHandler;
+import org.morozko.java.mod.tools.util.args.ArgList;
+import org.morozko.java.mod.tools.util.args.ArgUtils;
 import org.xml.sax.InputSource;
 
 import com.lowagie.text.Document;
@@ -199,30 +201,34 @@ public class DocFacade {
 	public static void main( String[] args ) {
 		try {
 			
-			ITextDocHandler.registerFont( "default-font", "/font/bookos.ttf");
+			//ITextDocHandler.registerFont( "default-font", "/font/bookos.ttf");
 			
-			File file = new File( args[0] );
+			ArgList list = ArgUtils.parseArgs( args );
 			
-			File outputDir = new File( args[1] );
+			File file = new File( list.findArgValue( "xml" ) );
+			
+			File outputDir = new File( list.findArgValue( "output-dir" ) );
+			
+			String format = list.findArgValue( "format" );
 			
 			InputStream is = new FileInputStream( file  );
 			DocBase docBase = parse( is );
 			
-			//print( System.out, docBase );
-//			
-//			FileOutputStream fos1 = new FileOutputStream( new File( outputDir, file.getName()+".html" ) );
-//			createHTML( docBase, fos1 );
-//			
-			
-			FileOutputStream fos2 = new FileOutputStream( new File( outputDir, file.getName()+".pdf" ) );
-			createPDF( docBase, fos2 );
-			
-//			FileOutputStream fos3 = new FileOutputStream( new File( outputDir, file.getName()+".rtf" ) );
-//			createRTF( docBase, fos3 );
-//			
-			FileOutputStream fos4 = new FileOutputStream( new File( outputDir, file.getName()+".xls" ) );
-			createXLS( docBase, fos4 );
-			
+			if ( "xls".equalsIgnoreCase( format ) ) {
+				FileOutputStream fos4 = new FileOutputStream( new File( outputDir, file.getName()+".xls" ) );
+				createXLS( docBase, fos4 );
+			} else if ( "pdf".equalsIgnoreCase( format ) ) {
+				FileOutputStream fos2 = new FileOutputStream( new File( outputDir, file.getName()+".pdf" ) );
+				createPDF( docBase, fos2 );
+			} else if ( "rtf".equalsIgnoreCase( format ) ) {
+				FileOutputStream fos3 = new FileOutputStream( new File( outputDir, file.getName()+".rtf" ) );
+				createRTF( docBase, fos3 );
+			} else if ( "rtf".equalsIgnoreCase( format ) ) {
+				FileOutputStream fos1 = new FileOutputStream( new File( outputDir, file.getName()+".html" ) );
+				createHTML( docBase, fos1 );
+			} else {
+				throw new Exception( "No valid format selected! : "+format );
+			}
 			
 		} catch ( Exception e ) {
 			e.printStackTrace();
