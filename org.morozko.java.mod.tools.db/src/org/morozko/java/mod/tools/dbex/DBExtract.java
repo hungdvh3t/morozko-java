@@ -117,8 +117,10 @@ public class DBExtract {
 			List tableList = null;
 			Arg tableArg = argList.findArg( "t" );
 			
+			String s = argList.findArgValue( "s" );
+			
 			if ( tableArg != null ) {
-				table = tableArg.getValue();
+				table = tableArg.getValue().toLowerCase();
 				tableList = Arrays.asList( table.toLowerCase().split( ";" ) );
 			}
 			
@@ -130,7 +132,7 @@ public class DBExtract {
 			
 			String[] types = { "TABLE" };
 			
-			ResultSet rs = dbmd.getTables( null, null, null, types );
+			ResultSet rs = dbmd.getTables( null, s, null, types );
 			
 			 
 			
@@ -138,8 +140,9 @@ public class DBExtract {
 				String schema = rs.getString( "TABLE_SCHEM" );
 				String name = rs.getString( "TABLE_NAME" );
 				if ( schema != null ) {
-					name = "\""+schema+"\"."+name;
+					name = schema+"."+name;
 				}
+				System.out.println( "check : '"+name.toLowerCase()+"' -> '"+table+"' ("+tableList.contains( name.toLowerCase() )+" )" );
 				if ( tableList == null || tableList.contains( name.toLowerCase() ) ) {
 					pw.println( "-- table : "+name );
 					extractTable( conn, name, pw);

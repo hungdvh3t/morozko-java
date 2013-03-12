@@ -43,8 +43,8 @@ public class ExtractScript {
 		try {
 			ArgList argList = ArgUtils.parseArgsDefault( args );
 			PrintWriter pw = new PrintWriter( System.out );
-			String schema = "EQUW";
-			String tables = "QW0021;QW0022;QW0004;QW0011;QW0015;QW0017;QW0007";
+			String schema = "EQUITALIA";
+			String tables = "EQ_SAC_SER_AMBITO_ANAGRAFICA;EQ_SAC_SER_AMBITO_ADR;EQ_SAC_SER_AMBITO_REGIONE;EQ_SAC_SER_AMBITO_SI";
 			ConnectionFactory cf = ConnArgs.createConnectionFactory( argList );
 			String[] t = tables.split( ";" );
 			for ( int k=0; k<t.length; k++ ) {
