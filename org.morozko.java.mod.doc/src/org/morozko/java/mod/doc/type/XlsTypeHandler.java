@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
@@ -209,7 +210,8 @@ public class XlsTypeHandler extends BasicTypeHandler {
 				}
 				WritableCell current = null;
 				if ( "number".equalsIgnoreCase( type ) ) {
-					current = new Number( cn, rn, Double.parseDouble( prepareNumber( text )  ), cf );
+					BigDecimal bd = new BigDecimal( text );
+					current = new Number( cn, rn,  bd.doubleValue(), cf );
 				} else {
 					current = new Label( cn, rn, text, cf );
 				}
