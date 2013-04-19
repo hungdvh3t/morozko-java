@@ -2,8 +2,10 @@ package org.morozko.java.core.util.result;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class PagedResult extends ResultInfo implements Serializable {
 
@@ -53,6 +55,7 @@ public class PagedResult extends ResultInfo implements Serializable {
 		this.currentPage = currentPage;
 		this.pageElements = pageElements;
 		this.pageCount = pageCount;
+		this.infoMap = new HashMap();
 	}
 
 	private static int calcPageCount( int elementCount, int perPage ) {
@@ -68,6 +71,16 @@ public class PagedResult extends ResultInfo implements Serializable {
 	 */
 	private static final long serialVersionUID = 2478516776242070877L;
 	
+	private Map infoMap;
+	
+	public Map getInfoMap() {
+		return infoMap;
+	}
+
+	public void setInfoMap(Map info) {
+		this.infoMap = info;
+	}
+
 	private int pageCount;
 	
 	private int offset;
