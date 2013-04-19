@@ -311,6 +311,62 @@
 
 </tag>
 
+<!-- TAG : listMapGet -->
+<tag>
+<name>listMapGet</name>
+<tagclass>org.morozko.java.core.ent.tld.list.ListMapGetTag</tagclass>
+<bodycontent>JSP</bodycontent>
+ 
+<attribute>
+<name>id</name>
+<required>true</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+
+<attribute>
+<name>toScope</name>
+<required>false</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+
+<attribute>
+<name>name</name>
+<required>true</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+
+<attribute>
+<name>property</name>
+<required>false</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+
+<attribute>
+<name>keyName</name>
+<required>false</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+
+<attribute>
+<name>keyProperty</name>
+<required>false</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+
+<attribute>
+<name>keyValue</name>
+<required>false</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+
+<attribute>
+<name>scope</name>
+<required>false</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+
+</tag>
+
 
 <!-- TAG : get -->
 <tag>
