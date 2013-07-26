@@ -2,6 +2,7 @@ package org.morozko.java.mod.web.servlet.config;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.morozko.java.core.cfg.ConfigException;
+import org.morozko.java.mod.web.servlet.ConfigServlet;
 import org.w3c.dom.Element;
 
 public class ModuleConfig extends BasicConfig {
@@ -55,30 +57,36 @@ public class ModuleConfig extends BasicConfig {
 		PrintWriter pw = response.getWriter();
 		pw.println( "<html>" );
 		pw.println( "<head>" );
-		pw.println( "<title>Module reload page</title>" );
+		pw.println( "<title>Module reload page (v 1.0.3)</title>" );
 		pw.println( "</head>" );
 		pw.println( "<body>" );
 		pw.println( "<h3>Module reload page</h3>" );
-		String reload = request.getParameter( "reload" );
-		if ( reload != null ) {
-			pw.print( "<pre>reload started... " );
-			try {
-				this.reloadModule( reload );
-				pw.println( "OK" );
-			} catch (ConfigException e) {
-				pw.println( "KO" );
-				e.printStackTrace( pw );
+		String secret = request.getParameter( "secret" );
+		if ( ConfigServlet.checkSecret( this.getConfigContext().getContext(),  secret ) ) {
+			pw.println( "<h3>Host : "+InetAddress.getLocalHost()+"</h3>" );
+			String reload = request.getParameter( "reload" );
+			if ( reload != null ) {
+				pw.print( "<pre>reload started... " );
+				try {
+					this.reloadModule( reload );
+					pw.println( "OK" );
+				} catch (ConfigException e) {
+					pw.println( "KO" );
+					e.printStackTrace( pw );
+				}
+				pw.println( "</pre>" );
 			}
-			pw.println( "</pre>" );
+			pw.println( "<ul>" );
+			Iterator itKey = this.moduleList.iterator();
+			while ( itKey.hasNext() ) {
+				ConfigWrapper module = (ConfigWrapper)itKey.next();
+				String key = module.getName();
+				pw.println( "<li>"+key+" - <a href='"+OPERATION_RELOAD+"?secret="+secret+"&reload="+key+"'>"+key+"</a> ("+module.getLoadTime()+")</li>" );
+			}
+			pw.println( "</ul>" );			
+		} else {
+			pw.println( "<p>You are not authorized</p>" );
 		}
-		pw.println( "<ul>" );
-		Iterator itKey = this.moduleList.iterator();
-		while ( itKey.hasNext() ) {
-			ConfigWrapper module = (ConfigWrapper)itKey.next();
-			String key = module.getName();
-			pw.println( "<li>"+key+" - <a href='"+OPERATION_RELOAD+"?reload="+key+"'>"+key+"</a> ("+module.getLoadTime()+")</li>" );
-		}
-		pw.println( "</ul>" );
 		pw.println( "</body>" );
 		pw.println( "</html>" );
 	}

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.morozko.java.core.cfg.ConfigurableObject;
 import org.morozko.java.core.ent.log.helpers.LogObjectServlet;
+import org.morozko.java.core.io.FileIO;
 import org.morozko.java.core.lang.helpers.ClassHelper;
 import org.morozko.java.core.xml.dom.DOMIO;
 import org.morozko.java.core.xml.dom.DOMUtils;
@@ -88,6 +89,16 @@ public class ConfigServlet extends LogObjectServlet {
 	 */
 	private static final long serialVersionUID = -2567054666335688813L;
 
+	public static boolean checkSecret( ServletContext context, String secret ) {
+		boolean ok = false;
+		if ( secret != null && secret.equalsIgnoreCase( (String)context.getAttribute( SECRET_ATT ) ) ) {
+			ok = true;
+		}
+		return ok;
+	}
+	
+	private static final String SECRET_ATT = ConfigServlet.class.getName()+"_ATT_NAME";
+	
 	public void init(ServletConfig config) throws ServletException {
 		super.init( config );
 		String configFilePath = config.getInitParameter( "config-file-path" );
@@ -102,7 +113,18 @@ public class ConfigServlet extends LogObjectServlet {
 			File configFile = resolvePath( configFilePath , config.getServletContext() );
 			logProp( "configuration read", configFile.getCanonicalPath() );
 			Document doc = DOMIO.loadDOMDoc( configFile );
-			Element root = doc.getDocumentElement();	
+			Element root = doc.getDocumentElement();
+			try {
+				String secretFile = root.getAttribute( "secret-file" );
+				String secret = FileIO.readString( secretFile );
+				if ( secret != null && secret.trim().length() > 0 ) {
+					config.getServletContext().setAttribute( SECRET_ATT , secret );
+				}
+				
+			} catch (Exception e) {
+				this.getLog().error( "Error setting secret file", e );
+			}
+			
 			// module configuration
 			Element moduleConfigListTag = searchDOM.findTag( root , "module-config-list" );
 			List moduleConfigList = searchDOM.findAllTags( moduleConfigListTag , "module-config" );
