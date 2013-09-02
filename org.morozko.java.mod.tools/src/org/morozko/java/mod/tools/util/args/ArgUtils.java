@@ -26,6 +26,7 @@
 package org.morozko.java.mod.tools.util.args;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -45,6 +46,38 @@ public class ArgUtils {
 	public static final String ARG_DEFAULT_LOGGER_LOG_LEVEL = "log-level";
 	
 	public static final String ARG_DEFAULT_LOGGER_LOG_LEVEL_2 = "log-level";
+	
+	
+	public static final String ARG_SYS_PROP_FILE = "sys-prop";
+	
+	public static void handleProxyParams( ArgList list ) {
+		String host = list.findArgValue( "proxyHost" );
+		if ( host != null ) {
+			String port = list.findArgValue( "proxyPort" );
+			String user = list.findArgValue( "proxyUser" );
+			String pass = list.findArgValue( "proxyPassword" );
+			System.getProperties().put( "http.proxyHost", host );
+			System.getProperties().put( "http.proxyPort", port );
+			System.getProperties().put( "http.proxyUser", user );
+			System.getProperties().put( "http.proxyPassword", pass );	
+		}
+	}
+	
+	public static void systemPropertyFile( ArgList list ) throws IOException {
+		String sysProp = list.findArgValue( ARG_SYS_PROP_FILE );
+		if ( sysProp != null ) {
+			Properties props = new Properties();
+			FileInputStream fis = new FileInputStream( sysProp );
+			props.load( fis );
+			fis.close();
+			Enumeration<Object> keys = props.keys();
+			while ( keys.hasMoreElements() ) {
+				Object k = keys.nextElement();
+				Object v = props.get( k );
+				System.setProperty( k.toString(), v.toString() );
+			}
+		}
+	}
 	
 	public static ArgList parseArgsDefault( String[] args ) {
 		ArgList list = parseArgs( args );
