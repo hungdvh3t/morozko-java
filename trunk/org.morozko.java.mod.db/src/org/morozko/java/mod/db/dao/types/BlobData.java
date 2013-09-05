@@ -27,6 +27,7 @@ package org.morozko.java.mod.db.dao.types;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.SQLException;
 
@@ -38,7 +39,12 @@ import org.morozko.java.core.io.StreamIO;
  * @author mfranci
  *
  */
-public class BlobData {
+public class BlobData implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5664628013389279648L;
 
 	public static BlobData valueOf( Blob b ) throws SQLException {
 		BlobData blobData = new BlobData();
