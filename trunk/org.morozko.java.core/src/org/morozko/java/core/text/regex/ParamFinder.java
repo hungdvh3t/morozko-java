@@ -9,7 +9,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ParamFinder {
+import org.morozko.java.core.log.BasicLogObject;
+
+public class ParamFinder extends BasicLogObject {
 
 	public static void main( String[] args ) {
 		try {
@@ -82,11 +84,11 @@ public class ParamFinder {
 		Matcher m = p.matcher( text );
 		while ( m.find() ) {
 			String found = m.group();
-			System.out.println( "FOUND : "+found+" : "+this.pre.length()+" : "+this.post.length() );
+			this.getLog().debug( "FOUND : "+found+" : "+this.pre.length()+" : "+this.post.length() );
 			String paramName = found.substring( this.preL, found.length()-this.postL );
 			paramList.add( paramName );
 		}
-		System.out.println( "PARAM_LIST "+paramList );
+		this.getLog().debug( "PARAM_LIST "+paramList );
 		return paramList;
 	}
 
