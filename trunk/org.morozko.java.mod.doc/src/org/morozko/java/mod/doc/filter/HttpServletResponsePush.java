@@ -77,7 +77,7 @@ public class HttpServletResponsePush extends HttpServletResponseWrapper  {
 	}
 
 	public void setContentType(String type) {
-		LogFacade.getLog().info( "HttpServletResponseByteData.setContentType() do nothing : operation not allowed here" );
+		LogFacade.getLog().debug( "HttpServletResponseByteData.setContentType() do nothing : operation not allowed here" );
 	}
 		
 }
