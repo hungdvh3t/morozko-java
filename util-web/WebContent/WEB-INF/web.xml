@@ -13,6 +13,10 @@
 			<param-name>maxPostSize</param-name>
 			<param-value>10000000</param-value>
 		</init-param>
+		<init-param>
+			<param-name>filterHost</param-name>
+			<param-value></param-value>
+		</init-param>		
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
