@@ -34,6 +34,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.morozko.java.core.log.LogFacade;
 import org.morozko.java.mod.cmd.CMD;
 import org.morozko.java.mod.cmd.CMDException;
 import org.morozko.java.mod.cmd.CMDOutput;
@@ -91,6 +92,7 @@ public class BufferedCMD extends CMDWrapper {
      */
     public CMDOutput handleCommand(String command) throws CMDException {
         CMDOutput output = null;
+        this.getLog().debug( "command>> '"+command+"'" );
         if (CMDUtils.isCommandIgnoreCase(command, COMMANDS)) {
             if (CMDUtils.isCommandIgnoreCase(command, CMD_LIST)) {
                 String[] head = { "N", "COMMAND" };
@@ -117,8 +119,9 @@ public class BufferedCMD extends CMDWrapper {
                 } catch (Exception e) {
                     output = new WordCMDOutput(command, "Error:"+e);
                 }                
-            } else if (CMDUtils.isCommandIgnoreCase(command, CMD_LOAD)) { 
+            } else if (CMDUtils.isCommandIgnoreCase(command, CMD_LOAD)) {
             	String f = CMDUtils.parseArgs(CMD_LOAD, command);
+            	this.getLog().debug( "entra load '"+f+"'" );
                 try {
                     File file = new File( f );
                     if ( file.exists() ) {

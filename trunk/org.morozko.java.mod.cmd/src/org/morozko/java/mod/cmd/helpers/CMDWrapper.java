@@ -25,6 +25,7 @@
  */
 package org.morozko.java.mod.cmd.helpers;
 
+import org.morozko.java.core.log.BasicLogObject;
 import org.morozko.java.mod.cmd.CMD;
 import org.morozko.java.mod.cmd.CMDException;
 import org.morozko.java.mod.cmd.CMDOutput;
@@ -34,7 +35,7 @@ import org.morozko.java.mod.cmd.CMDOutput;
  * 
  * @author  Matteo Franci a.k.a. TUX2
  */
-public class CMDWrapper implements CMD {
+public class CMDWrapper extends BasicLogObject implements CMD {
 
     private CMD wrappedCMD;
     

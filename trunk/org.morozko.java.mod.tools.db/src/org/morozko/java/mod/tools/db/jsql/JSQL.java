@@ -46,6 +46,7 @@ import org.morozko.java.mod.tools.util.args.ArgUtils;
 import org.morozko.java.core.io.FileIO;
 import org.morozko.java.core.io.line.LineIOUtils;
 import org.morozko.java.core.io.line.LineWriter;
+import org.morozko.java.core.log.LogFacade;
 
 /**
  * <p></p>
@@ -55,7 +56,7 @@ import org.morozko.java.core.io.line.LineWriter;
  */
 public class JSQL {
     
-    public static final String VERSION = "0.1.4 (2011-05-09)";
+    public static final String VERSION = "0.1.5 (2013-09-30)";
     
     private static void printInfo() {
         ToolUtils.printInfo("JSQL v. "+VERSION, "Matteo Franci a.k.a Morozko");
@@ -93,10 +94,19 @@ public class JSQL {
 
             CMD cmd = SQLCMDUtils.newSQLCMDComplete(cp);
             if ( buffer ) {
+            	LogFacade.getLog().info( "adding buffered cmd : "+buffer );
             	cmd = new BufferedCMD( cmd );
             	File bufferFile = new File( list.findArgValue( "buffer" ) );
             	if ( bufferFile.exists() ) {
-            		cmd.handleCommand( "\\bload "+bufferFile.getCanonicalPath() );
+            		CMDOutput out = cmd.handleCommand( BufferedCMD.CMD_LOAD+" "+bufferFile.getCanonicalPath() );
+            		while ( out.nextRow() ) {
+            			String[] row = out.getRow();
+            			for ( int ri=0; ri<row.length; ri++ ) {
+            				LogFacade.getLog().info( BufferedCMD.CMD_LOAD+" result : "+row[ri] );
+            			}
+            		}
+            	} else {
+            		LogFacade.getLog().info( "buffer file does not exists : "+buffer );
             	}
             }
             
