@@ -70,7 +70,7 @@ public class ArgUtils {
 			FileInputStream fis = new FileInputStream( sysProp );
 			props.load( fis );
 			fis.close();
-			Enumeration<Object> keys = props.keys();
+			Enumeration keys = props.keys();
 			while ( keys.hasMoreElements() ) {
 				Object k = keys.nextElement();
 				Object v = props.get( k );
