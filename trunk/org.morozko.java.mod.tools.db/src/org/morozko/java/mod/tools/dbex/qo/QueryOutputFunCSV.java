@@ -15,23 +15,19 @@ public class QueryOutputFunCSV extends QueryOutputFun {
 
 	private CSVWriter writer;
 	
-	@Override
 	public void start( OutputStream os ) throws Exception {
 		OutputStreamWriter streamWriter = new OutputStreamWriter( os );
 		this.writer = new CSVWriter( streamWriter , ';' );
 	}
 
-	@Override
 	public void end() throws Exception {
 		this.writer.close();
 	}
 
-	@Override
 	public void outputRow( String[] row ) throws Exception {
 		this.writer.writeNext( row );	
 	}
 
-	@Override
 	public void flush() throws Exception {
 		this.writer.flush();
 	}
