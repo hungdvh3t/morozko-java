@@ -387,7 +387,9 @@ public class DocContentHandler implements ContentHandler {
 			this.currentContainer.addElement( this.currentElement );
 		}
 		if ( CONTAINER_LIST.contains( qName ) ) {
-			this.parents.add( this.currentContainer );
+			//if ( !qName.equals( "header-ext" ) && !qName.equals( "footer-ext" ) ) {
+				this.parents.add( this.currentContainer );
+			//}
 			this.currentContainer = (DocContainer)this.currentElement;
 		}
 		// setting id
