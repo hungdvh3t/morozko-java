@@ -163,10 +163,28 @@ public class DocFacade {
 				Integer.parseInt( margins[1] ),
 				Integer.parseInt( margins[2] ), 
 				Integer.parseInt( margins[3] ) );
+		
+		// allocate buffer
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		// create pdf writer
 		PdfWriter pdfWriter = PdfWriter.getInstance( document, baos );
+		// create doc handler
 		ITextDocHandler handler = new ITextDocHandler( document, pdfWriter );
+		
+		if ( "true".equalsIgnoreCase( docBase.getInfo().getProperty( "set-total-page" ) ) ) {
+			handler.handleDoc( docBase );
+			int totalPageCount = pdfWriter.getCurrentPageNumber()-1;
+			document = new Document( PageSize.A4, Integer.parseInt( margins[0] ),
+					Integer.parseInt( margins[1] ),
+					Integer.parseInt( margins[2] ), 
+					Integer.parseInt( margins[3] ) );
+			baos = new ByteArrayOutputStream();
+			pdfWriter = PdfWriter.getInstance( document, baos );
+			handler = new ITextDocHandler(document, pdfWriter, totalPageCount );
+		}
+		
 		handler.handleDoc( docBase );
+		
 		baos.writeTo( outputStream );
 		baos.close();
 		outputStream.close();		
@@ -223,7 +241,7 @@ public class DocFacade {
 			} else if ( "rtf".equalsIgnoreCase( format ) ) {
 				FileOutputStream fos3 = new FileOutputStream( new File( outputDir, file.getName()+".rtf" ) );
 				createRTF( docBase, fos3 );
-			} else if ( "rtf".equalsIgnoreCase( format ) ) {
+			} else if ( "html".equalsIgnoreCase( format ) ) {
 				FileOutputStream fos1 = new FileOutputStream( new File( outputDir, file.getName()+".html" ) );
 				createHTML( docBase, fos1 );
 			} else {

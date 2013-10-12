@@ -25,8 +25,8 @@
  */
 package org.morozko.java.mod.doc.itext;
 
+
 import java.awt.Color;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +36,7 @@ import java.util.Properties;
 
 import org.morozko.java.core.log.LogFacade;
 import org.morozko.java.core.math.BinaryCalc;
+import org.morozko.java.core.text.regex.ParamFinder;
 import org.morozko.java.mod.doc.DocBarcode;
 import org.morozko.java.mod.doc.DocBase;
 import org.morozko.java.mod.doc.DocBorders;
@@ -53,8 +54,9 @@ import org.morozko.java.mod.doc.DocPhrase;
 import org.morozko.java.mod.doc.DocRow;
 import org.morozko.java.mod.doc.DocStyle;
 import org.morozko.java.mod.doc.DocTable;
+import org.morozko.java.mod.doc.itext.v2.ITextHelper;
+import org.morozko.java.mod.doc.itext.v2.PdfHelper;
 
-import com.lowagie.text.BadElementException;
 import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -73,10 +75,8 @@ import com.lowagie.text.pdf.Barcode128;
 import com.lowagie.text.pdf.BarcodeEAN;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfArray;
-import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfName;
-import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.rtf.RtfWriter2;
@@ -89,6 +89,15 @@ import com.lowagie.text.rtf.headerfooter.RtfHeaderFooter;
  *
  */
 public class ITextDocHandler implements DocHandler {
+	
+
+	private static final ParamFinder PARAM_FINDER = ParamFinder.newFinder();
+	
+	public static final String PARAM_PAGE_CURRENT = "currentPage";
+	
+	public static final String PARAM_PAGE_TOTAL = "totalPage";
+	
+	public static final String PARAM_PAGE_TOTAL_FINDER = PARAM_FINDER.DEFAULT_PRE+"totalPage"+PARAM_FINDER.DEFAULT_POST;
 	
 	private static HashMap fonts = new HashMap();
 
@@ -140,14 +149,21 @@ public class ITextDocHandler implements DocHandler {
 	public final static String DOC_DEFAULT_FONT_SIZE = "default-font-size";
 	public final static String DOC_DEFAULT_FONT_STYLE = "default-font-style";
 
+	private int totalPageCount; 
+	
 	public ITextDocHandler( Document document, RtfWriter2 rtfWriter2 ) {
 		this( document, DOC_OUTPUT_RTF );
 		this.rtfWriter2 = rtfWriter2;
 	}	
 	
 	public ITextDocHandler( Document document, PdfWriter pdfWriter ) {
+		this(document, pdfWriter, -1);
+	}	
+	
+	public ITextDocHandler( Document document, PdfWriter pdfWriter, int totalPageCount ) {
 		this( document, DOC_OUTPUT_PDF );
 		this.pdfWriter = pdfWriter;
+		this.totalPageCount = totalPageCount;
 	}	
 	
 	public ITextDocHandler( Document document, String docType ) {
@@ -194,8 +210,13 @@ public class ITextDocHandler implements DocHandler {
 		return image;
 	}	
 	
+	
+	public static String createText( Properties params, String text ) {
+		return PARAM_FINDER.substitute( text , params );
+	}
+	
 	protected static Chunk createChunk( DocPhrase docPhrase, ITextHelper docHelper ) throws Exception {
-		String text = docPhrase.getText();
+		String text = createText( docHelper.getParams(), docPhrase.getText() );
 		int style = docPhrase.getStyle();
 		String fontName = docPhrase.getFontName();
 		Font f = createFont(fontName, docPhrase.getSize(), style, docHelper, docPhrase.getForeColor() );
@@ -204,7 +225,7 @@ public class ITextDocHandler implements DocHandler {
 	}	
 	
 	protected static Phrase createPhrase( DocPhrase docPhrase, ITextHelper docHelper, List fontMap ) throws Exception {
-		String text = docPhrase.getText();
+		String text = createText( docHelper.getParams(), docPhrase.getText() );
 		int style = docPhrase.getStyle();
 		String fontName = docPhrase.getFontName();
 		Font f = createFont(fontName, docPhrase.getSize(), style, docHelper, docPhrase.getForeColor() );
@@ -225,7 +246,7 @@ public class ITextDocHandler implements DocHandler {
 	
 	protected static Paragraph createPara( DocPara docPara, ITextHelper docHelper, List fontMap ) throws Exception {
 		int style = docPara.getStyle();
-		String text = docPara.getText();
+		String text = createText( docHelper.getParams(), docPara.getText() );
 //		if ( DOC_OUTPUT_HTML.equals( this.docType ) ) {
 //			int count = 0;
 //			StringBuffer buffer = new StringBuffer();
@@ -426,7 +447,7 @@ public class ITextDocHandler implements DocHandler {
 		return rtfHeaderFooter;
 	}
 	
-	private static Font createFont( String fontName, int fontSize, int fontStyle, ITextHelper docHelper, String color ) throws Exception {
+	public static Font createFont( String fontName, int fontSize, int fontStyle, ITextHelper docHelper, String color ) throws Exception {
 		return createFont(fontName, fontName, fontSize, fontStyle, docHelper, color);
 	}
 	
@@ -492,6 +513,10 @@ public class ITextDocHandler implements DocHandler {
 		docHelper.setDefFontStyle( defaultFontStyle );
 		docHelper.setDefFontSize( defaultFontSize );
 
+		if ( this.totalPageCount != -1 ) {
+			docHelper.getParams().setProperty( PARAM_PAGE_TOTAL , String.valueOf( this.totalPageCount ) );
+		}
+		
 		// per documenti tipo HTML
 		if ( DOC_OUTPUT_HTML.equalsIgnoreCase( this.docType ) ) {
 			String cssLink = info.getProperty( DocInfo.INFO_NAME_CSS_LINK );
@@ -575,7 +600,7 @@ public class ITextDocHandler implements DocHandler {
 		this.document.close();
 	}
 	
-	protected static void handleElements( Document document, Iterator itDoc, ITextHelper docHelper ) throws Exception {
+	public static void handleElements( Document document, Iterator itDoc, ITextHelper docHelper ) throws Exception {
 		while ( itDoc.hasNext() ) {
 			DocElement docElement = (DocElement)itDoc.next();
 			getElement(document, docElement, true, docHelper );
@@ -640,6 +665,7 @@ public class ITextDocHandler implements DocHandler {
 			}
 		}
 		HeaderFooter headerFooter  = new HeaderFooter( phrase, container.isNumbered() );
+		
 		if ( align == DocPara.ALIGN_UNSET ) {
 			align = DocPara.ALIGN_CENTER;
 		}
@@ -651,39 +677,6 @@ public class ITextDocHandler implements DocHandler {
 	
 }
 
-class ITextHelper {
-
-	private String defFontName;
-	
-	private String defFontSize;
-	
-	private String defFontStyle;
-
-	public String getDefFontName() {
-		return defFontName;
-	}
-
-	public void setDefFontName(String defFontName) {
-		this.defFontName = defFontName;
-	}
-
-	public String getDefFontSize() {
-		return defFontSize;
-	}
-
-	public void setDefFontSize(String defFontSize) {
-		this.defFontSize = defFontSize;
-	}
-
-	public String getDefFontStyle() {
-		return defFontStyle;
-	}
-
-	public void setDefFontStyle(String defFontStyle) {
-		this.defFontStyle = defFontStyle;
-	}
-	
-}
 
 interface ParentElement {
 	
@@ -738,68 +731,6 @@ class CellParent implements ParentElement {
 	 */
 	public void add(Element element) throws Exception {
 		this.cell.addElement( element );
-	}
-	
-}
-
-class PdfHelper extends PdfPageEventHelper {
-	
-	private PdfContentByte pdfContentByte;
-	
-	public PdfContentByte getPdfContentByte() {
-		return pdfContentByte;
-	}
-
-	public void setPdfContentByte(PdfContentByte pdfContentByte) {
-		this.pdfContentByte = pdfContentByte;
-	}
-
-	public PdfHelper( ITextHelper docHelper ) {
-		this.docHelper = docHelper;
-	}
-	
-	private DocHeader docHeader;
-	
-	private DocFooter docFooter;
-
-	private ITextHelper docHelper;
-	
-	public void onEndPage( PdfWriter writer, Document doc ) {
-		if ( this.getDocFooter() != null ) {
-			try {
-				ITextDocHandler.handleElements(doc, this.getDocFooter().docElements(), docHelper);
-			} catch (Exception e) {
-				LogFacade.getLog().error( "ITextDocHandler - PdfHelper.onStartPage : "+e );
-				throw new RuntimeException( e );
-			}
-		}
-	}
-
-	public void onStartPage(PdfWriter writer, Document doc ) {
-		if ( this.getDocHeader() != null ) {
-			try {
-				ITextDocHandler.handleElements(doc, this.getDocHeader().docElements(), docHelper );
-			} catch (Exception e) {
-				LogFacade.getLog().error( "ITextDocHandler - PdfHelper.onStartPage : "+e );
-				throw new RuntimeException( e );
-			}
-		}
-	}
-
-	public DocHeader getDocHeader() {
-		return docHeader;
-	}
-
-	public void setDocHeader(DocHeader docHeader) {
-		this.docHeader = docHeader;
-	}
-
-	public DocFooter getDocFooter() {
-		return docFooter;
-	}
-
-	public void setDocFooter(DocFooter docFooter) {
-		this.docFooter = docFooter;
 	}
 	
 }

@@ -28,6 +28,7 @@ package org.morozko.java.mod.doc;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -64,8 +65,15 @@ public class DocBase extends DocElement {
 		this.docHeader = new DocHeader();
 		this.docFooter = new DocFooter();
 		this.idMap = new HashMap();
+		this.additionalData = new HashMap();
 	}
 	
+	private Map additionalData;
+	
+	public Map getAdditionalData() {
+		return additionalData;
+	}
+
 	private DocHeader docHeader;
 	
 	private DocFooter docFooter;
