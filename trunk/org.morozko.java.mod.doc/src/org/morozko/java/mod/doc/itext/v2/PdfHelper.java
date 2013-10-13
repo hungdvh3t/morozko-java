@@ -23,7 +23,7 @@ import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
- * Questo è l'handler da usare!
+ * Questo ï¿½ l'handler da usare!
  * 
  * @author mttfranci
  *
@@ -84,7 +84,7 @@ public class PdfHelper  extends PdfPageEventHelper {
             List lines = new ArrayList();
             cb.saveState();
     		Iterator itElements = this.getDocFooter().docElements();
-    		int totalOffset = 0;
+    		int totalOffset = 30;
 	        cb.beginText();
 	        cb.setFontAndSize(baseFont, footerTextSize);
     		while ( itElements.hasNext() ) {
@@ -94,7 +94,7 @@ public class PdfHelper  extends PdfPageEventHelper {
 					String text = ITextDocHandler.createText( docHelper.getParams(), para.getText() );
 					float textSize = baseFont.getWidthPoint(text, footerTextSize);
 					float textBase = document.bottom() - totalOffset;
-					int rowOffset = 15;
+					int rowOffset = 20;
 					if( para.getAlign() == DocPara.ALIGN_CENTER ) {
 						cb.setTextMatrix((document.right() / 2), textBase);
 						cb.showText(text);
