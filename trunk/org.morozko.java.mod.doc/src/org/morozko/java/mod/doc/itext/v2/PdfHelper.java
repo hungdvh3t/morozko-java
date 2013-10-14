@@ -84,7 +84,7 @@ public class PdfHelper  extends PdfPageEventHelper {
             List lines = new ArrayList();
             cb.saveState();
     		Iterator itElements = this.getDocFooter().docElements();
-    		int totalOffset = 30;
+    		int totalOffset = 20;
 	        cb.beginText();
 	        cb.setFontAndSize(baseFont, footerTextSize);
     		while ( itElements.hasNext() ) {
@@ -94,24 +94,22 @@ public class PdfHelper  extends PdfPageEventHelper {
 					String text = ITextDocHandler.createText( docHelper.getParams(), para.getText() );
 					float textSize = baseFont.getWidthPoint(text, footerTextSize);
 					float textBase = document.bottom() - totalOffset;
-					int rowOffset = 20;
+					int rowOffset = 10;
 					if( para.getAlign() == DocPara.ALIGN_CENTER ) {
 						cb.setTextMatrix((document.right() / 2), textBase);
 						cb.showText(text);
-						cb.endText();
 						//	cb.addTemplate(totalPages, (document.right() / 2) + textSize, textBase);	
 					} else if( para.getAlign() == DocPara.ALIGN_LEFT ) {
 						cb.setTextMatrix(document.left(), textBase);
 						cb.showText(text);
-						cb.endText();
 						//	cb.addTemplate(totalPages, document.left() + textSize, textBase);
 					} else {
 						float adjust = baseFont.getWidthPoint("0", footerTextSize);
 						cb.setTextMatrix(document.right() - textSize - adjust, textBase);
 						cb.showText(text);
-						cb.endText();
 						//	cb.addTemplate(totalPages, document.right() - adjust, textBase);
 					}
+					
 					totalOffset+= rowOffset;
 				} else {
 	    			throw new RuntimeException( "Element not allowed in footer (accepted only DocPara) : "+current );
