@@ -243,8 +243,19 @@ public class MDEX {
             if ( "true".equalsIgnoreCase( allTables ) ) {
             	System.out.println( "TEST 1" );
                 Iterator itTables = dataBaseModel.getTableList().iterator();
-                TableModel tableModel = (TableModel)itTables.next();
-                tableListNames.add( tableModel.getName() );
+                while ( itTables.hasNext() ) {
+                	TableModel tableModel = (TableModel)itTables.next();
+                    tableListNames.add( tableModel.getName() );	
+                }
+            } else if ( "pattern".equalsIgnoreCase( allTables ) ) {
+                System.out.println( "TEST 3" );
+                Iterator itTables = dataBaseModel.getTableList().iterator();
+                while ( itTables.hasNext() ) {
+                	TableModel tableModel = (TableModel)itTables.next();
+                    if ( tableModel.getName().indexOf( tableList ) != -1 ) {
+                    	tableListNames.add( tableModel.getName() );	
+                    }   	
+                }
             } else if ( tableList != null ) {
             	System.out.println( "TEST 2" );
             	String[] tables = tableList.split( ";" );
