@@ -88,7 +88,7 @@ public class ParamFinder extends BasicLogObject {
 			String paramName = found.substring( this.preL, found.length()-this.postL );
 			paramList.add( paramName );
 		}
-		this.getLog().debug( "PARAM_LIST "+paramList );
+		//this.getLog().debug( "PARAM_LIST "+paramList );
 		return paramList;
 	}
 
