@@ -55,6 +55,9 @@ public class SQLCMDMeta implements CMD {
         props.setProperty("Data Base name", dbmd.getDatabaseProductName());
         props.setProperty("Data Base version", dbmd.getDatabaseProductVersion());
         props.setProperty("Driver version", dbmd.getDriverVersion());
+        props.setProperty("Driver name", dbmd.getDriverName());
+        props.setProperty( "Driver major version", String.valueOf( dbmd.getDriverMajorVersion() ) );
+        props.setProperty( "Driver minor version", String.valueOf( dbmd.getDriverMinorVersion() ) );
         props.setProperty("Max connections", String.valueOf(dbmd.getMaxConnections()));
         return props;
     }
