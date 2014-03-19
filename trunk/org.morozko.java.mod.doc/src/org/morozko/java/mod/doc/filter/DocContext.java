@@ -1,16 +1,22 @@
 package org.morozko.java.mod.doc.filter;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.OutputStream;
 import java.io.StringReader;
+import java.text.NumberFormat;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.morozko.java.core.io.FileIO;
+import org.morozko.java.core.io.StreamIO;
+import org.morozko.java.core.log.BasicLogObject;
 import org.morozko.java.mod.doc.DocBase;
 import org.morozko.java.mod.doc.DocFacade;
 import org.morozko.java.mod.doc.filter.facade.DocRequestConfig;
 
 
-public class DocContext {
+public class DocContext extends BasicLogObject {
 
 	private DocRequestConfig docRequestConfig;
 	
@@ -89,10 +95,25 @@ public class DocContext {
 		this.bufferStream = bufferStream;
 	}
 
+	private static String formatMemory( long mem ) {
+		return NumberFormat.getInstance().format( mem );
+	}
+	
+	private static String formatRuntime() {
+		return formatMemory( Runtime.getRuntime().freeMemory() ) + " / "+formatMemory( Runtime.getRuntime().totalMemory() );
+	} 
+	
 	public DocBase getDocBase( HttpServletRequest request ) throws Exception {
 		DocBase docBase = null;
+		
 		if ( this.getXmlData() != null ) {
+			this.getLog().info( "getDocBase -> startParse 1 -> "+formatRuntime()+" xml data size "+formatMemory( this.getXmlData().length() ) );
+			StringReader sr = new StringReader( this.xmlData );
+			File tempFile = new File( "C:/prod/installedApps/equitalia/temp"+System.currentTimeMillis()+".xml" );
+			StreamIO.pipeChar( sr , new FileWriter( tempFile ), StreamIO.MODE_CLOSE_BOTH );
+			this.getLog().info( "getDocBase ->   endSave  2 -> "+tempFile.getCanonicalPath() );
 			docBase = DocFacade.parse( new StringReader( this.getXmlData()  ), this.docRequestConfig.getDocHelper() );
+			this.getLog().info( "getDocBase ->  endParse  1 -> "+formatRuntime() );
 		} else {
 			docBase = (DocBase) request.getAttribute( DocHandler.ATT_NAME_DOC );
 		}
