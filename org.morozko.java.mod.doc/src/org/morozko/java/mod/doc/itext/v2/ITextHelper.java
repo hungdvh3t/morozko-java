@@ -2,6 +2,8 @@ package org.morozko.java.mod.doc.itext.v2;
 
 import java.util.Properties;
 
+import com.lowagie.text.pdf.PdfWriter;
+
 public class ITextHelper {
 
 	public ITextHelper() {
@@ -48,5 +50,14 @@ public class ITextHelper {
 		this.defFontStyle = defFontStyle;
 	}
 	
+	private PdfWriter pdfWriter;
+
+	public PdfWriter getPdfWriter() {
+		return pdfWriter;
+	}
+
+	public void setPdfWriter(PdfWriter pdfWriter) {
+		this.pdfWriter = pdfWriter;
+	}
 	
 }

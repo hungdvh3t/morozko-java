@@ -287,6 +287,11 @@ public class ITextDocHandler implements DocHandler {
 	}
 	
 	protected static Table createTable( DocTable docTable, ITextHelper docHelper ) throws Exception {
+		
+		System.out.println(  "Handle table DONE ! -> "+docTable.getClass().getName()+" - "+Runtime.getRuntime().freeMemory()/1000/1000+" / "+Runtime.getRuntime().totalMemory()/1000/1000+" / "+Runtime.getRuntime().maxMemory()/1000/1000 );
+		
+		int maxMem = 0;
+		
 		boolean startHeader = false;
 		Table table = new Table( docTable.getColumns() );
 		table.setBorderWidth(0);	
@@ -295,8 +300,6 @@ public class ITextDocHandler implements DocHandler {
 		table.setPadding( docTable.getPadding() );
 		table.setSpacing( docTable.getSpacing() );
 		table.setCellsFitPage( true );
-		
-		
 		
 		
 		if ( docTable.getSpaceBefore() != null ) {
@@ -317,6 +320,8 @@ public class ITextDocHandler implements DocHandler {
 		Iterator itRow = docTable.docElements();
 		while ( itRow.hasNext() ) {
 			DocRow docRow = (DocRow)itRow.next();
+			//maxMam = Math.max( Runtime.getRuntime().totalMemory()/1000/1000 , )
+			//System.out.println(  "Handle row DONE ! -> "+Runtime.getRuntime().freeMemory()/1000/1000+" / "+Runtime.getRuntime().totalMemory()/1000/1000 );
 			Iterator itCell = docRow.docElements();
 			while ( itCell.hasNext() ) {
 				DocCell docCell = (DocCell)itCell.next();
@@ -402,6 +407,9 @@ public class ITextDocHandler implements DocHandler {
 						Font f = (Font) fontList.get( k );
 						c.setFont( f );
 					}
+				}
+				if ( docHelper.getPdfWriter() != null ) {
+					docHelper.getPdfWriter().flush();
 				}
 			}
 		}
@@ -509,6 +517,11 @@ public class ITextDocHandler implements DocHandler {
 		String defaultFontSize = info.getProperty( DOC_DEFAULT_FONT_SIZE, "10" );
 		String defaultFontStyle = info.getProperty( DOC_DEFAULT_FONT_STYLE, "normal" );
 		ITextHelper docHelper = new ITextHelper();
+		
+		if ( this.pdfWriter != null ) {
+			docHelper.setPdfWriter( this.pdfWriter );
+		}
+		
 		docHelper.setDefFontName( defaultFontName );
 		docHelper.setDefFontStyle( defaultFontStyle );
 		docHelper.setDefFontSize( defaultFontSize );
@@ -607,7 +620,7 @@ public class ITextDocHandler implements DocHandler {
 		}
 	}
 	
-	protected static Element getElement( Document document, DocElement docElement, boolean addElement, ITextHelper docHelper ) throws Exception {
+	public static Element getElement( Document document, DocElement docElement, boolean addElement, ITextHelper docHelper ) throws Exception {
 		Element result = null;
 		DocumentParent documentParent = new DocumentParent( document );
 		if ( docElement instanceof DocPhrase ) {

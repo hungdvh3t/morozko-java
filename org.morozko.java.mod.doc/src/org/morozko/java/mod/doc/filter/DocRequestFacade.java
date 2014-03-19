@@ -2,6 +2,8 @@ package org.morozko.java.mod.doc.filter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -213,8 +215,9 @@ public class DocRequestFacade extends BasicLogObject {
 		if ( contentDisposition != null ) {
 			response.addHeader("Content-Disposition", contentDisposition );
 		}	
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		docContext.setBufferStream( baos );
+		File tempFile = new File( "/temp.file."+System.currentTimeMillis() );
+		FileOutputStream fos = new FileOutputStream( tempFile );
+		docContext.setBufferStream( fos );
 		this.getLog().info( "handleDocWorker - docTypeHandler 1 : "+docTypeHandler );
 		if ( docTypeHandler == null ) {
 			DocBase docBase = docContext.getDocBase( request );
@@ -233,10 +236,11 @@ public class DocRequestFacade extends BasicLogObject {
 		} else {
 			docTypeHandler.handleDocType( request, response, docContext );
 		}
+		fos.close();
 		OutputStream os = response.getOutputStream();
-		baos.writeTo( os );
-		baos.flush();
-		os.flush();
+		FileInputStream fis = new FileInputStream( tempFile );
+		StreamIO.pipeStream( fis, os, StreamIO.MODE_CLOSE_BOTH );
+		tempFile.delete();
 	}
 	
 	private DocRequestConfig docRequestConfig;
