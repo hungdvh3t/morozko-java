@@ -50,6 +50,8 @@ public class NavFilter extends ServletContextFilter {
 	
 	private NavController navController;
 	
+	private String excludePath;
+	
 	public static void changeCurrentNaveNode( ServletContext context, HttpServletRequest request, String path ) {
 		NavMap navMap = (NavMap)context.getAttribute( ATT_NAME_NAVMAP );
 		NavNode navNode = navMap.getNavNode( path );
@@ -60,10 +62,19 @@ public class NavFilter extends ServletContextFilter {
 	 * @see org.opinf.jlib.ent.servlet.filter.HttpFilter#doFilter(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.FilterChain)
 	 */
 	public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-		if ( this.navController == null ) {
-			this.navController = (NavController)this.getContext().getAttribute( ATT_NAME_NAVCONTROLLER );
+		String requestUrl = request.getRequestURI();
+		String actionUrl = requestUrl.substring( requestUrl.indexOf( request.getContextPath() ) + request.getContextPath().length() )+";";
+		this.getLog().info( "actionUrl:'"+actionUrl+"' vs exclude:'"+this.excludePath+"'" );
+		if ( this.excludePath != null && this.excludePath.indexOf( actionUrl ) != -1 ) {
+			chain.doFilter( request, response );
+		} else {
+			if ( this.navController == null ) {
+				this.navController = (NavController)this.getContext().getAttribute( ATT_NAME_NAVCONTROLLER );
+			}
+			this.navController.handle( request, response, chain );
 		}
-		this.navController.handle( request, response, chain );	
+		
+		
 	}
 
 	/* (non-Javadoc)8
@@ -79,6 +90,9 @@ public class NavFilter extends ServletContextFilter {
 	public void init(FilterConfig config) throws ServletException {
 		super.init(config);
 		String skipInit = config.getInitParameter( "skip-init" );
+		String excludePath = config.getInitParameter( "exclude_path" );
+		this.excludePath = excludePath;
+		this.logInit( "NavFilter config excludePath : "+this.excludePath );
 		if ( "true".equalsIgnoreCase(skipInit) ) {
 			this.logInit( "navController init skip "+skipInit );
 		} else {
