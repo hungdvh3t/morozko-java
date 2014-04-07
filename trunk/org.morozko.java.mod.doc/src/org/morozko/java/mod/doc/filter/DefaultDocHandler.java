@@ -36,6 +36,17 @@ public class DefaultDocHandler extends BasicLogObject implements DocHandler {
 
 	private String forward;
 	
+	
+	private String mode;
+	
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+
 	public String getForward() {
 		return forward;
 	}
