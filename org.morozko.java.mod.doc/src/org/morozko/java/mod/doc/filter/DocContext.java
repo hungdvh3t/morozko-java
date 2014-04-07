@@ -105,15 +105,8 @@ public class DocContext extends BasicLogObject {
 	
 	public DocBase getDocBase( HttpServletRequest request ) throws Exception {
 		DocBase docBase = null;
-		
 		if ( this.getXmlData() != null ) {
-			this.getLog().info( "getDocBase -> startParse 1 -> "+formatRuntime()+" xml data size "+formatMemory( this.getXmlData().length() ) );
-			StringReader sr = new StringReader( this.xmlData );
-			File tempFile = new File( "C:/prod/installedApps/equitalia/temp"+System.currentTimeMillis()+".xml" );
-			StreamIO.pipeChar( sr , new FileWriter( tempFile ), StreamIO.MODE_CLOSE_BOTH );
-			this.getLog().info( "getDocBase ->   endSave  2 -> "+tempFile.getCanonicalPath() );
 			docBase = DocFacade.parse( new StringReader( this.getXmlData()  ), this.docRequestConfig.getDocHelper() );
-			this.getLog().info( "getDocBase ->  endParse  1 -> "+formatRuntime() );
 		} else {
 			docBase = (DocBase) request.getAttribute( DocHandler.ATT_NAME_DOC );
 		}
