@@ -1,15 +1,11 @@
 package org.morozko.java.mod.doc.filter;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.text.NumberFormat;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.morozko.java.core.io.FileIO;
-import org.morozko.java.core.io.StreamIO;
 import org.morozko.java.core.log.BasicLogObject;
 import org.morozko.java.mod.doc.DocBase;
 import org.morozko.java.mod.doc.DocFacade;
