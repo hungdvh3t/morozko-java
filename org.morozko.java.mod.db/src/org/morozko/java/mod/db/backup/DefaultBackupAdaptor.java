@@ -25,6 +25,10 @@
  */
 package org.morozko.java.mod.db.backup;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,6 +36,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
 
+import org.morozko.java.core.io.StreamIO;
 import org.morozko.java.core.log.BasicLogObject;
 
 /**
@@ -60,10 +65,20 @@ public class DefaultBackupAdaptor extends BasicLogObject implements BackupAdapto
 	 */
 	public void set(PreparedStatement ps, ResultSetMetaData rsmd, Object obj, int index) throws SQLException {
 		int type = rsmd.getColumnType( index );
+		this.getLog().debug( "DefaultBackupAdaptor>>> SETTING TYPE : "+rsmd.getColumnName( index ) );
 		if (  obj == null ) {
 			ps.setNull( index , type );
-		 } else if (type==Types.DATE) {
+		} else if (type==Types.DATE) {
 	        ps.setDate( index , (Date)obj );
+		 } else if (type==Types.BLOB) {
+			Blob b = (Blob)obj;
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			try {
+				StreamIO.pipeStream( b.getBinaryStream() , baos, StreamIO.MODE_CLOSE_BOTH );
+			} catch (IOException e) {
+				throw new SQLException( e.toString() );
+			}
+			ps.setBytes( index , baos.toByteArray() );
 	     } else {
 	    	ps.setObject( index , obj );
 	     }

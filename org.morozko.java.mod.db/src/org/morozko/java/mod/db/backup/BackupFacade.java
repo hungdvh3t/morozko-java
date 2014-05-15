@@ -44,6 +44,8 @@ import org.w3c.dom.Element;
  */
 public class BackupFacade {
 
+	public static final String VERSION = "BackupFacade 1.0.9 - 2014-05-13";
+	
 	public static int backup( Element config ) throws Exception {
 		BackupConfig backupConfig = new BackupConfig();
 		backupConfig.configure( config );
@@ -52,7 +54,7 @@ public class BackupFacade {
 	
 	public static int backup( BackupConfig backupConfig ) throws Exception {
 		int result = 0;
-		
+		LogFacade.getLog().info( "Using version : "+VERSION );
 		if ( backupConfig.deleteFirst() ) {
 			int delete = 0;
 			for ( int k=backupConfig.getTableList().size()-1; k>=0; k-- ) {
