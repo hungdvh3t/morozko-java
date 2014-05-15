@@ -17,6 +17,16 @@ public class VersionBean {
 	private String appDate;
 	
 	private String lastStartup;
+	
+	private String releaseName;
+
+	public String getReleaseName() {
+		return releaseName;
+	}
+
+	public void setReleaseName(String releaseName) {
+		this.releaseName = releaseName;
+	}
 
 	public VersionBean(String appName, String appVersion, String appDate,
 			String lastStartup) {

@@ -2,6 +2,7 @@ package org.morozko.java.mod.web.servlet.config;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +39,8 @@ public class VersionConfig extends BasicConfig {
 		this.versionBean = new VersionBean( props.getProperty( "app-name" ), 
 									props.getProperty( "app-version" ), 
 									props.getProperty( "app-date" ), 
-									BasicModel.TIMESTAMP_FORMAT.format( new Timestamp( System.currentTimeMillis() ) ) );
+									BasicModel.newTimestampFormat().format( new Timestamp( System.currentTimeMillis() ) ) );
+		this.versionBean.setReleaseName( props.getProperty( "release-name" ) );
 		appList.remove( this.versionBean );
 		appList.add( this.versionBean );
 		this.getConfigContext().getContext().setAttribute( ATT_NAME , this.versionBean );
@@ -53,9 +55,12 @@ public class VersionConfig extends BasicConfig {
 		pw.println( "<title>Version page: "+this.versionBean.getAppName()+"</title>" );
 		pw.println( "</head>" );
 		pw.println( "<body>" );
-		pw.println( "<h3>Version page (ConfigServlet load time : "+ConfigServlet.LOAD_TIME+")</h3>" );
+		pw.println( "<h3>Version page (ConfigServlet load time : "+ConfigServlet.LOAD_TIME+") "+InetAddress.getLocalHost()+"</h3>" );
 		pw.println( "<p>Application : "+this.versionBean.getAppName()+"</p>" );
 		pw.println( "<p>Version : "+this.versionBean.getAppVersion()+"</p>" );
+		if ( this.versionBean.getReleaseName() != null ) {
+			pw.println( "<p>Release : "+this.versionBean.getReleaseName()+"</p>" );	
+		}
 		pw.println( "<p>Date : "+this.versionBean.getAppDate()+"</p>" );
 		pw.println( "<p>Last startup : "+this.versionBean.getLastStartup()+"</p>" );
 		Properties moduleList = VersionUtils.getModuleList();

@@ -30,6 +30,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 
+import org.morozko.java.core.log.LogFacade;
+
 /**
  * <p></p>
  *
@@ -40,7 +42,9 @@ public class QueryMetadataFacade {
 
 	public static QueryColumnMap columnMap( Connection conn, String select ) throws Exception {
 		Statement stm = conn.createStatement();
-		ResultSet rs = stm.executeQuery( " SELECT * FROM ( "+select+" ) v WHERE 1=0 " );
+		String metaSelect = " SELECT * FROM ( "+select+" ) v WHERE 1=0 ";
+		LogFacade.getLog().info( "QueryMetadataFacade.columnMap metaSelect: "+metaSelect );
+		ResultSet rs = stm.executeQuery( metaSelect );
 		ResultSetMetaData rsmd = rs.getMetaData();
 		QueryColumnMap map = columnMap( rsmd );
 		rs.close();
