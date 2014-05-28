@@ -132,7 +132,11 @@ public class Generate {
             
             if ( generateHelpers && "true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.model" ) )) {
             	log( "GENERATING MODEL ("+tableConfig.getTableName()+")" );
-                File daoFile = new File( baseDir, createPath( generalProps.getProperty( "package.model" )+".helpers", tableConfig.getTableName()+"ModelHelper.java" ) );
+            	File baseDirModel = baseDir;
+            	if ( generalProps.getProperty( "base.dir.model" ) != null ) {
+            		baseDirModel = new File( generalProps.getProperty( "base.dir.model" ) );
+            	}
+                File daoFile = new File( baseDirModel, createPath( generalProps.getProperty( "package.model" )+".helpers", tableConfig.getTableName()+"ModelHelper.java" ) );
                 daoFile.getParentFile().mkdirs();
                 PrintStream daoStream = new PrintStream( new FileOutputStream( daoFile ), true );       
                 ModelCoder.generate( daoStream, dgConfig, tableConfig );
@@ -142,7 +146,11 @@ public class Generate {
 
             if ( generateHelpers && "true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.bean" ) )) {
             	log( "GENERATING BEAN ("+tableConfig.getTableName()+")" );
-                File daoFile = new File( baseDir, createPath( generalProps.getProperty( "package.bean" )+".helpers", tableConfig.getTableName()+"BeanHelper.java" ) );
+            	File baseDirBean = baseDir;
+            	if ( generalProps.getProperty( "base.dir.bean" ) != null ) {
+            		baseDirBean = new File( generalProps.getProperty( "base.dir.bean" ) );
+            	}
+                File daoFile = new File( baseDirBean, createPath( generalProps.getProperty( "package.bean" )+".helpers", tableConfig.getTableName()+"BeanHelper.java" ) );
                 daoFile.getParentFile().mkdirs();
                 PrintStream daoStream = new PrintStream( new FileOutputStream( daoFile ), true );       
                 BeanCoder.generate( daoStream, dgConfig, tableConfig );
@@ -152,7 +160,11 @@ public class Generate {
 
             if ( generateHelpers && "true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.rse" ) )) {
             	log( "GENERATING RSE ("+tableConfig.getTableName()+")" );
-                File daoFile = new File( baseDir, createPath( generalProps.getProperty( "package.dao" )+".helpers", tableConfig.getTableName()+"ModelRSEHelper.java" ) );
+            	File baseDirDao = baseDir;
+            	if ( generalProps.getProperty( "base.dir.dao" ) != null ) {
+            		baseDirDao = new File( generalProps.getProperty( "base.dir.dao" ) );
+            	}
+                File daoFile = new File( baseDirDao, createPath( generalProps.getProperty( "package.dao" )+".helpers", tableConfig.getTableName()+"ModelRSEHelper.java" ) );
                 daoFile.getParentFile().mkdirs();
                 PrintStream daoStream = new PrintStream( new FileOutputStream( daoFile ), true );       
                 RSECoder.generate( daoStream, dgConfig, tableConfig );
@@ -162,7 +174,11 @@ public class Generate {
             
             if ( generateHelpers && "true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.dao" ) )) {
             	log( "GENERATING DAO ("+tableConfig.getTableName()+")" );
-                File daoFile = new File( baseDir, createPath( generalProps.getProperty( "package.dao" )+".helpers", tableConfig.getTableName()+"DAOHelper.java" ) );
+            	File baseDirDao = baseDir;
+            	if ( generalProps.getProperty( "base.dir.dao" ) != null ) {
+            		baseDirDao = new File( generalProps.getProperty( "base.dir.dao" ) );
+            	}
+                File daoFile = new File( baseDirDao, createPath( generalProps.getProperty( "package.dao" )+".helpers", tableConfig.getTableName()+"DAOHelper.java" ) );
                 daoFile.getParentFile().mkdirs();
                 PrintStream daoStream = new PrintStream( new FileOutputStream( daoFile ), true );       
                 DAOCoder.generate( daoStream, dgConfig, tableConfig );
@@ -174,23 +190,35 @@ public class Generate {
             
             String moduleDAOFactory = generalProps.getProperty( "factory.dao.module" );
             log( "factory.dao.module="+moduleDAOFactory );
+        	File baseDirDaoTrue = baseDirTrue;
+        	if ( generalProps.getProperty( "base.dir.dao.true" ) != null ) {
+        		baseDirDaoTrue = new File( generalProps.getProperty( "base.dir.dao.true" ) );
+        	}
             if ( moduleDAOFactory != null ) {
             	log( "factory.dao.module=GENERATING" );
-            	File daoFactoryModuleFileTrue = new File( baseDirTrue, createPath( generalProps.getProperty( "package.dao" ), moduleDAOFactory+".java" ) );
+            	File daoFactoryModuleFileTrue = new File( baseDirDaoTrue, createPath( generalProps.getProperty( "package.dao" ), moduleDAOFactory+".java" ) );
                 TrueCoder.createTrueFile( dgConfig, daoFactoryModuleFileTrue, moduleDAOFactory, generalProps.getProperty( "package.dao" ), TrueCoder.TYPE_DAO_FACTORY );
             }            
-            
             if ("true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.dao" ) )) {            	
-            	File daoFileTrue = new File( baseDirTrue, createPath( generalProps.getProperty( "package.dao" ), name+"DAO.java" ) );
+
+            	File daoFileTrue = new File( baseDirDaoTrue, createPath( generalProps.getProperty( "package.dao" ), name+"DAO.java" ) );
                 TrueCoder.createTrueFile( dgConfig, daoFileTrue, name+"DAO", generalProps.getProperty( "package.dao" ), TrueCoder.TYPE_DAO );
                 System.out.println( "TEST "+daoFileTrue+" : "+daoFileTrue.exists() );
             }
             if ("true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.bean" ) )) {
-                File beanFileTrue = new File( baseDirTrue, createPath( generalProps.getProperty( "package.bean" ), name+"Bean.java" ) );
+            	File baseDirBeanTrue = baseDirTrue;
+            	if ( generalProps.getProperty( "base.dir.bean.true" ) != null ) {
+            		baseDirBeanTrue = new File( generalProps.getProperty( "base.dir.bean.true" ) );
+            	}
+                File beanFileTrue = new File( baseDirBeanTrue, createPath( generalProps.getProperty( "package.bean" ), name+"Bean.java" ) );
                 TrueCoder.createTrueFile( dgConfig, beanFileTrue, name+"Bean", generalProps.getProperty( "package.bean" ), TrueCoder.TYPE_BEAN );
             }
             if ("true".equalsIgnoreCase( generalProps.getProperty( "dogenerate.model" ) )) {
-                File modelFileTrue = new File( baseDirTrue, createPath( generalProps.getProperty( "package.model" ), name+"Model.java" ) );
+            	File baseDirModelTrue = baseDirTrue;
+            	if ( generalProps.getProperty( "base.dir.model.true" ) != null ) {
+            		baseDirModelTrue = new File( generalProps.getProperty( "base.dir.model.true" ) );
+            	}
+                File modelFileTrue = new File( baseDirModelTrue, createPath( generalProps.getProperty( "package.model" ), name+"Model.java" ) );
                 TrueCoder.createTrueFile( dgConfig, modelFileTrue, name+"Model", generalProps.getProperty( "package.model" ), TrueCoder.TYPE_MODEL );
             }
 

@@ -67,8 +67,19 @@ public class RSECoder extends Coder {
         Iterator itField = tableConfig.getFields().iterator();
         while ( itField.hasNext() ) {
         	FieldConfig fieldConfig = (FieldConfig)itField.next();
-        	if ( !fieldConfig.isFake() ) {
-        		stream.println( "        model.set"+methodName( fieldConfig.getFieldName() )+"( "+fieldConfig.getTypeHandler().getResultSetExtract( fieldConfig.getFieldName() )+" );" );	
+        	if ( !fieldConfig.isFake() && !fieldConfig.isExcludeRse() ) {
+        		if ( fieldConfig.isUnsafe() ) {
+        			String varName = fieldConfig.getFieldName()+"Temp";
+        			stream.println( "        if ( rs.getObject( \""+fieldConfig.getFieldName()+"\" ) != null ) {" );
+        			stream.println( "            model.set"+methodName( fieldConfig.getFieldName() )+"( "+fieldConfig.getTypeHandler().getResultSetExtract( fieldConfig.getFieldName() )+" );" );
+        			stream.println( "        }" );
+        		} else {
+        			stream.println( "        model.set"+methodName( fieldConfig.getFieldName() )+"( "+fieldConfig.getTypeHandler().getResultSetExtract( fieldConfig.getFieldName() )+" );" );	
+        		}
+        	} else if ( fieldConfig.isExcludeRse() ) {
+        		stream.println( "        // field "+fieldConfig.getFieldName()+" skipped because unsafe" );        		
+        	} else if ( fieldConfig.isFake() ) {
+        		stream.println( "        // field "+fieldConfig.getFieldName()+" skipped because virtual" );
         	}
         }        
 

@@ -107,6 +107,8 @@
 <!ATTLIST field type %FieldType; #REQUIRED>
 <!ATTLIST field type-handler CDATA #IMPLIED>
 <!ATTLIST field fake %Boolean; #IMPLIED> 		<!-- default : false -->
+<!ATTLIST field unsafe %Boolean; #IMPLIED> 		<!-- default : false -->
+<!ATTLIST field exclude-rse %Boolean; #IMPLIED> 		<!-- default : false -->
 <!ATTLIST field extra CDATA #IMPLIED>
 
 
