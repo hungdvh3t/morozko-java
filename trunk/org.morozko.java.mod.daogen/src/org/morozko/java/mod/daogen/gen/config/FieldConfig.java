@@ -46,6 +46,8 @@ public class FieldConfig {
 		this.fieldType = fieldType;
 		this.typeHandler = typeHandler;
 		this.fake = false;
+		this.unsafe = false;
+		this.excludeRse = false;
 	}	
 	
 	private String fieldName;
@@ -58,6 +60,26 @@ public class FieldConfig {
 	
 	private boolean fake;
 	
+	private boolean unsafe;
+	
+	private boolean excludeRse;
+
+	public boolean isExcludeRse() {
+		return excludeRse;
+	}
+
+	public void setExcludeRse(boolean excludeRse) {
+		this.excludeRse = excludeRse;
+	}
+
+	public boolean isUnsafe() {
+		return unsafe;
+	}
+
+	public void setUnsafe(boolean unsafe) {
+		this.unsafe = unsafe;
+	}
+
 	private String fakeDefault;
 	
 	/**

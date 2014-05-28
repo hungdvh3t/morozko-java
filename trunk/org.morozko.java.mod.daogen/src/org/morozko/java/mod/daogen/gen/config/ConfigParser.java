@@ -359,6 +359,8 @@ public class ConfigParser extends BasicLogObject {
                 		String fieldType = fieldAtts.getProperty( "type" ).toLowerCase();
                 		String fieldTypeHandler = fieldAtts.getProperty( "type-handler" );
                 		boolean fieldFake = Boolean.valueOf( fieldAtts.getProperty( "fake" ) ).booleanValue();
+                		boolean fieldUnsafe = Boolean.valueOf( fieldAtts.getProperty( "unsafe" ) ).booleanValue();
+                		boolean fieldExcludeRse = Boolean.valueOf( fieldAtts.getProperty( "exclude-rse" ) ).booleanValue();
                 		FieldConfig fieldConfig = tableConfig.getFieldConfig( fieldName );
                 		SQLType newSQLtype = (SQLType)SQLType.KNOWN_TYPES_NAME.get( fieldType );
                 		if ( newSQLtype == null ) {
@@ -376,7 +378,9 @@ public class ConfigParser extends BasicLogObject {
                 				this.getLog().info( "field fake     : '"+fieldName+"' from '"+fieldConfig.getFieldType().getTypeName()+"' to '"+fieldType+"' (type-handler:"+fieldTypeHandler+") - default : "+fieldConfig.getFakeDefault() );
                 			} else {
                 				fieldConfig.setFieldType( newSQLtype );
-                				this.getLog().info( "field override : '"+fieldName+"' from '"+fieldConfig.getFieldType().getTypeName()+"' to '"+fieldType+"' (type-handler:"+fieldTypeHandler+")" );	
+                				fieldConfig.setUnsafe( fieldUnsafe );
+                				fieldConfig.setExcludeRse( fieldExcludeRse );
+                				this.getLog().info( "field override : '"+fieldName+"' from '"+fieldConfig.getFieldType().getTypeName()+"' to '"+fieldType+"' (type-handler:"+fieldTypeHandler+") unsafe:"+fieldUnsafe+" exclude-rse:"+fieldExcludeRse );	
                 			}
                 			if ( fieldTypeHandler != null ) {
                 				TypeHandler th = (TypeHandler)dgConfig.getCustomTypeHandlers().get( fieldTypeHandler );
