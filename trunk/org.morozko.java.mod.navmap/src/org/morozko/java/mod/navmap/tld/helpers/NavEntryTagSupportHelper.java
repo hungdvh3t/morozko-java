@@ -48,7 +48,13 @@ public class NavEntryTagSupportHelper extends TagSupportHelper {
 			Map paramNodeMap = (Map)sessionContext.getAttribute( NavController.ATT_NAV_PARAM_HANDLER_MAP );
 			ParamMap paramMap = (ParamMap)paramNodeMap.get( navNode.getNavEntry().getUrl() );
 			if ( paramMap != null ) {
-				href+= paramMap.getQueryString();
+				TagLogger.log.debug( "createRealLink - navNode exclude params : "+this.getExcludeParams() );
+				if ( this.getExcludeParams() == null ) {
+					href+= paramMap.getQueryString(  );	
+				} else {
+					String ep[] = this.getExcludeParams().split( ";" );
+					href+= paramMap.getQueryString( ep );	
+				}
 			}
 //			List paramHandler = (List)sessionContext.getAttribute( NavController.ATT_NAV_PARAM_HANDLER , new ArrayList() );
 //			TagLogger.log.debug( "createRealLink - navNode params : "+paramHandler.size()+" : "+navNode.getDepth()+" : "+paramHandler );
@@ -145,6 +151,16 @@ public class NavEntryTagSupportHelper extends TagSupportHelper {
 	private String navModule;
 	
 	private String name;
+	
+	private String excludeParams;
+
+	public String getExcludeParams() {
+		return excludeParams;
+	}
+
+	public void setExcludeParams(String excludeParams) {
+		this.excludeParams = excludeParams;
+	}
 
 	public String getName() {
 		return name;

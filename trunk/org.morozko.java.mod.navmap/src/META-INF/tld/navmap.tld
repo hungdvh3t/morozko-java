@@ -287,6 +287,11 @@
 	<tagclass>org.morozko.java.mod.navmap.tld.NavEntryUrl</tagclass>
 	<bodycontent>empty</bodycontent>
 	<attribute>
+		<name>excludeParams</name>
+		<required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+	</attribute>	
+	<attribute>
 		<name>name</name>
 		<required>false</required>
         <rtexprvalue>true</rtexprvalue>

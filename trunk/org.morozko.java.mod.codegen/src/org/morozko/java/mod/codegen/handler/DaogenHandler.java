@@ -158,6 +158,7 @@ public class DaogenHandler extends Coder {
 			String table = operation.split( ":" )[1];
 			DGConfig daogen = navMap.getDaogen( table );
 			// facade body
+			System.out.println( "PROPS : "+daogen );
 			String daoPack = daogen.getGeneralProps().getProperty( "package.dao" );
 			String daoFactoryType = daoPack+"."+daogen.getGeneralProps().getProperty( "factory.dao.module" );
 			facadeBody.append( daoFactoryType+" daoFactory = "+daoFactoryType+".getInstance();\n");

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +25,25 @@ public class ParamMap implements Serializable {
 	
 	private ParamMap() {
 		this.map = new HashMap();
+	}
+	
+	public String getQueryString( String[] excludeParams ) {
+		List listExclude = Arrays.asList( excludeParams );
+		StringBuffer qs = new StringBuffer();
+		Iterator ki = this.getParamNames();
+		qs.append( "?"+PARAM_MAP_GENERATE+"=1" );
+		while ( ki.hasNext() ) {
+			String name = (String) ki.next();
+			if ( !PARAM_MAP_GENERATE.equals( name ) ) {
+				String[] values = this.getParams( name );
+				for ( int k=0; k<values.length; k++ ) {
+					if ( !listExclude.contains( name ) ) {
+						qs.append( "&"+name+"="+values[k] );	
+					}
+				}				
+			}
+		}
+		return qs.toString();
 	}
 	
 	public String getQueryString() {
