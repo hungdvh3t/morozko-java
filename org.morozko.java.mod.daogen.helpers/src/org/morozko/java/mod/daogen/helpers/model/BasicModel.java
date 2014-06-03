@@ -33,6 +33,8 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.morozko.java.mod.db.dao.DAOID;
@@ -43,6 +45,16 @@ import org.morozko.java.mod.db.dao.DAOID;
  * @author tux2
  */
 public class BasicModel implements Serializable {
+
+	private Map infoMap;
+	
+	public Map getInfoMap() {
+		return infoMap;
+	}
+
+	public void setInfoMap(Map infoMap) {
+		this.infoMap = infoMap;
+	}
 
 	private static final ResourceBundle CONVERT = ResourceBundle.getBundle( "org.morozko.java.mod.daogen.helpers.model.convert" );
 	
@@ -129,6 +141,7 @@ public class BasicModel implements Serializable {
      */
     public BasicModel() {
         super();
+        this.infoMap = new HashMap();
     }
 
 }
