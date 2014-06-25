@@ -87,11 +87,17 @@ public class DefaultTableBackup extends BasicLogObject implements TableBackup {
 		return result;
 	}
 
-	private String[] getColumnNames(Connection from, Connection to, String table, String select) throws SQLException {
+	private String[] getColumnNames(Connection from, Connection to, String table, String select ) throws SQLException {
 		String result[] = null;
 		try {
 			List list = new ArrayList();
-			QueryColumnMap mapFrom = QueryMetadataFacade.columnMap( from, select );
+			QueryColumnMap mapFrom = null;
+			try {
+				mapFrom = QueryMetadataFacade.columnMap( from, select );
+			} catch (Exception eM ){
+				this.getLog().info( "error : "+eM+" try noModify query - "+select );
+				mapFrom = QueryMetadataFacade.columnMap( from, select, true );
+			}
 			QueryColumnMap mapTo = QueryMetadataFacade.columnMap( to, " SELECT * FROM "+table );
 			this.getLog().debug( "columns from : "+ mapFrom.size() );
 			this.getLog().debug( "columns to   : "+ mapTo.size() );

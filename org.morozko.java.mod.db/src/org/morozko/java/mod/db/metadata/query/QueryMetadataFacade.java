@@ -40,9 +40,12 @@ import org.morozko.java.core.log.LogFacade;
  */
 public class QueryMetadataFacade {
 
-	public static QueryColumnMap columnMap( Connection conn, String select ) throws Exception {
+	public static QueryColumnMap columnMap( Connection conn, String select, boolean noModify ) throws Exception {
 		Statement stm = conn.createStatement();
-		String metaSelect = " SELECT * FROM ( "+select+" ) v WHERE 1=0 ";
+		String metaSelect = select;
+		if ( !noModify ) {
+			metaSelect = " SELECT * FROM ( "+select+" ) v WHERE 1=0 ";
+		}
 		LogFacade.getLog().info( "QueryMetadataFacade.columnMap metaSelect: "+metaSelect );
 		ResultSet rs = stm.executeQuery( metaSelect );
 		ResultSetMetaData rsmd = rs.getMetaData();
@@ -50,6 +53,11 @@ public class QueryMetadataFacade {
 		rs.close();
 		stm.close();
 		return map;
+	}		
+
+	
+	public static QueryColumnMap columnMap( Connection conn, String select ) throws Exception {
+		return columnMap(conn, select, false);
 	}		
 	
 	public static QueryColumnMap columnMap( ResultSetMetaData rsmd ) throws Exception {

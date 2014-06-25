@@ -28,6 +28,8 @@ package org.morozko.java.mod.tools.db.backup;
 import java.io.File;
 
 import org.morozko.java.mod.db.backup.BackupFacade;
+import org.morozko.java.mod.db.connect.CfConfig;
+import org.morozko.java.mod.db.connect.ConnectionFactoryImpl;
 import org.morozko.java.mod.tools.ToolUtils;
 import org.morozko.java.mod.tools.util.args.Arg;
 import org.morozko.java.mod.tools.util.args.ArgList;
@@ -43,7 +45,7 @@ import org.morozko.java.core.xml.dom.DOMIO;
  */
 public class DbBackup {
 
-    public static final String VERSION = "0.1.3 (2006-10-16)";
+    public static final String VERSION = "0.1.4 (2014-06-25)";
     
     private static void printInfo() {
         ToolUtils.printInfo("DbBackup v. "+VERSION, "Matteo Franci a.k.a TUX2");
@@ -56,15 +58,21 @@ public class DbBackup {
             
             ArgList list = ArgUtils.parseArgs(arg);
             String config = list.findArgValue( "f" );
+            String cf = list.findArgValue( "cf-config" );
             Arg l = list.findArg( "l" );
             if ( l != null ) {
             	LogFacade.updateCurrentConfig( "log.level" , l.getValue() );
             }
             File f = new File( config );
-            
             LogFacade.getLog().debug( "Config file : "+f );
             
-            BackupFacade.backup( DOMIO.loadDOMDoc( f ).getDocumentElement() );
+            CfConfig cfConfig = CfConfig.EMPTY_CONFIG;
+            if ( cf != null ) {
+            	File cfile = new File( cf );
+            	cfConfig = ConnectionFactoryImpl.parseCfConfig( DOMIO.loadDOMDoc( cfile ).getDocumentElement() );
+            }
+            
+            BackupFacade.backup( DOMIO.loadDOMDoc( f ).getDocumentElement(), cfConfig );
             
         } catch (Exception e) {
             System.out.println(" options : ");

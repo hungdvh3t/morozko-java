@@ -28,6 +28,9 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.Driver;
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.naming.Context;
@@ -37,10 +40,13 @@ import javax.sql.DataSource;
 
 import org.morozko.java.core.log.BasicLogObject;
 import org.morozko.java.core.log.LogFacade;
+import org.morozko.java.core.xml.dom.DOMUtils;
+import org.morozko.java.core.xml.dom.SearchDOM;
 import org.morozko.java.mod.db.connect.pool.ConnectionFactoryPool;
 import org.morozko.java.mod.db.dao.DAOException;
 import org.morozko.java.mod.db.metadata.DataBaseInfo;
 import org.morozko.java.mod.db.sql.wrapper.ConnectionWrapper;
+import org.w3c.dom.Element;
 
 
 /**
@@ -70,7 +76,24 @@ public abstract class ConnectionFactoryImpl extends BasicLogObject implements Co
 
 	public static final String PROP_CF_MODE = "db-cf-mode";		// valori = ds ( data source ) o dc ( direct connection )
 	
+	/**
+	 * Direct connection mode
+	 */
+	public static final String PROP_CF_MODE_DC = "DC";
+	
+	/**
+	 * Strict datasource mode
+	 */
+	public static final String PROP_CF_MODE_DS = "DS";
+	
+	/**
+	 * Loose datasource mode
+	 */
+	public static final String PROP_CF_MODE_DS2 = "DS2";
+	
 	public static final String PROP_CF_MODE_DS_NAME = "db-mode-ds-name";
+	
+	public static final String PROP_CF_MODE_DC_PREFIX = "db-mode-dc-prefix";
 	
 	public static final String PROP_CF_MODE_DC_URL = "db-mode-dc-url";
 	
@@ -87,8 +110,26 @@ public abstract class ConnectionFactoryImpl extends BasicLogObject implements Co
 	public static final String PROP_CF_EXT_POOLED_IC = "db-ext-pooled-ic";
 	
 	public static final String PROP_CF_EXT_POOLED_MC = "db-ext-pooled-mc";
-	
-	
+
+	public static CfConfig parseCfConfig( Element cfConfig ) throws Exception {
+		CfConfig config = new CfConfig();
+		SearchDOM searchDOM = SearchDOM.newInstance( true , true );
+		List cfConfigEntryList = searchDOM.findAllTags( cfConfig , "cf-config-entry" );
+		Iterator cfConfigEntryIt = cfConfigEntryList.iterator();
+		while ( cfConfigEntryIt.hasNext() ) {
+			Element currentEntryTag = (Element) cfConfigEntryIt.next();
+			Properties props = DOMUtils.attributesToProperties( currentEntryTag );
+			String id = props.getProperty( "id" );
+			if ( id == null || id.trim().length() == 0 ) {
+				throw new Exception( "Connection factory id must be defined." );
+			} else if ( config.getCfMap().containsKey( id ) ) {
+				throw new Exception( "Connection factory id already used : '"+id+"'" );
+			} else {
+				config.getCfMap().put( id , newInstance( props ) );
+			}
+ 		}
+		return config;
+	}
 	
 	public static String getDriverInfo( ConnectionFactory cf ) throws Exception {
 		String result = "";
@@ -99,24 +140,37 @@ public abstract class ConnectionFactoryImpl extends BasicLogObject implements Co
 		return result;
 	}
 	
+	private static String getParamName( String prefix, String name ) {
+		String res = name;
+		if ( prefix != null && !prefix.equals( "" ) ) {
+			res = prefix+"-"+name;
+		}
+		return res;
+	}
+	
 	public static ConnectionFactory newInstance( Properties props ) throws DAOException {
+		return newInstance( props, null );
+	}
+	
+	public static ConnectionFactory newInstance( Properties props, String propsPrefix ) throws DAOException {
 		ConnectionFactory cf = null;
-		String mode = props.getProperty( PROP_CF_MODE );
+		String prefix = props.getProperty( PROP_CF_MODE_DC_PREFIX, propsPrefix );
+		String mode = props.getProperty( getParamName( prefix, PROP_CF_MODE ) );
 		LogFacade.getLog().info( "ConnectionFactory.newInstance() mode : "+mode );
-		if ( "DC".equalsIgnoreCase( mode ) ) {
-			cf = newInstance( props.getProperty( PROP_CF_MODE_DC_DRV ), 
-							props.getProperty( PROP_CF_MODE_DC_URL ),
-							props.getProperty( PROP_CF_MODE_DC_USR ),
-							props.getProperty( PROP_CF_MODE_DC_PWD ) );
-			if ( "true".equalsIgnoreCase( props.getProperty( PROP_CF_EXT_POOLED ) ) ) {
-				int sc = Integer.parseInt( props.getProperty( PROP_CF_EXT_POOLED_SC, "3" ) );
-				int ic = Integer.parseInt( props.getProperty( PROP_CF_EXT_POOLED_IC, "10" ) );
-				int mc = Integer.parseInt( props.getProperty( PROP_CF_EXT_POOLED_MC, "30" ) );
+		if ( PROP_CF_MODE_DC.equalsIgnoreCase( mode ) ) {
+			cf = newInstance( props.getProperty( getParamName( prefix, PROP_CF_MODE_DC_DRV ) ), 
+							props.getProperty( getParamName( prefix, PROP_CF_MODE_DC_URL ) ),
+							props.getProperty( getParamName( prefix, PROP_CF_MODE_DC_USR ) ),
+							props.getProperty( getParamName( prefix, PROP_CF_MODE_DC_PWD ) ) );
+			if ( "true".equalsIgnoreCase( props.getProperty( getParamName( prefix, PROP_CF_EXT_POOLED ) ) ) ) {
+				int sc = Integer.parseInt( props.getProperty( getParamName( prefix, PROP_CF_EXT_POOLED_SC ), "3" ) );
+				int ic = Integer.parseInt( props.getProperty( getParamName( prefix, PROP_CF_EXT_POOLED_IC ), "10" ) );
+				int mc = Integer.parseInt( props.getProperty( getParamName( prefix, PROP_CF_EXT_POOLED_MC ), "30" ) );
 				cf = ConnectionFactoryPool.newFactory( cf , sc, mc, ic );
 			}
-		} else if ( "DS".equalsIgnoreCase( mode ) ) {
+		} else if ( PROP_CF_MODE_DS.equalsIgnoreCase( mode ) ) {
 			cf = newInstance( props.getProperty( PROP_CF_MODE_DS_NAME ) );	
-		} else if ( "DS2".equalsIgnoreCase( mode ) ) {
+		} else if ( PROP_CF_MODE_DS2.equalsIgnoreCase( mode ) ) {
 			String dsName = props.getProperty( PROP_CF_MODE_DS_NAME );
 			try {
 				javax.naming.InitialContext ctx = new javax.naming.InitialContext();
@@ -126,7 +180,7 @@ public abstract class ConnectionFactoryImpl extends BasicLogObject implements Co
 				throw ( new DAOException( e ) );
 			}
 		} else {
-			throw ( new DAOException( "Unsupported factory mode ( valid values ar 'dc' or 'ds' )" ) );
+			throw ( new DAOException( "Unsupported factory mode ( valid values ar 'dc', 'ds', 'ds2' )" ) );
 		}
 		return cf;
 	}		

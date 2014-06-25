@@ -38,8 +38,10 @@ import org.morozko.java.core.lang.helpers.ClassHelper;
 import org.morozko.java.core.util.CheckUtils;
 import org.morozko.java.core.xml.dom.DOMUtils;
 import org.morozko.java.core.xml.dom.SearchDOM;
+import org.morozko.java.mod.db.connect.CfConfig;
 import org.morozko.java.mod.db.connect.ConnectionFactory;
 import org.morozko.java.mod.db.connect.ConnectionFactoryImpl;
+import org.morozko.java.mod.db.dao.DAOException;
 import org.w3c.dom.Element;
 
 /**
@@ -50,13 +52,30 @@ import org.w3c.dom.Element;
  */
 public class BackupConfig extends XMLConfigurableObject {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6387090603156260057L;
+
 	public static final String PROP_DELETE_FIRST = "delete-first";
 	
 	public BackupConfig() {
 		this.tableList = new ArrayList();
 		this.sequenceList = new ArrayList();
+		this.preSqlToList = new ArrayList();
+		this.postSqlToList = new ArrayList();
 	}
 	
+	private CfConfig cfConfig;
+	
+	public CfConfig getCfConfig() {
+		return cfConfig;
+	}
+
+	public void setCfConfig(CfConfig cfConfig) {
+		this.cfConfig = cfConfig;
+	}
+
 	private Properties generalProperties;
 	
 	private TableBackup tableBackup;
@@ -68,7 +87,47 @@ public class BackupConfig extends XMLConfigurableObject {
 	private List tableList;
 	
 	private List sequenceList;
+	
+	private List preSqlToList;
+	
+	private List postSqlToList;
 
+	private static void popoulateSqlList( SearchDOM searchDOM, Element tag, List list ) {
+		if ( tag != null ) {
+			List tags = searchDOM.findAllTags( tag , "sql" );
+			Iterator tagIt = tags.iterator();
+			while ( tagIt.hasNext() ) {
+				Element currentTag = (Element)tagIt.next();
+				String sql = searchDOM.findText( currentTag );
+				list.add( sql );
+			}
+		}
+	}
+	
+	public ConnectionFactory configureConnectionFactory( Element factoryConfig, CfConfig cfConfig, String type ) throws DAOException {
+		Properties props = DOMUtils.attributesToProperties( factoryConfig );
+		String refid = props.getProperty( "refid", "" );
+		ConnectionFactory cf = null;
+		if ( refid.equals( "" ) ) {
+			cf = ConnectionFactoryImpl.newInstance( props );
+		} else {
+			cf = (ConnectionFactory)cfConfig.getCfMap().get( refid );
+			if ( cf == null ) {
+				throw new DAOException( "No connection factory with id '"+refid+"'" );
+			}
+		}
+		try {
+			Connection conn = cf.getConnection();
+			DatabaseMetaData dbmd = conn.getMetaData();
+			this.getLog().info( "Database '"+type+"' : "+dbmd.getDatabaseProductName()+" "+dbmd.getDatabaseProductVersion() );
+			this.getLog().info( "Driver   '"+type+"' : "+dbmd.getDriverName()+" "+dbmd.getDriverVersion() );
+			conn.close();
+		} catch (Exception e) {
+			this.getLog().warn( "Error logging driver data '"+type+"'" );
+		}
+		return cf;
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.morozko.java.core.cfg.ConfigurableObject#configure(org.w3c.dom.Element)
 	 */
@@ -110,28 +169,10 @@ public class BackupConfig extends XMLConfigurableObject {
 			this.tableBackup.setProperty( TableBackup.PROP_COLUMN_CHECK_MODE , props.getProperty( TableBackup.PROP_COLUMN_CHECK_MODE, TableBackup.PROP_COLUMN_CHECK_MODE_VALUE_COMPLETE ) );
 			
 			Element factoryFromTag = searchDOM.findTag( backupConfig , "cf-from-config" );
-			this.factoryFrom = ConnectionFactoryImpl.newInstance( DOMUtils.attributesToProperties( factoryFromTag ) );
-			try {
-				Connection conn = this.factoryFrom.getConnection();
-				DatabaseMetaData dbmd = conn.getMetaData();
-				this.getLog().info( "Database from : "+dbmd.getDatabaseProductName()+" "+dbmd.getDatabaseProductVersion() );
-				this.getLog().info( "Driver   from : "+dbmd.getDriverName()+" "+dbmd.getDriverVersion() );
-				conn.close();
-			} catch (Exception e) {
-				this.getLog().warn( "Error logging driver data" );
-			}
+			this.factoryFrom = configureConnectionFactory( factoryFromTag, this.getCfConfig(), "from" );
 			
 			Element factoryToTag = searchDOM.findTag( backupConfig , "cf-to-config" );
-			this.factoryTo = ConnectionFactoryImpl.newInstance( DOMUtils.attributesToProperties( factoryToTag ) );
-			try {
-				Connection conn = this.factoryTo.getConnection();
-				DatabaseMetaData dbmd = conn.getMetaData();
-				this.getLog().info( "Database to : "+dbmd.getDatabaseProductName()+" "+dbmd.getDatabaseProductVersion() );
-				this.getLog().info( "Driver   to : "+dbmd.getDriverName()+" "+dbmd.getDriverVersion() );
-				conn.close();
-			} catch (Exception e) {
-				this.getLog().warn( "Error logging driver data" );
-			}
+			this.factoryTo = configureConnectionFactory( factoryToTag, this.getCfConfig(), "to" );
 			
 			Element sequenceListTag = searchDOM.findTag( backupConfig , "sequence-list" );
 			if ( sequenceListTag != null ) {
@@ -145,6 +186,13 @@ public class BackupConfig extends XMLConfigurableObject {
 					this.sequenceList.add( sequenceConfig );
 				}
 			}
+			
+			
+			Element preSqlToTag = searchDOM.findTag( backupConfig , "pre-sql-to" );
+			popoulateSqlList( searchDOM , preSqlToTag, this.preSqlToList );
+			Element postSqlToTag = searchDOM.findTag( backupConfig , "post-sql-to" );
+			popoulateSqlList( searchDOM , postSqlToTag, this.postSqlToList );
+			
 			
 			Element tableListTag = searchDOM.findTag( backupConfig , "table-list" );
 			
@@ -164,6 +212,8 @@ public class BackupConfig extends XMLConfigurableObject {
 //				System.err.println( "PROPS  : "+tableAtts );
 //				System.err.println( "SELECT : "+select );
 				tableConfig.setSelect( select );
+				String meta = tableAtts.getProperty( "meta" );
+				tableConfig.setMeta( meta );
 				this.tableList.add( tableConfig );
 				//System.out.println( "END ITERATE" );
 			}
@@ -229,6 +279,16 @@ public class BackupConfig extends XMLConfigurableObject {
 	 */
 	public List getSequenceList() {
 		return sequenceList;
+	}
+
+	public List getPreSqlToList() {
+		return preSqlToList;
+	}
+
+	public List getPostSqlToList() {
+		return postSqlToList;
 	}	
+	
+	
 	
 }
