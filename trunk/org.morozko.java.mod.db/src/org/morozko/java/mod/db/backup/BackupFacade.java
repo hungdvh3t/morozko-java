@@ -27,11 +27,15 @@ package org.morozko.java.mod.db.backup;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Iterator;
+import java.util.List;
 
 import org.morozko.java.core.log.LogFacade;
 import org.morozko.java.core.xml.dom.DOMIO;
 import org.morozko.java.mod.db.backup.seq.GenericSequenceReset;
+import org.morozko.java.mod.db.connect.CfConfig;
 import org.morozko.java.mod.db.sql.ExecFacade;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -44,15 +48,41 @@ import org.w3c.dom.Element;
  */
 public class BackupFacade {
 
-	public static final String VERSION = "BackupFacade 1.0.9 - 2014-05-13";
+	public static final String VERSION = "BackupFacade 1.0.9 - 2014-06-25";
 	
 	public static int backup( Element config ) throws Exception {
+		return backup( config, CfConfig.EMPTY_CONFIG );
+	}
+	
+	public static int backup( Element config, CfConfig cfConfig ) throws Exception {
 		BackupConfig backupConfig = new BackupConfig();
+		backupConfig.setCfConfig( cfConfig );
 		backupConfig.configure( config );
-		return backup( backupConfig );
+		return backup( backupConfig, cfConfig );
+	}
+	
+	private static int runSqlList( Connection c, List list ) throws SQLException {
+		int res = 0;
+		if ( !list.isEmpty() ) {
+			c.setAutoCommit( false );
+			Statement stm = c.createStatement();
+			Iterator it = list.iterator();
+			while ( it.hasNext() ) {
+				String sql = (String) it.next();
+				boolean result = stm.execute( sql );
+				LogFacade.getLog().info( "BackupConfig.backup() query result : "+result+" - "+sql );
+			}
+			c.commit();
+			c.setAutoCommit( true );	
+		}
+		return res;
 	}
 	
 	public static int backup( BackupConfig backupConfig ) throws Exception {
+		return backup( backupConfig, CfConfig.EMPTY_CONFIG );
+	}
+	
+	public static int backup( BackupConfig backupConfig, CfConfig cfConfig ) throws Exception {
 		int result = 0;
 		LogFacade.getLog().info( "Using version : "+VERSION );
 		if ( backupConfig.deleteFirst() ) {
@@ -70,6 +100,9 @@ public class BackupFacade {
 		
 		Connection from = backupConfig.getFactoryFrom().getConnection();
 		Connection to = backupConfig.getFactoryTo().getConnection();		
+		
+		// pre script
+		runSqlList( to, backupConfig.getPreSqlToList() );
 		
 		GenericSequenceReset sequenceReset = new GenericSequenceReset();
 		
@@ -92,6 +125,13 @@ public class BackupFacade {
 				result+= backupConfig.getTableBackup().backupTable( tableName, from, to, sql );
 			}
 		}
+		
+		if ( result == 0 ) {
+			runSqlList( to, backupConfig.getPostSqlToList() );	
+		} else {
+			LogFacade.getLog().info( "Result errors : "+result+", skip post queries" );
+		}
+
 		from.close();
 		to.close();
 		LogFacade.getLog().info( "Backup return code : "+result );
@@ -106,7 +146,11 @@ public class BackupFacade {
 			
 			Document config = DOMIO.loadDOMDoc( new File( file ) );
 			
-			System.out.println( "Backup result : "+BackupFacade.backup( config.getDocumentElement() ) );
+			int result = BackupFacade.backup( config.getDocumentElement() );
+			
+			System.out.println( "Backup result : "+result );
+			
+			System.exit( result );
 			
 		} catch (Exception e) {
 			e.printStackTrace();

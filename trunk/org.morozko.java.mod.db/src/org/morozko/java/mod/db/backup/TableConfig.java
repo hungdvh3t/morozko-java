@@ -36,6 +36,8 @@ public class TableConfig {
 	private String table;
 	
 	private String select;
+	
+	private String meta;
 
 	/**
 	 * @return the select
@@ -64,5 +66,15 @@ public class TableConfig {
 	public void setTable(String table) {
 		this.table = table;
 	}
+
+	public String getMeta() {
+		return meta;
+	}
+
+	public void setMeta(String meta) {
+		this.meta = meta;
+	}
+	
+	
 	
 }
